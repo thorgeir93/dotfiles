@@ -4,6 +4,9 @@
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
 
+set backspace=indent,eol,start
+set showmatch
+set ruler
 
 let g:syntastic_always_populate_loc_list = 1
 "let g:NERDTreeDirArrowExpandable = '-'
@@ -48,6 +51,9 @@ map <C-A-f> :%s/././g
 "map <ESC>[Od <C-Left>
 "map <C-Left> :wq<CR>
 
+au BufNewFile *.py 0r /home/thorgeir/vimtemplates/header.template
+nnoremap <F5> :set list!<CR>
+nnoremap :W :w
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -70,7 +76,14 @@ syntax on
 let g:solarized_termtrans = 1
 set background=dark
 "colorscheme solarized
+set shiftwidth=4    " Indents will have a width of 4
+set softtabstop=4   " Sets the number of columns for a TAB
+set expandtab       " Expand TABs to spaces
+set ts=4
+set sw=4
 
+set wrapscan
+set autoindent
 set number
 set tabstop=4
 set expandtab
@@ -99,7 +112,7 @@ autocmd InsertLeave * set iminsert=0
 " Lock search keymap to be the same as insert mode.
 set imsearch=-1
 " Load the keymap that acts like capslock.
-set keymap=insert-only_capslock
+"set keymap=insert-only_capslock
 " Turn it off by default.
 set iminsert=0
 
