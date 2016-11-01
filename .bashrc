@@ -100,6 +100,15 @@ c3drone () {
     ssh $user'@'$host$number$rest
 }
 
+c3random_drone () {
+    # Machines I'm pretty sure are OK are listed first
+    drones=(23 01 02 03 04 05 06 07 12 15 16 17 18 19 21 22 24 25 26)
+    randf=("${drones[RANDOM % ${#drones[@]}]}")
+    cmd="ssh drone@c3unicmplx$randf.amadis.com"
+    echo $cmd
+    $cmd
+}
+
 c3thorgeir (){
     user='thorgeir'
     host='c3dev-thorgeir01.amadis.com'
@@ -124,6 +133,9 @@ vpnc3 () {
     # add username and password (thsigurdsson, pin and rsa passcode)
 }
 
+dvorak () {
+    setxkbmap dvorak
+}
 ##############
 ## DISPLAYS ##
 ##############
@@ -172,6 +184,4 @@ sup () {
 # Ctrl-s freezes the terminal
 # Ctrl-q thawed the terminal
 stty -ixon
-alias config='/usr/bin/git --git-dir=/home/thorgeir/.cfg/ --work-tree=/home/thorgeir'
-alias config='/usr/bin/git --git-dir=/home/thorgeir/.cfg/ --work-tree=/home/thorgeir'
 alias config='/usr/bin/git --git-dir=/home/thorgeir/.cfg/ --work-tree=/home/thorgeir'
