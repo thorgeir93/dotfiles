@@ -13,8 +13,6 @@ fi
 # more information:
 # http://unix.stackexchange.com/questions/9123/is-there-a-one-liner-that-allows-me-to-create-a-directory-and-move-into-it-at-th
 
-#xmodmap ~/.speedswapper
-
 alias vi='vimx'
 alias vim='vimx'
 alias ls='ls --color -la'
