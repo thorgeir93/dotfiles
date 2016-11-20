@@ -72,11 +72,13 @@ vmstart () {
 is () {
     echo "setxkbmap -layout is"
     setxkbmap -layout is
+    xmodmap .speedswapper
 }
 
 us () {
     echo "setxkbmap -layout us"
     setxkbmap -layout us
+    xmodmap .speedswapper
 }
 
 #############
