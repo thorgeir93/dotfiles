@@ -68,6 +68,9 @@ map <space> viwy
 "colorscheme solarized
 "filetype plugin on
 
+
+""" colors """
+hi Folded ctermbg=168
 "set t_Co=16
 syntax on
 "set t_Co=256

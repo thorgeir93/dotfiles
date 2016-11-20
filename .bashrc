@@ -13,7 +13,6 @@ fi
 # more information:
 # http://unix.stackexchange.com/questions/9123/is-there-a-one-liner-that-allows-me-to-create-a-directory-and-move-into-it-at-th
 
-
 alias vi='vimx'
 alias vim='vimx'
 alias ls='ls --color -la'
@@ -72,13 +71,13 @@ vmstart () {
 is () {
     echo "setxkbmap -layout is"
     setxkbmap -layout is
-    xmodmap .speedswapper
+    xmodmap ~/.speedswapper
 }
 
 us () {
     echo "setxkbmap -layout us"
     setxkbmap -layout us
-    xmodmap .speedswapper
+    xmodmap ~/.speedswapper
 }
 
 #############
@@ -98,7 +97,8 @@ c3drone () {
     host='c3unicmplx'
     number=$1
     rest='.amadis.com'
-    ssh $user'@'$host$number$rest
+    name=$user'@'$host$number$rest
+    ssh $name
 }
 
 c3random_drone () {
