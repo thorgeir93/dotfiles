@@ -23,6 +23,18 @@ alias chrome='google-chrome --proxy-pac-url="http://jira-proxy.mordor.local/prox
 alias c3writedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-config'
 alias c3readdb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/read-config'
 
+
+
+export PATH="$PATH:`yarn global bin`"
+
+########
+# NEED #
+########
+battery () {
+    echo "Check battery!"
+    bash ~/.config/i3/microprograms/notify_battery.sh
+}
+
 ###############
 ## MOVEMENTS ##
 ###############
