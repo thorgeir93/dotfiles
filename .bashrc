@@ -24,6 +24,18 @@ alias c3writedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-
 alias c3readdb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/read-config'
 alias c3devwritedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-dev-config'
 
+
+
+export PATH="$PATH:`yarn global bin`"
+
+########
+# NEED #
+########
+battery () {
+    echo "Check battery!"
+    bash ~/.config/i3/microprograms/notify_battery.sh
+}
+
 ###############
 ## MOVEMENTS ##
 ###############

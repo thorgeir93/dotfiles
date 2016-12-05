@@ -1,12 +1,14 @@
-"execute pathogen#infect()
+execute pathogen#infect()
 
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 set backspace=indent,eol,start
 set showmatch
 set ruler
+set tw=79 " width of document (used by gd)
+set relativenumber
 
 let g:syntastic_always_populate_loc_list = 1
 "let g:NERDTreeDirArrowExpandable = '-'
@@ -14,7 +16,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
 
 map <C-t> :NERDTreeToggle<CR>
 
@@ -103,29 +104,29 @@ hi VertSplit term=reverse cterm=reverse gui=none guifg=Black guibg=#8f8f8f
 " Insert-mode only Caps Lock
 """""""""""""""""""""""""""""
 " Execute 'lnoremap x X' and 'lnoremap X x' for each letter a-z.
-for c in range(char2nr('A'), char2nr('Z'))
-  execute 'lnoremap ' . nr2char(c+32) . ' ' . nr2char(c)
-  execute 'lnoremap ' . nr2char(c) . ' ' . nr2char(c+32)
-endfor
+"for c in range(char2nr('A'), char2nr('Z'))
+"  execute 'lnoremap ' . nr2char(c+32) . ' ' . nr2char(c)
+"  execute 'lnoremap ' . nr2char(c) . ' ' . nr2char(c+32)
+"endfor
 
 " Kill the capslock when leaving insert mode.
-autocmd InsertLeave * set iminsert=0
+" autocmd InsertLeave * set iminsert=0
 
 " Insert and command-line mode Caps Lock.
 " Lock search keymap to be the same as insert mode.
-set imsearch=-1
+"set imsearch=-1
 " Load the keymap that acts like capslock.
 "set keymap=insert-only_capslock
 " Turn it off by default.
-set iminsert=0
+"set iminsert=0
 
 :highlight Cursor guifg=NONE guibg=Green
 :highlight lCursor guifg=NONE guibg=Cyan
 
 " Set following to show "<CAPS>" in the status line when "Caps Lock" is on.
-let b:keymap_name = "CAPS"
+"let b:keymap_name = "CAPS"
 " Show b:keymap_name in status line.
-:set statusline^=%k
+set statusline^=%k
 
 
 
@@ -183,3 +184,26 @@ nnoremap <C-n> :call MoveToPrevTab()<CR>
 
 "nnoremap <C-.> 
 "nnoremap <C-,> 
+
+
+"""""""""""""""""""""""
+" MySQL configuration "
+"""""""""""""""""""""""
+let g:dbext_default_profile_c3_read_thorgeir ='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=db-read.c3.amadis.com:port=3306'
+let g:dbext_default_profile_c3_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=db-write.c3.amadis.com:port=3306'
+let g:dbext_default_profile_c3_read_drone    ='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=db-read.c3.amadis.com:port=3306'
+let g:dbext_default_profile_c3_write_drone   ='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=db-write.c3.amadis.com:port=3306'
+let g:dbext_default_profile_c3_dev_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3dev-db01.amadis.com:port=3306'
+let g:dbext_default_profile = 'c3_read_thorgeir'
+
+"let g:pipemysql_login_info = [
+"    \ {
+"    \    'description' 	: 'C3 Read drone',
+"    \    'ssh_address' 	: 'thorgeir@db-read.c3.amadis.com',
+"    \    'ssh_port' 	: '3306',
+"    \    'mysql_hostname' : 'db-read.c3.amadis.com',
+"    \    'mysql_username' : 'thorgeir',
+"    \    'mysql_password' : '',
+"    \    'mysql_database' : ''
+"    \ }
+"]
