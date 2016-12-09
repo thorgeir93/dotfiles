@@ -26,7 +26,7 @@ alias c3devwritedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/wri
 
 
 
-export PATH="$PATH:`yarn global bin`"
+#export PATH="$PATH:`yarn global bin`"
 
 ########
 # NEED #

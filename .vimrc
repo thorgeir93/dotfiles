@@ -1,23 +1,26 @@
 execute pathogen#infect()
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"
+
+let mapleader = " "
 
 set backspace=indent,eol,start
 set showmatch
 set ruler
-set tw=79 " width of document (used by gd)
+"set tw=79 " width of document (used by gd)
 set relativenumber
 
-let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_always_populate_loc_list = 1
 "let g:NERDTreeDirArrowExpandable = '-'
 "let g:NERDTreeDirArrowCollapsible = '+'
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 
-map <C-t> :NERDTreeToggle<CR>
+"map <C-t> :NERDTreeToggle<CR>
 
 "map <silent> <C-UP>
 "nnoremap 
@@ -51,6 +54,9 @@ map <C-l> >:wincmd l<CR>
 map <C-A-f> :%s/././g 
 "map <ESC>[Od <C-Left>
 "map <C-Left> :wq<CR>
+"
+
+nnoremap <leader><leader> :w<CR>
 
 au BufNewFile *.py 0r /home/thorgeir/vimtemplates/header.template
 nnoremap <F5> :set list!<CR>
@@ -96,9 +102,9 @@ retab
 """"""""""""""""
 " HIGHLIGHTING "
 """"""""""""""""
-hi Visual term=reverse cterm=reverse guibg=Grey
-hi Folded term=standout ctermfg=darkblue ctermbg=black guifg=White guibg=NONE guifg=#afcfef
-hi VertSplit term=reverse cterm=reverse gui=none guifg=Black guibg=#8f8f8f
+"hi Visual term=reverse cterm=reverse guibg=Grey
+"hi Folded term=standout ctermfg=darkblue ctermbg=black guifg=White guibg=NONE guifg=#afcfef
+"hi VertSplit term=reverse cterm=reverse gui=none guifg=Black guibg=#8f8f8f
 
 """""""""""""""""""""""""""""
 " Insert-mode only Caps Lock
@@ -120,8 +126,6 @@ hi VertSplit term=reverse cterm=reverse gui=none guifg=Black guibg=#8f8f8f
 " Turn it off by default.
 "set iminsert=0
 
-:highlight Cursor guifg=NONE guibg=Green
-:highlight lCursor guifg=NONE guibg=Cyan
 
 " Set following to show "<CAPS>" in the status line when "Caps Lock" is on.
 "let b:keymap_name = "CAPS"
