@@ -87,7 +87,19 @@ is () {
     xmodmap ~/.speedswapper
 }
 
+co () {
+    echo "setxkbmap -layout is"
+    setxkbmap -layout is
+    xmodmap ~/.speedswapper
+}
+
 us () {
+    echo "setxkbmap -layout us"
+    setxkbmap -layout us
+    xmodmap ~/.speedswapper
+}
+
+go () {
     echo "setxkbmap -layout us"
     setxkbmap -layout us
     xmodmap ~/.speedswapper
@@ -133,8 +145,8 @@ vpnoffice () {
     cd ~
     sudo openvpn --config ~/openvpn/office.ovpn
     # add username and password (thorgeir, 3jZhpd####)
-  
 }
+
 sshoffice () {
     ssh thorgeir@10.101.1.14
     # add thorgeir's password (6oN...)

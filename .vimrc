@@ -28,7 +28,7 @@ map <C-l> >:wincmd l<CR>
 set backspace=indent,eol,start
 set showmatch
 set ruler
-set tw=79 " width of document (used by gd)
+"set tw=79 " width of document (used by gd)
 set relativenumber
 
 set background=dark
@@ -56,6 +56,8 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+nnoremap za za:syntax sync fromstart<CR>
 
 "map <leader> viwy
 
@@ -132,9 +134,10 @@ nnoremap <C-n> :call MoveToPrevTab()<CR>
 "   /*dbext: profile=c3_dev_write_thorgeir*/
 let g:dbext_default_profile_c3_read_thorgeir ='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=db-read.c3.amadis.com:port=3306'
 let g:dbext_default_profile_c3_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=db-write.c3.amadis.com:port=3306'
-let g:dbext_default_profile_c3_read_drone    ='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=db-read.c3.amadis.com:port=3306'
-let g:dbext_default_profile_c3_write_drone   ='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=db-write.c3.amadis.com:port=3306'
+let g:dbext_default_profile_c3_read_drone    ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=db-read.c3.amadis.com:port=3306'
+let g:dbext_default_profile_c3_write_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=db-write.c3.amadis.com:port=3306'
 let g:dbext_default_profile_c3_dev_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3dev-db01.amadis.com:port=3306'
+let g:dbext_default_profile_c3_uni_read_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=10.3.18.41:port=3306'
 let g:dbext_default_profile = 'c3_write_thorgeir'
 
 
