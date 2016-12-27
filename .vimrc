@@ -71,6 +71,11 @@ syntax on
 set statusline^=%k
 
 
+""""""""""""
+"" EVENTS ""
+""""""""""""
+autocmd InsertEnter * :syntax sync fromstart
+
 
 """""""""""""""
 "" FUNCTIONS ""
