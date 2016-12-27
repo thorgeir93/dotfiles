@@ -15,6 +15,7 @@ fi
 
 alias vi='vimx'
 alias vim='vimx'
+alias feh='feh -F *'
 alias ls='ls --color -la'
 alias sprunge='curl -F "sprunge=<-" http://sprunge.us'
 # view image
