@@ -94,6 +94,10 @@ us () {
     xmodmap ~/.speedswapper
 }
 
+dvorak () {
+    setxkbmap dvorak
+}
+
 #############
 ## VPN/SSH ##
 #############
@@ -147,15 +151,34 @@ vpnc3 () {
     sudo openvpn --config ~/openvpn/commtouch2.ovpn
     # add username and password (thsigurdsson, pin and rsa passcode)
 }
-
-dvorak () {
-    setxkbmap dvorak
-}
 ##############
 ## DISPLAYS ##
 ##############
 hdmi () {
     xrandr --output LVDS1 --auto --output HDMI1 --auto --right-of LVDS1
+}
+
+
+monitor_data () {
+    display='HDMI1'
+    bright_step='0.1'
+    brightness=`xrandr --verbose | grep -m 2 -i brightness | cut -f2 -d ' ' | cat -n | awk '$1 == "2" {print $2}'`
+}
+
+hdmi_brightness_down () {
+    monitor_data
+   
+    SUB=`echo $brightness $bright_step | awk '{ print $1 - $2 }'`
+    echo $display' brightness '$SUB
+    xrandr --output $display --brightness $SUB
+}
+
+hdmi_brightness_up () {
+    monitor_data
+   
+    ADD=`echo $brightness $bright_step | awk '{ print $1 + $2 }'`
+    echo $display' brightness '$ADD
+    xrandr --output $display --brightness $ADD
 }
 
 
