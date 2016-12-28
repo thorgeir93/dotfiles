@@ -88,6 +88,12 @@ is () {
     xmodmap ~/.speedswapper
 }
 
+co () {
+    echo "setxkbmap -layout is"
+    setxkbmap -layout is
+    xmodmap ~/.speedswapper
+}
+
 us () {
     echo "setxkbmap -layout us"
     setxkbmap -layout us
@@ -96,6 +102,12 @@ us () {
 
 dvorak () {
     setxkbmap dvorak
+}
+
+go () {
+    echo "setxkbmap -layout us"
+    setxkbmap -layout us
+    xmodmap ~/.speedswapper
 }
 
 #############
@@ -138,8 +150,8 @@ vpnoffice () {
     cd ~
     sudo openvpn --config ~/openvpn/office.ovpn
     # add username and password (thorgeir, 3jZhpd####)
-  
 }
+
 sshoffice () {
     ssh thorgeir@10.101.1.14
     # add thorgeir's password (6oN...)
@@ -154,27 +166,27 @@ vpnc3 () {
 ##############
 ## DISPLAYS ##
 ##############
-hdmi () {
+hdmi_orient () {
     xrandr --output LVDS1 --auto --output HDMI1 --auto --right-of LVDS1
 }
 
 
-monitor_data () {
+hdmi_monitor_data () {
     display='HDMI1'
     bright_step='0.1'
     brightness=`xrandr --verbose | grep -m 2 -i brightness | cut -f2 -d ' ' | cat -n | awk '$1 == "2" {print $2}'`
 }
 
-hdmi_brightness_down () {
-    monitor_data
+hdmi_bright_down () {
+    hdmi_monitor_data
    
     SUB=`echo $brightness $bright_step | awk '{ print $1 - $2 }'`
     echo $display' brightness '$SUB
     xrandr --output $display --brightness $SUB
 }
 
-hdmi_brightness_up () {
-    monitor_data
+hdmi_bright_up () {
+    hdmi_monitor_data
    
     ADD=`echo $brightness $bright_step | awk '{ print $1 + $2 }'`
     echo $display' brightness '$ADD
