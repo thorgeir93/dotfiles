@@ -15,6 +15,7 @@ fi
 
 alias vi='vimx'
 alias vim='vimx'
+alias tmux='TERM=xterm-256color tmux'
 alias feh='feh -F *'
 alias ls='ls --color -la'
 alias sprunge='curl -F "sprunge=<-" http://sprunge.us'
@@ -146,10 +147,16 @@ c3thorgeir (){
     ssh $user'@'$host
 }
 
+#vpnoffice () {
+#    cd ~
+#    sudo openvpn --config ~/openvpn/office.ovpn
+#    # add username and password (thorgeir, 3jZhpd####)
+#}
+
 vpnoffice () {
     cd ~
     sudo openvpn --config ~/openvpn/office.ovpn
-    # add username and password (thorgeir, 3jZhpd####)
+    # add username and password (thorgeirs, [email])
 }
 
 sshoffice () {
@@ -171,26 +178,56 @@ hdmi_orient () {
 }
 
 
-hdmi_monitor_data () {
+hdmi_monitor_data_office () {
+    display1='HDMI-1'
+    display2='HDMI-3'
+    bright_step='0.1'
+    brightness=`xrandr --verbose | grep -m 2 -i brightness | cut -f2 -d ' ' | cat -n | awk '$1 == "2" {print $2}'`
+}
+
+hdmi_monitor_data_lenovo () {
     display='HDMI1'
     bright_step='0.1'
     brightness=`xrandr --verbose | grep -m 2 -i brightness | cut -f2 -d ' ' | cat -n | awk '$1 == "2" {print $2}'`
 }
 
-hdmi_bright_down () {
-    hdmi_monitor_data
+hdmi_bright_down_lenovo () {
+    hdmi_monitor_data_lenovo
    
     SUB=`echo $brightness $bright_step | awk '{ print $1 - $2 }'`
     echo $display' brightness '$SUB
     xrandr --output $display --brightness $SUB
 }
 
-hdmi_bright_up () {
-    hdmi_monitor_data
+hdmi_bright_up_lenovo () {
+    hdmi_monitor_data_lenovo
    
     ADD=`echo $brightness $bright_step | awk '{ print $1 + $2 }'`
     echo $display' brightness '$ADD
     xrandr --output $display --brightness $ADD
+}
+
+hdmi_bright_up_office () {
+    hdmi_monitor_data_office
+   
+    ADD=`echo $brightness $bright_step | awk '{ print $1 + $2 }'`
+    echo $display2' brightness '$ADD
+    xrandr --output $display2 --brightness $ADD
+
+    echo $display1' brightness '$ADD
+    xrandr --output $display1 --brightness $ADD
+    
+}
+
+hdmi_bright_down_office () {
+    hdmi_monitor_data_office
+   
+    SUB=`echo $brightness $bright_step | awk '{ print $1 - $2 }'`
+    echo $display1' brightness '$SUB
+    xrandr --output $display1 --brightness $SUB
+    
+    echo $display2' brightness '$SUB
+    xrandr --output $display2 --brightness $SUB
 }
 
 
