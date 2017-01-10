@@ -155,8 +155,13 @@ c3thorgeir (){
 
 vpnoffice () {
     cd ~
-    sudo openvpn --config ~/openvpn/office.ovpn
-    # add username and password (thorgeirs, [email])
+    # old method (RSA)
+    # sudo openvpn --config ~/openvpn/office.ovpn
+    # add username and password (thorgeir, 3jZhpd####)
+   
+    # new method (DUO)
+    sudo openvpn --auth-retry interact --config ~/openvpn3/client.ovpn
+    # thorgeirs, SG**.., push, <iphone DUO>, 
 }
 
 sshoffice () {
