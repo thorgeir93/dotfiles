@@ -5,6 +5,9 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+# Enable vim-mode in terminal.
+set -o vi
+
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
@@ -25,7 +28,7 @@ alias c3writedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-
 alias c3readdb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/read-config'
 alias c3devwritedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-dev-config'
 
-
+alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin'
 
 #export PATH="$PATH:`yarn global bin`"
 
@@ -101,6 +104,7 @@ us () {
 }
 
 dvorak () {
+    echo "setxkbmap dvorak"
     setxkbmap dvorak
 }
 
