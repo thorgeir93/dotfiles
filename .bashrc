@@ -24,12 +24,11 @@ alias ls='ls --color -la'
 alias sprunge='curl -F "sprunge=<-" http://sprunge.us'
 # view image
 alias img='gpicview'
-alias chrome='google-chrome --proxy-pac-url="http://jira-proxy.mordor.local/proxy.pac"' 
+alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="http://jira-proxy.mordor.local/proxy.pac"' 
 alias c3writedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-config'
 alias c3readdb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/read-config'
 alias c3devwritedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-dev-config'
-
-
+alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
 
 #export PATH="$PATH:`yarn global bin`"
 

@@ -1,5 +1,7 @@
 execute pathogen#infect()
 
+"call notify#emitNotification('Title', 'Body')
+
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
@@ -78,53 +80,9 @@ set statusline^=%k
 """"""""""""
 autocmd InsertEnter * :syntax sync fromstart
 
-
 """""""""""""""
 "" FUNCTIONS ""
 """""""""""""""
-function MoveToPrevTab()
-  "there is only one window
-  if tabpagenr('$') == 1 && winnr('$') == 1
-    return
-  endif
-  "preparing new window
-  let l:tab_nr = tabpagenr('$')
-  let l:cur_buf = bufnr('%')
-  if tabpagenr() != 1
-    close!
-    if l:tab_nr == tabpagenr('$')
-      tabprev
-    endif
-    sp
-  else
-    close!
-    exe "0tabnew"
-  endif
-  "opening current buffer in new window
-  exe "b".l:cur_buf
-endfunc
-
-function MoveToNextTab()
-  "there is only one window
-  if tabpagenr('$') == 1 && winnr('$') == 1
-    return
-  endif
-  "preparing new window
-  let l:tab_nr = tabpagenr('$')
-  let l:cur_buf = bufnr('%')
-  if tabpagenr() < tab_nr
-    close!
-    if l:tab_nr == tabpagenr('$')
-      tabnext
-    endif
-    sp
-  else
-    close!
-    tabnew
-  endif
-  "opening current buffer in new window
-  exe "b".l:cur_buf
-endfunc
 
 ":call MoveToNextTab()<CR>
 nnoremap <C-m> :call MoveToNextTab()<CR>
@@ -134,6 +92,20 @@ nnoremap <C-n> :call MoveToPrevTab()<CR>
 """""""""""""""""""""""
 " MySQL configuration "
 """""""""""""""""""""""
+" Notify user when MySQL query have finish
+function! DBextPostResult(db_type, buf_nr)
+    " If dealing with a MYSQL database
+    if a:db_type == 'MYSQL'
+        " Assuming the first column is an integer
+        " highlight it using the WarningMsg color
+        " syn match logWarn '^\d\+'
+        " hi def link logWarn             WarningMsg
+        call notify#emitNotification('Query finish!', 'body')
+        " Notify title content
+    endif
+endfunction
+
+
 " Change the default profile by write 
 " in your vim (modeline) command, like so: 
 "   /*dbext: profile=c3_dev_write_thorgeir*/
@@ -143,6 +115,7 @@ let g:dbext_default_profile_c3_read_drone    ='type=MYSQL:user=drone:passwd=`cat
 let g:dbext_default_profile_c3_write_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=db-write.c3.amadis.com:port=3306'
 let g:dbext_default_profile_c3_dev_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3dev-db01.amadis.com:port=3306'
 let g:dbext_default_profile_c3_uni_read_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=10.3.18.41:port=3306'
+let g:dbext_default_profile_c3_lm_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=c3db04.amadis.com:port=3306'
 let g:dbext_default_profile = 'c3_write_thorgeir'
 
 
