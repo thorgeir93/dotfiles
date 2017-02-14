@@ -29,6 +29,7 @@ alias c3writedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-
 alias c3readdb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/read-config'
 alias c3devwritedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-dev-config'
 alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
+alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin'
 
 #export PATH="$PATH:`yarn global bin`"
 
@@ -104,6 +105,7 @@ us () {
 }
 
 dvorak () {
+    echo "setxkbmap dvorak"
     setxkbmap dvorak
 }
 
