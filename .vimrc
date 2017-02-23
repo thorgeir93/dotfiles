@@ -26,27 +26,25 @@ map <C-j> :wincmd j<CR>
 map <C-h> :wincmd h<CR>
 map <C-l> >:wincmd l<CR>
 
-
 set backspace=indent,eol,start
-set showmatch
-set ruler
-"set tw=79 " width of document (used by gd)
-set relativenumber
 
+set scrolloff=10    " N spaces between the cursor and the end of the file 
+                    " and the beginning of the file
 set background=dark
+set tabstop=4
 set shiftwidth=4    " Indents will have a width of 4
 set softtabstop=4   " Sets the number of columns for a TAB
 set expandtab       " Expand TABs to spaces
-set ts=4
-set sw=4
-
-set wrapscan
-set autoindent
-set number
-set tabstop=4
-set expandtab
 retab
 
+set relativenumber
+set autoindent
+set showmatch
+set wrapscan        " Default on | When searching, start at the beginning
+                    " if you have reach the end of file and visa versa
+set number
+set ruler
+set ignorecase smartcase
 
 """"""""""""""""""""
 "" CUSTOM MAPPING ""
@@ -72,7 +70,9 @@ syntax on
 "let b:keymap_name = "CAPS"
 "
 " Show b:keymap_name in status line.
-set statusline^=%k
+" set statusline^=%k
+
+hi StatusLine ctermbg=NONE cterm=Italic ctermfg=Red
 
 
 """"""""""""
@@ -83,11 +83,6 @@ autocmd InsertEnter * :syntax sync fromstart
 """""""""""""""
 "" FUNCTIONS ""
 """""""""""""""
-
-":call MoveToNextTab()<CR>
-nnoremap <C-m> :call MoveToNextTab()<CR>
-nnoremap <C-n> :call MoveToPrevTab()<CR>
-
 
 """""""""""""""""""""""
 " MySQL configuration "
