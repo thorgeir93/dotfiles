@@ -51,7 +51,7 @@ set ignorecase smartcase
 """"""""""""""""""""
 "au BufNewFile *.py 0r /home/thorgeir/vimtemplates/header.template
 nnoremap <F5> :set list!<CR>
-nnoremap <leader><leader> :w<CR>
+nnoremap <F6> :pwd<CR>:lcd %:p:h<CR>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -59,37 +59,27 @@ nnoremap <C-H> <C-W><C-H>
 
 nnoremap za za:syntax sync fromstart<CR>
 
-" +/- resize the with
-" Leader and +/- resize the height
-"if bufwinnr(1)
-"    map + <C-W>>
-"    map - <C-W><
-"    map <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
-"    map <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
-"endif
+" Create a dubug printing statement in python.
+imap p<Tab> print('=======')<CR>print()
 
 nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 nnoremap <silent> <Leader>0 :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> <Leader>9 :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 
-"map <leader> viwy
-
-""" colors """
+""" colors
+hi Visual term=reverse cterm=reverse guibg=Grey
 hi Folded ctermbg=168
 syntax on
 
-
-" Set following to show "<CAPS>" in the status line when "Caps Lock" is on.
-"let b:keymap_name = "CAPS"
+"
+" STATUSLINE
 "
 " Show b:keymap_name in status line.
 " set statusline^=%k
-
 "hi StatusLine ctermbg=White cterm=Bold ctermfg=Black
 "hi StatusLineNC ctermbg=White cterm=Italic ctermfg=Black
-
-hi StatusLine ctermbg=DarkRed
+"hi StatusLine ctermbg=DarkRed
 "hi StatusLineNC ctermbg=Gray
 "hi StatusLineNC cterm=Italic
 
@@ -106,10 +96,8 @@ autocmd InsertEnter * :syntax sync fromstart
 """""""""""""""""""""""
 " MySQL configuration "
 """""""""""""""""""""""
-
 " Size of the window
 " let g:dbext_default_buffer_lines = 40
-
 " Notify user when MySQL query have finish
 function! DBextPostResult(db_type, buf_nr)
     " If dealing with a MYSQL database
