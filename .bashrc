@@ -30,6 +30,7 @@ alias c3readdb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/read-co
 alias c3devwritedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-dev-config'
 alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
 alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' # Some hax to get more acces ( i think :/ )
+alias python='python3'
 
 #export PATH="$PATH:`yarn global bin`"
 

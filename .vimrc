@@ -59,6 +59,20 @@ nnoremap <C-H> <C-W><C-H>
 
 nnoremap za za:syntax sync fromstart<CR>
 
+" +/- resize the with
+" Leader and +/- resize the height
+"if bufwinnr(1)
+"    map + <C-W>>
+"    map - <C-W><
+"    map <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
+"    map <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+"endif
+
+nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+nnoremap <silent> <Leader>0 :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
+nnoremap <silent> <Leader>9 :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
+
 "map <leader> viwy
 
 """ colors """
@@ -72,7 +86,12 @@ syntax on
 " Show b:keymap_name in status line.
 " set statusline^=%k
 
-hi StatusLine ctermbg=NONE cterm=Italic ctermfg=Red
+"hi StatusLine ctermbg=White cterm=Bold ctermfg=Black
+"hi StatusLineNC ctermbg=White cterm=Italic ctermfg=Black
+
+hi StatusLine ctermbg=DarkRed
+"hi StatusLineNC ctermbg=Gray
+"hi StatusLineNC cterm=Italic
 
 
 """"""""""""
@@ -87,16 +106,18 @@ autocmd InsertEnter * :syntax sync fromstart
 """""""""""""""""""""""
 " MySQL configuration "
 """""""""""""""""""""""
+
+" Size of the window
+" let g:dbext_default_buffer_lines = 40
+
 " Notify user when MySQL query have finish
 function! DBextPostResult(db_type, buf_nr)
     " If dealing with a MYSQL database
     if a:db_type == 'MYSQL'
         " Assuming the first column is an integer
         " highlight it using the WarningMsg color
-        " syn match logWarn '^\d\+'
-        " hi def link logWarn             WarningMsg
-        call notify#emitNotification('Query finish!', 'body')
-        " Notify title content
+        silent !notify-send -t 100 "MySQL Query Finish"
+        "!paplay /usr/share/sounds/freedesktop/stereo/complete.oga
     endif
 endfunction
 
@@ -111,6 +132,7 @@ let g:dbext_default_profile_c3_write_drone   ='type=MYSQL:user=drone:passwd=`cat
 let g:dbext_default_profile_c3_dev_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3dev-db01.amadis.com:port=3306'
 let g:dbext_default_profile_c3_uni_read_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=10.3.18.41:port=3306'
 let g:dbext_default_profile_c3_lm_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=c3db04.amadis.com:port=3306'
+let g:dbext_default_profile_c3_lm_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3db04.amadis.com:port=3306'
 let g:dbext_default_profile = 'c3_write_thorgeir'
 
 
