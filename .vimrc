@@ -53,6 +53,7 @@ set ignorecase smartcase
 "au BufNewFile *.py 0r /home/thorgeir/vimtemplates/header.template
 nnoremap <F5> :set list!<CR>
 nnoremap <F6> :pwd<CR>:lcd %:p:h<CR>
+nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
