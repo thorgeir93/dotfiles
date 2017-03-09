@@ -27,6 +27,7 @@ map <C-h> :wincmd h<CR>
 map <C-l> >:wincmd l<CR>
 
 set backspace=indent,eol,start
+set foldmethod=indent
 
 set scrolloff=10    " N spaces between the cursor and the end of the file 
                     " and the beginning of the file
