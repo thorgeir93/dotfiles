@@ -1,5 +1,7 @@
 execute pathogen#infect()
 
+"Plugin 'christoomey/vim-tmux-navigator'
+
 "call notify#emitNotification('Title', 'Body')
 
 "set statusline+=%#warningmsg#
@@ -21,10 +23,27 @@ set modeline
 set splitbelow
 set splitright
 
-map <C-k> :wincmd k<CR>
-map <C-j> :wincmd j<CR>
-map <C-h> :wincmd h<CR>
-map <C-l> >:wincmd l<CR>
+" Allow me to use same keys for tmux and vim to switch between windows.
+"github.com/codegangsta/dotfiles/tree/master/vim/vim/bundle/vim-tmux-navigator
+"let g:tmux_navigator_no_mappings = 1
+"nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+"nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+"nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+"nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+"nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
+function! TmuxMove(direction)
+        let wnr = winnr()
+        silent! execute 'wincmd ' . a:direction
+        " If the winnr is still the same after we moved, it is the last pane
+        if wnr == winnr()
+                call system('tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR'))
+        end
+endfunction
+
+nnoremap <silent> <c-h> :call TmuxMove('h')<cr>
+nnoremap <silent> <c-j> :call TmuxMove('j')<cr>
+nnoremap <silent> <c-k> :call TmuxMove('k')<cr>
+nnoremap <silent> <c-l> :call TmuxMove('l')<cr>
 
 set backspace=indent,eol,start
 set foldmethod=indent
@@ -54,10 +73,6 @@ set ignorecase smartcase
 nnoremap <F5> :set list!<CR>
 nnoremap <F6> :pwd<CR>:lcd %:p:h<CR>
 nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
 
 nnoremap za za:syntax sync fromstart<CR>
 
@@ -107,6 +122,8 @@ function! DBextPostResult(db_type, buf_nr)
         " Assuming the first column is an integer
         " highlight it using the WarningMsg color
         silent !notify-send -t 100 "MySQL Query Finish"
+        redraw!
+        "syntax sync fromstart
         "!paplay /usr/share/sounds/freedesktop/stereo/complete.oga
     endif
 endfunction

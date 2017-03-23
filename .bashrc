@@ -139,7 +139,7 @@ c3drone () {
 
 c3random_drone () {
     # Machines I'm pretty sure are OK are listed first
-    drones=(23 01 02 03 04 05 06 07 12 15 16 17 18 19 21 22 24 25 26)
+    drones=(23 01 03 04 05 06 07 12 15 16 17 18 19 22 24 25 26)
     randf=("${drones[RANDOM % ${#drones[@]}]}")
     cmd="ssh drone@c3unicmplx$randf.amadis.com"
     echo $cmd
