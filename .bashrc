@@ -32,6 +32,8 @@ alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
 alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' # Some hax to get more acces ( i think :/ )
 #alias python='python3'
 
+alias openshot='/home/thorgeir/Downloads/'
+
 #export PATH="$PATH:`yarn global bin`"
 
 ########
@@ -183,6 +185,10 @@ vpnc3 () {
 ##############
 ## DISPLAYS ##
 ##############
+vga_orient () {
+    xrandr --output LVDS1 --auto --output VGA1 --auto LVDS1
+}
+
 hdmi_orient () {
     xrandr --output LVDS1 --auto --output HDMI1 --auto --right-of LVDS1
 }
