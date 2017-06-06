@@ -29,6 +29,11 @@ set path+=**
 " Show the search result in vim.
 set wildmenu
 
+
+" Create the `tags` file (may need to install ctags first)
+" -f: where to save the index-file.
+command! MakeTags !ctags -R -f /export/unicomplex_data/unicomplex/.bzr/tags /export/unicomplex_data/unicomplex/module
+
 " Allow me to use same keys for tmux and vim to switch between windows.
 "github.com/codegangsta/dotfiles/tree/master/vim/vim/bundle/vim-tmux-navigator
 "let g:tmux_navigator_no_mappings = 1
