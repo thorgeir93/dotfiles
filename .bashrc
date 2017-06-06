@@ -194,6 +194,10 @@ sshoffice () {
     # now you are connected
 }
 
+sshdev () {
+    ssh thorgeir@10.3.80.41
+}
+
 vpnc3 () {
     cd ~
     sudo openvpn --config ~/openvpn/commtouch2.ovpn
