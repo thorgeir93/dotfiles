@@ -31,6 +31,9 @@ set path+=**
 " Show the search result in vim.
 set wildmenu
 
+" don't open folds when searching
+set fdo-=search
+
 " Allow me to use same keys for tmux and vim to switch between windows.
 "github.com/codegangsta/dotfiles/tree/master/vim/vim/bundle/vim-tmux-navigator
 "let g:tmux_navigator_no_mappings = 1
