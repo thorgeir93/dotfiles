@@ -34,6 +34,14 @@ alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' # Some hax to get more acc
 
 #export PATH="$PATH:`yarn global bin`"
 
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Display the current directory in the titlebar.
+PROMPT_COMMAND='echo -en "\033]0;$PWD\007"'
+#wname() { echo -en "\033]0;$@\007"; }
+
 ########
 # NEED #
 ########
@@ -167,6 +175,16 @@ vpnoffice () {
     # new method (DUO)
     sudo openvpn --auth-retry interact --config ~/openvpn3/client.ovpn
     # thorgeirs, SG**.., push, <iphone DUO>, 
+}
+
+vpnc4 () {
+    cd ~
+    # old method (RSA)
+    # sudo openvpn is the version 2.3
+    # openvpn is the version 2.4, we want to use that version.
+    sudo /usr/local/sbin/openvpn --config ~/openvpn/c4.ovpn
+    # add username and password 
+    # (thsigurdsson, [pin to RSA app] then passw. is the RSA token number)
 }
 
 sshoffice () {
