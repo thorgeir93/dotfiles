@@ -20,10 +20,16 @@ set modeline
 set splitbelow
 set splitright
 
-nnoremap <c-j> <c-w>j<CR>
-nnoremap <c-k> <c-w>k<CR>
-nnoremap <c-l> <c-w>l<CR>
-nnoremap <c-h> <c-w>h<CR>
+"nnoremap <c-j> <c-w>j<CR>
+"nnoremap <c-k> <c-w>k<CR>
+"nnoremap <c-l> <c-w>l<CR>
+"nnoremap <c-h> <c-w>h<CR>
+"
+" Add all subdirectories in current location to vim-path.
+set path+=** 
+
+" Show the search result in vim.
+set wildmenu
 
 " Allow me to use same keys for tmux and vim to switch between windows.
 "github.com/codegangsta/dotfiles/tree/master/vim/vim/bundle/vim-tmux-navigator
@@ -157,3 +163,20 @@ let g:dbext_default_profile = 'c3_write_thorgeir'
 "let g:syntastic_check_on_wq = 0
 
 "map <C-t> :NERDTreeToggle<CR>
+
+
+
+"
+" NEOVIM configuration
+"
+":tnoremap <CSI> <C-\><C-n>
+":tnoremap <M-Esc> <C-\><C-n>
+"
+":tnoremap <A-h> <C-\><C-n><C-w>h
+":tnoremap <A-j> <C-\><C-n><C-w>j
+":tnoremap <A-k> <C-\><C-n><C-w>k
+":tnoremap <A-l> <C-\><C-n><C-w>l
+":nnoremap <A-h> <C-w>h
+":nnoremap <A-j> <C-w>j
+":nnoremap <A-k> <C-w>k
+":nnoremap <A-l> <C-w>l
