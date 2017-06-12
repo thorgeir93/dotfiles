@@ -93,6 +93,9 @@ vmstart () {
 	sudo vagrant up
 }
 
+# ssh to server with vi as a terminal navigator.
+sshvi () { ssh $@ -t 'bash -o vi'; }
+
 #######################
 ## KEYBOARD SETTINGS ##
 #######################
