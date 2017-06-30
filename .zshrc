@@ -1,13 +1,21 @@
-# .bashrc
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=5000
+SAVEHIST=5000
+bindkey -v
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/thorgeir/.zshrc'
 
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
-fi
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
 
-# Enable vim commands in bash
-set -o vi
+#                #
+#  FROM .BASHRC  #
+#                #
 
+#
 # Load resource file (e.g. colors and font styles)
 #xrdb ~/.Xr
 #transset-df --actual .9
