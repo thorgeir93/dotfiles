@@ -1,0 +1,47 @@
+! (from: help.ubuntu.com/community/TransparentTerminals)
+URxvt*font: xft:monospace:pixelsize=11
+URxvt.background:       black
+URxvt.foreground:       white
+URxvt.scrollBar:        false
+URxvt.tintColor:        white
+URxvt.fading:           25
+URxvt.fadeColor:        black
+URxvt.shading:          60
+URxvt.inheritPixmap:    true
+URxvt.pointerColor:     black
+URxvt.pointerColor2:    white
+Xft.antialias:true
+! fading: how much other terminals fade out.
+
+
+! black
+*.color0:       #11111 
+*.color8:       #11111 
+
+! red
+*.color1:       #8f423c
+*.color9:       #eeaa88
+
+! green
+*.color2:       #bbbb88
+*.color10:      #ccc68d
+
+! yellow
+*.color3:       #121212
+*.color11:      #eedd99
+
+! blue
+*.color4:       #e0ba69
+*.color12:      #c9b957
+
+! magenta
+*.color5:       #709289
+*.color13:      #ffcbab
+
+! cyan
+*.color6:       #d13516
+*.color14:      #c25431
+
+! white
+*.color7:       #efe2e0
+*.color15:      #f9f1ed

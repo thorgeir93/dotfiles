@@ -5,6 +5,10 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+# Load resource file (e.g. colors and font styles)
+#xrdb ~/.Xr
+#transset-df --actual .9
+
 # Enable vim commands in bash
 set -o vi
 
@@ -30,12 +34,20 @@ alias c3readdb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/read-co
 alias c3devwritedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-dev-config'
 alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
 alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' # Some hax to get more acces ( i think :/ )
-#alias python='python3'
+
+# Get window id from the slack application.
+# only if slack application is running.
+get_slack_win_id () {
+    xwininfo -name "Slack - CYREN" | head -n 2 | tail -n 1 | awk '{ print $4; }'
+}
+# When fireup slack, make it 6% trancparency.
+alias slack='slack && transset-df --id `get_slack_win_id` 0.94'
 
 alias openshot='/home/thorgeir/Downloads/'
 
 #export PATH="$PATH:`yarn global bin`"
 
+# From 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'

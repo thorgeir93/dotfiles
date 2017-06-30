@@ -157,6 +157,8 @@ let g:dbext_default_profile_c3_dev_write_thorgeir='type=MYSQL:user=thorgeir:pass
 let g:dbext_default_profile_c3_uni_read_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=10.3.18.41:port=3306'
 let g:dbext_default_profile_c3_lm_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=c3db04.amadis.com:port=3306'
 let g:dbext_default_profile_c3_lm_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3db04.amadis.com:port=3306'
+let g:dbext_default_profile_c4_sb_read_apt_user='type=MYSQL:user=apt_user:passwd=`cat /home/thorgeir/.config/mysql/c4aptp.txt`:host=c4sbdb01:port=3306'
+let g:dbext_default_profile_c4_ipgever_write_root='type=MYSQL:user=root:host=c4ipgever01.amadis.com'
 let g:dbext_default_profile = 'c3_write_thorgeir'
 
 
