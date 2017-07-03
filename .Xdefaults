@@ -27,7 +27,7 @@ Xft.antialias:true
 *.color10:      #ccc68d
 
 ! yellow
-*.color3:       #121212
+*.color3:       #f4ad42
 *.color11:      #eedd99
 
 ! blue
