@@ -6,7 +6,20 @@ execute pathogen#infect()
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
 
+
+" Search in every subdirectories
+" Add all subdirectories in current location to vim-path.
+set path+=**
+
+" Show the file/folder search result in a text bar above the search bar.
+set wildmenu
+
 let mapleader=" "
+
+set tags =./tags,tags;
+"set tags+=~/sandbox/aptlab/bank_api2.tags;
+set tags+=~/sandbox/aptlab/cuckoo.tags;
+set tags+=/export/unicomplex_data/unicomplex/tags;
 
 """"""""""""""""""""""
 "" MODELINE SUPPORT ""
@@ -20,23 +33,25 @@ set modeline
 set splitbelow
 set splitright
 
-"nnoremap <c-j> <c-w>j<CR>
-"nnoremap <c-k> <c-w>k<CR>
-"nnoremap <c-l> <c-w>l<CR>
-"nnoremap <c-h> <c-w>h<CR>
-"
-" Add all subdirectories in current location to vim-path.
-set path+=** 
-
-" Show the search result in vim.
-set wildmenu
-
 " don't open folds when searching
 set fdo-=search
 
 " Create the `tags` file (may need to install ctags first)
 " -f: where to save the index-file.
 command! MakeTags !ctags -R -f /export/unicomplex_data/unicomplex/.bzr/tags /export/unicomplex_data/unicomplex/module
+let g:toggleHighlightWhitespace = 1
+function! HighlightExtraWhitespace()
+    " Toggle the extra whitespace highlighting.
+    " Highlight the unwanted white spaces.
+    if g:toggleHighlightWhitespace == 1 "normal action, do the hi
+      let g:toggleHighlightWhitespace = 0
+      highlight ExtraWhitespace ctermbg=red guibg=red
+      match ExtraWhitespace /\s\+$/
+    else
+      let g:toggleHighlightWhitespace = 1
+      call clearmatches()
+    endif
+endfunction
 
 " Allow me to use same keys for tmux and vim to switch between windows.
 "github.com/codegangsta/dotfiles/tree/master/vim/vim/bundle/vim-tmux-navigator
@@ -94,6 +109,11 @@ nnoremap za za:syntax sync fromstart<CR>
 
 " Create a dubug printing statement in python.
 imap p<Tab> print('=======')<CR>print()
+" Generates a fold skeleton.
+nmap fold1<Tab> i#-- <CR>{{{1<CR>1}}}<ESC>kkA 
+nmap fold2<Tab> i#-- <CR>{{{2<CR>2}}}<ESC>kkA 
+nmap fold3<Tab> i#-- <CR>{{{3<CR>3}}}<ESC>kkA 
+nmap fold4<Tab> i#-- <CR>{{{4<CR>4}}}<ESC>kkA 
 
 nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
@@ -115,6 +135,54 @@ syntax on
 "hi StatusLine ctermbg=DarkRed
 "hi StatusLineNC ctermbg=Gray
 "hi StatusLineNC cterm=Italic
+
+"""""""""""""""""""
+"" Fold settings ""
+"""""""""""""""""""
+if has("folding")
+    set foldenable        " enable folding
+    set foldmethod=indent " fold based on syntax highlighting
+    set fillchars="fold:"
+    hi Folded ctermbg=168
+    hi Folded ctermfg=21
+    set foldtext=FoldText()
+    "function! FoldText()
+    "      
+    "endfunction
+    function! FoldText()
+      let line = getline(v:foldstart)
+      if match( line, '^[ \t]*\(\/\*\|\/\/\)[*/\\]*[ \t]*$' ) == 0
+        let initial = substitute( line, '^\([ \t]\)*\(\/\*\|\/\/\)\(.*\)', '\1\2', '' )
+        let linenum = v:foldstart + 1
+        while linenum < v:foldend
+          let line = getline( linenum )
+          let comment_content = substitute( line, '^\([ \t\/\*]*\)\(.*\)$', '\2', 'g' )
+          if comment_content != ''
+            break
+          endif
+          let linenum = linenum + 1
+        endwhile
+        let sub = initial . ' ' . comment_content
+      else
+        let sub = line
+        let startbrace = substitute( line, '^.*{[ \t]*$', '{', 'g')
+        if startbrace == '{'
+          let line = getline(v:foldend)
+          let endbrace = substitute( line, '^[ \t]*}\(.*\)$', '}', 'g')
+          if endbrace == '}'
+            let sub = sub.substitute( line, '^[ \t]*}\(.*\)$', '...}\1', 'g')
+          endif
+        endif
+      endif
+      let n = v:foldend - v:foldstart + 1
+      let info = " " . n . " lines"
+      let sub = sub . "                                                                                                                  "
+      let num_w = getwinvar( 0, '&number' ) * getwinvar( 0, '&numberwidth' )
+      let fold_w = getwinvar( 0, '&foldcolumn' )
+      let sub = strpart( sub, 0, winwidth(0) - strlen( info ) - num_w - fold_w - 1 )
+      return sub . info
+    endfunction
+endif
 
 
 """"""""""""

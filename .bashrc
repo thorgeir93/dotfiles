@@ -8,6 +8,10 @@ fi
 # Enable vim commands in bash
 set -o vi
 
+# For Boost library.
+export LIBS="-L/home/thorgeir/downloads/boost_1_64_0/stage/lib"
+export CPPFLAGS="-I/home/thorgeir/downloads/boost_1_64_0"
+
 # Load resource file (e.g. colors and font styles)
 #xrdb ~/.Xr
 #transset-df --actual .9
@@ -20,8 +24,12 @@ set -o vi
 # more information:
 # http://unix.stackexchange.com/questions/9123/is-there-a-one-liner-that-allows-me-to-create-a-directory-and-move-into-it-at-th
 
-alias vi='vimx'
-alias vim='vimx'
+
+alias ipython_cb='LD_LIBRARY_PATH=/export/unicomplex_data/unicomplex/mounts/wr/scratchpad/saevar/couchbase_so/:$LD_LIBRARY_PATH ipython'
+
+
+#alias vi='vimx'
+#alias vim='vimx'
 alias tmux='TERM=xterm-256color tmux'
 alias feh='feh -F *'
 alias ls='ls --color -la'
@@ -44,6 +52,20 @@ get_slack_win_id () {
 alias slack='slack && transset-df --id `get_slack_win_id` 0.94'
 
 alias openshot='/home/thorgeir/Downloads/'
+# Changing directories.
+alias ux='cd /export/unicomplex_data/unicomplex/'
+alias uxk='cd /export/unicomplex_data/unicomplex/kafka'
+alias uxt='cd /export/unicomplex_data/unicomplex/task'
+alias uxp='cd /export/unicomplex_data/unicomplex/module/python'
+alias uxa='cd /export/unicomplex_data/unicomplex/module/python/abutils/tools'
+alias uxplf='cd /export/unicomplex_data/unicomplex/module/python/linkfunnel'
+alias uxtlf='cd /export/unicomplex_data/unicomplex/task/linkfunnel'
+alias uxplm='cd /export/unicomplex_data/unicomplex/module/python/linkmonitor'
+alias uxpth='cd /export/unicomplex_data/unicomplex/module/python/thorgeir_utils'
+alias uxpapt='cd /export/unicomplex_data/unicomplex/module/python/abutils/tools'
+alias uxtlm='cd /export/unicomplex_data/unicomplex/task/linkmonitor'
+alias uxtvtu='cd /export/unicomplex_data/unicomplex/task/virustotal_feed_url'
+alias uxtdow='cd /export/unicomplex_data/unicomplex/task/downloaders'
 
 #export PATH="$PATH:`yarn global bin`"
 
@@ -175,6 +197,19 @@ c3thorgeir (){
     host='c3dev-thorgeir01.amadis.com'
     ssh $user'@'$host
 }
+
+c3devcuckoo (){
+    sshvi $1'@c3devcuckoo01.amadis.com'
+}
+
+c3_api_drone13 (){
+    user='thorgeir'
+    host='c3unicmplx13.amadis.com'
+    ssh $user'@'$host
+}
+
+# ssh to server with vi as a terminal navigator.
+sshvi () { ssh $@ -t 'bash -o vi'; }
 
 #vpnoffice () {
 #    cd ~
