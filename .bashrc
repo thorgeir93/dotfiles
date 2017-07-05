@@ -32,7 +32,6 @@ alias ipython_cb='LD_LIBRARY_PATH=/export/unicomplex_data/unicomplex/mounts/wr/s
 #alias vim='vimx'
 alias tmux='TERM=xterm-256color tmux'
 alias feh='feh -F *'
-alias ls='ls --color -la'
 alias sprunge='curl -F "sprunge=<-" http://sprunge.us'
 # view image
 alias img='gpicview'
