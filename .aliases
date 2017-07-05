@@ -29,6 +29,8 @@ alias pdfviewer='evince'
 
 alias openshot='/home/thorgeir/Downloads/'
 
+alias senv='source /export/unicomplex_data/unicomplex/env.sh'
+
 # Changing directories in the unicomplex repository.
 repository=/export/unicomplex_data/unicomplex/
 
