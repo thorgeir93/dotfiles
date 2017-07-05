@@ -28,8 +28,6 @@ compinit
 # more information:
 # http://unix.stackexchange.com/questions/9123/is-there-a-one-liner-that-allows-me-to-create-a-directory-and-move-into-it-at-th
 
-alias vi='vimx'
-alias vim='vimx'
 alias tmux='TERM=xterm-256color tmux'
 alias feh='feh -F *'
 alias ls='ls --color -la'
