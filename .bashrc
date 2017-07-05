@@ -25,54 +25,29 @@ export CPPFLAGS="-I/home/thorgeir/downloads/boost_1_64_0"
 # http://unix.stackexchange.com/questions/9123/is-there-a-one-liner-that-allows-me-to-create-a-directory-and-move-into-it-at-th
 
 
-alias ipython_cb='LD_LIBRARY_PATH=/export/unicomplex_data/unicomplex/mounts/wr/scratchpad/saevar/couchbase_so/:$LD_LIBRARY_PATH ipython'
-
-
-#alias vi='vimx'
-#alias vim='vimx'
-alias tmux='TERM=xterm-256color tmux'
-alias feh='feh -F *'
-alias ls='ls --color -la'
-alias sprunge='curl -F "sprunge=<-" http://sprunge.us'
-# view image
-alias img='gpicview'
-alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="http://jira-proxy.mordor.local/proxy.pac"' 
-alias c3writedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-config'
-alias c3readdb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/read-config'
-alias c3devwritedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-dev-config'
-alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
-alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' # Some hax to get more acces ( i think :/ )
-
 # Get window id from the slack application.
 # only if slack application is running.
 get_slack_win_id () {
     xwininfo -name "Slack - CYREN" | head -n 2 | tail -n 1 | awk '{ print $4; }'
 }
-# When fireup slack, make it 6% trancparency.
-alias slack='slack && transset-df --id `get_slack_win_id` 0.94'
 
-alias openshot='/home/thorgeir/Downloads/'
-# Changing directories.
-alias ux='cd /export/unicomplex_data/unicomplex/'
-alias uxk='cd /export/unicomplex_data/unicomplex/kafka'
-alias uxt='cd /export/unicomplex_data/unicomplex/task'
-alias uxp='cd /export/unicomplex_data/unicomplex/module/python'
-alias uxa='cd /export/unicomplex_data/unicomplex/module/python/abutils/tools'
-alias uxplf='cd /export/unicomplex_data/unicomplex/module/python/linkfunnel'
-alias uxtlf='cd /export/unicomplex_data/unicomplex/task/linkfunnel'
-alias uxplm='cd /export/unicomplex_data/unicomplex/module/python/linkmonitor'
-alias uxpth='cd /export/unicomplex_data/unicomplex/module/python/thorgeir_utils'
-alias uxpapt='cd /export/unicomplex_data/unicomplex/module/python/abutils/tools'
-alias uxtlm='cd /export/unicomplex_data/unicomplex/task/linkmonitor'
-alias uxtvtu='cd /export/unicomplex_data/unicomplex/task/virustotal_feed_url'
-alias uxtdow='cd /export/unicomplex_data/unicomplex/task/downloaders'
+# Get window id from the mysql workbench.
+# only if the application is running.
+get_mysqlw_win_id () {
+    xwininfo -name "MySQL Workbench" | head -n 2 | tail -n 1 | awk '{ print $4; }'
+}
 
-#export PATH="$PATH:`yarn global bin`"
+# When mysql workbench is fired up, it will get 6% trancparency.
+mysql-workbench-transparent () {
+    mysql-workbench &
+    sleep 8 && transset-df --id `get_slack_win_id` 0.94 &
+}
 
-# From 
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+# When slack is fired up, it will get 6% trancparency.
+slack-transparent () {
+    slack &
+    sleep 8 && transset-df --id `get_mysqlw_win_id` 0.94 &
+}
 
 # Display the current directory in the titlebar.
 PROMPT_COMMAND='echo -en "\033]0;$PWD\007"'
@@ -358,4 +333,5 @@ sup () {
 # Ctrl-s freezes the terminal
 # Ctrl-q thawed the terminal
 stty -ixon
-alias config='/usr/bin/git --git-dir=/home/thorgeir/.cfg/ --work-tree=/home/thorgeir'
+
+source ~/.aliases

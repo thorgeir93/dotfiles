@@ -1,5 +1,5 @@
 ! (from: help.ubuntu.com/community/TransparentTerminals)
-URxvt*font: xft:monospace:pixelsize=11
+URxvt.font:xft:Monaco:pixelsize=9
 URxvt.background:       black
 URxvt.foreground:       white
 URxvt.scrollBar:        false
@@ -13,35 +13,74 @@ URxvt.pointerColor2:    white
 Xft.antialias:true
 ! fading: how much other terminals fade out.
 
+*cursorColor: red
 
-! black
-*.color0:       #11111 
-*.color8:       #11111 
+! ( from the web )
+!black
+*.color0:       #282a2e
+*.color8:       #373b41
 
 ! red
-*.color1:       #8f423c
-*.color9:       #eeaa88
+*.color1:       #a54242
+*.color9:       #cc6666
 
 ! green
-*.color2:       #bbbb88
-*.color10:      #ccc68d
+*.color2:       #8c9440
+*.color10:      #b5bd68
 
 ! yellow
-*.color3:       #121212
-*.color11:      #eedd99
+*.color3:       #de935f
+*.color11:      #f0c674
 
 ! blue
-*.color4:       #e0ba69
-*.color12:      #c9b957
+*.color4:       #5f819d
+*.color12:      #81a2be
 
 ! magenta
-*.color5:       #709289
-*.color13:      #ffcbab
+*.color5:       #85678f
+*.color13:      #b294bb
 
 ! cyan
-*.color6:       #d13516
-*.color14:      #c25431
+*.color6:       #5e8d87
+*.color14:      #8abeb7
 
 ! white
-*.color7:       #efe2e0
-*.color15:      #f9f1ed
+*.color7:       #707880
+*.color15:      #c5c8c6
+
+! Man page colors ?
+!URxvt.colorIT:      #87af5f
+!URxvt.colorBD:      #d7d7d7
+!URxvt.colorUL:      #87afd7
+!
+!! black
+!*.color0:       #11111
+!*.color8:       #11111 
+!
+!! red
+!*.color1:       #8f423c
+!*.color9:       #eeaa88
+!
+!! green
+!*.color2:       #bbbb88
+!*.color10:      #ccc68d
+!
+!! yellow
+!*color3:        #b58900
+!*color11:       #797979
+!
+!! blue
+!*.color4:       #e0ba69
+!*.color12:      #c9b957
+!
+!! magenta
+!*.color5:       #709289
+!*.color13:      #ffcbab
+!
+!! cyan
+!*.color6:       #d13516
+!*.color14:      #c25431
+!
+!! white
+!*.color7:       #efe2e0
+!*.color15:      #f9f1ed

@@ -1,5 +1,7 @@
 execute pathogen#infect()
 
+
+
 "call notify#emitNotification('Title', 'Body')
 
 "set statusline+=%#warningmsg#
@@ -104,6 +106,9 @@ set ignorecase smartcase
 nnoremap <F5> :set list!<CR>
 nnoremap <F6> :pwd<CR>:lcd %:p:h<CR>
 nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
+xnoremap <F8> :'<,'>w !python<CR>
+"nnoremap <F8> :!python -c @"<CR>
+"nnoremap <F8> :!python `echo %`<CR>
 
 nnoremap za za:syntax sync fromstart<CR>
 
