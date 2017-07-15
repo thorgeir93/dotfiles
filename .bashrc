@@ -24,6 +24,16 @@ export CPPFLAGS="-I/home/thorgeir/downloads/boost_1_64_0"
 # more information:
 # http://unix.stackexchange.com/questions/9123/is-there-a-one-liner-that-allows-me-to-create-a-directory-and-move-into-it-at-th
 
+wifi_list() {
+    nmcli device wifi 
+}
+
+wifi_connect() {
+    # :param: <WIFI name> <Password>
+    #   Accept a wifi name which you can get from `wifi_list` command.
+    #   and a password to access the router.
+    nmcli device wifi connect $1 password $2 
+}
 
 # Get window id from the slack application.
 # only if slack application is running.
@@ -86,7 +96,7 @@ cd3 () { cd "../../..";  }
 ## ENTERTAINMENT ##
 ###################
 sup () {
-	echo "$1" | sprunge | xclip -selection "clipboard" 
+	echo "$1" | curl -F "sprunge=<-" http://sprunge.us | xclip -selection "clipboard" 
 }
 
 ######################
@@ -319,12 +329,6 @@ mykill() {
     for pid in pgrep $1; do pkill $pid; done 
 }
 
-###################
-## ENTERTAINMENT ##
-###################
-sup () {
-	echo "$1" | sprunge | xclip -selection "clipboard" 
-}
 ####################
 ## SYSTEM CONTROL ##
 ####################
