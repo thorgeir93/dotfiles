@@ -25,7 +25,7 @@ alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
 alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' 
 
 alias pdfviewer='evince'
-
+alias pdfviewer2='zathura'
 
 alias openshot='/home/thorgeir/Downloads/'
 
