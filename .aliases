@@ -48,6 +48,9 @@ alias uxtlm='cd $repository/task/linkmonitor'
 alias uxtvtu='cd $repository/task/virustotal_feed_url'
 alias uxtdow='cd $repository/task/downloaders'
 
+
+alias gw='cd ~/github/webCarouselQ/'
+
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # for the .dotfiles repository.
