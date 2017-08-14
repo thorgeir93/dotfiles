@@ -8,6 +8,9 @@ fi
 # Enable vim commands in bash
 set -o vi
 
+# Enable vim in sudoedit.
+export EDITOR=vim
+
 # For Boost library.
 export LIBS="-L/home/thorgeir/downloads/boost_1_64_0/stage/lib"
 export CPPFLAGS="-I/home/thorgeir/downloads/boost_1_64_0"
