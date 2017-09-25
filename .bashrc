@@ -38,6 +38,13 @@ wifi_connect() {
     nmcli device wifi connect $1 password $2 
 }
 
+wifi_connect_no_password() {
+    # :param: <WIFI name> <Password>
+    #   Accept a wifi name which you can get from `wifi_list` command.
+    #   and a password to access the router.
+    nmcli device wifi connect $1
+}
+
 # Get window id from the slack application.
 # only if slack application is running.
 get_slack_win_id () {

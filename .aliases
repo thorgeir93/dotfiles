@@ -4,13 +4,18 @@ alias tmux='TERM=xterm-256color tmux'
 
 # Open all file in the current directory in fullscreen mode.
 alias feh='feh -F *'
-alias ls='ls --color -la'
+#alias ls='ls --color -la'
 
 # 
 alias sprunge='curl -F "sprunge=<-" http://sprunge.us'
 
 # View image
 alias img='gpicview'
+
+# VNC shared allow you to view desktop on a
+# server without breaking connection for other
+# viewers.
+alias vncviewer='vncviewer -Shared'
 
 # For the office network.
 alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="http://jira-proxy.mordor.local/proxy.pac"' 
