@@ -25,7 +25,7 @@ alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
 alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' 
 
 alias pdfviewer='evince'
-
+alias pdfviewer2='zathura'
 
 alias openshot='/home/thorgeir/Downloads/'
 
@@ -61,6 +61,8 @@ alias sbac='cd $sb_repository/aptlab/cuckoo'
 alias sbap='cd $sb_repository/aptlab/payload'
 
 alias st='cd ~/store/storage/'
+
+alias gw='cd ~/github/webCarouselQ/'
 
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
