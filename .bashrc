@@ -12,6 +12,23 @@ set -o vi
 export LIBS="-L/home/thorgeir/downloads/boost_1_64_0/stage/lib"
 export CPPFLAGS="-I/home/thorgeir/downloads/boost_1_64_0"
 
+# For the mdv tool (terminal markdown viewer)
+export MDV_THEME=995.1179
+
+external_ip () {
+    echo "curl ipinfo.io/ip"
+    curl ipinfo.io/ip
+}
+
+update_pi_monitoring () {
+    # TODO Do more stuff.
+    ssh -t alarm "
+        sudo su alarm
+        cd /home/alarm/python/
+        git status
+    "
+}
+
 # Load resource file (e.g. colors and font styles)
 #xrdb ~/.Xr
 #transset-df --actual .9
