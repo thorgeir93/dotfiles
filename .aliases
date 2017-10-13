@@ -4,7 +4,7 @@ alias tmux='TERM=xterm-256color tmux'
 
 # Open all file in the current directory in fullscreen mode.
 alias feh='feh -F *'
-alias ls='ls --color -la'
+#alias ls='ls --color -la'
 
 # 
 alias sprunge='curl -F "sprunge=<-" http://sprunge.us'
@@ -31,6 +31,9 @@ alias openshot='/home/thorgeir/Downloads/'
 
 alias senv='source /export/unicomplex_data/unicomplex/env.sh'
 
+#
+# UNICOMPLEX DIRECTORIES SHORTCUTS
+#
 # Changing directories in the unicomplex repository.
 repository=/export/unicomplex_data/unicomplex/
 
@@ -43,10 +46,21 @@ alias uxplf='cd $repository/module/python/linkfunnel'
 alias uxtlf='cd $repository/task/linkfunnel'
 alias uxplm='cd $repository/module/python/linkmonitor'
 alias uxpth='cd $repository/module/python/thorgeir_utils'
-alias uxpapt='cd $reository/module/python/abutils/tools'
+alias uxpapt='cd $repository/module/python/abutils/tools'
 alias uxtlm='cd $repository/task/linkmonitor'
 alias uxtvtu='cd $repository/task/virustotal_feed_url'
 alias uxtdow='cd $repository/task/downloaders'
+
+#
+# SANDBOX DIRECTORIES SHORTCUTS
+#
+sb_repository=/home/thorgeir/gitlab/sandbox/
+alias sb='cd $sb_repository'
+alias sba='cd $sb_repository/aptlab'
+alias sbac='cd $sb_repository/aptlab/cuckoo'
+alias sbap='cd $sb_repository/aptlab/payload'
+
+alias st='cd ~/store/storage/'
 
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
