@@ -3,11 +3,7 @@ alias ipython_cb='LD_LIBRARY_PATH=/export/unicomplex_data/unicomplex/mounts/wr/s
 alias tmux='TERM=xterm-256color tmux'
 
 # Open all file in the current directory in fullscreen mode.
-<<<<<<< HEAD
 #alias feh='feh -F *'
-=======
-alias feh='feh -F *'
->>>>>>> 184af6c39d95760532cc4f4669f3b33215cb5c6c
 #alias ls='ls --color -la'
 
 # 
