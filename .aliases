@@ -3,7 +3,11 @@ alias ipython_cb='LD_LIBRARY_PATH=/export/unicomplex_data/unicomplex/mounts/wr/s
 alias tmux='TERM=xterm-256color tmux'
 
 # Open all file in the current directory in fullscreen mode.
+<<<<<<< HEAD
 #alias feh='feh -F *'
+=======
+alias feh='feh -F *'
+>>>>>>> 184af6c39d95760532cc4f4669f3b33215cb5c6c
 #alias ls='ls --color -la'
 
 # 
@@ -25,10 +29,15 @@ alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
 alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' 
 
 alias pdfviewer='evince'
-
+alias pdfviewer2='zathura'
 
 alias openshot='/home/thorgeir/Downloads/'
 
+alias senv='source /export/unicomplex_data/unicomplex/env.sh'
+
+#
+# UNICOMPLEX DIRECTORIES SHORTCUTS
+#
 # Changing directories in the unicomplex repository.
 repository=/export/unicomplex_data/unicomplex/
 
@@ -41,20 +50,29 @@ alias uxplf='cd $repository/module/python/linkfunnel'
 alias uxtlf='cd $repository/task/linkfunnel'
 alias uxplm='cd $repository/module/python/linkmonitor'
 alias uxpth='cd $repository/module/python/thorgeir_utils'
-alias uxpapt='cd $reository/module/python/abutils/tools'
+alias uxpapt='cd $repository/module/python/abutils/tools'
 alias uxtlm='cd $repository/task/linkmonitor'
 alias uxtvtu='cd $repository/task/virustotal_feed_url'
 alias uxtdow='cd $repository/task/downloaders'
-
-# Gitlab directory shortcuts.
-gitlab=~/gitlab
-alias gsb='cd $gitlab/sandbox/'
 
 # Let you know when the command has finished.
 # E.g. $ sleep 10 | alert
 # After 10 sec. it will create a pop-up window 
 # in the right upper corner withe 'sleep 10' 
 # as a content.
+#
+# SANDBOX DIRECTORIES SHORTCUTS
+#
+sb_repository=/home/thorgeir/gitlab/sandbox/
+alias sb='cd $sb_repository'
+alias sba='cd $sb_repository/aptlab'
+alias sbac='cd $sb_repository/aptlab/cuckoo'
+alias sbap='cd $sb_repository/aptlab/payload'
+
+alias st='cd ~/store/storage/'
+
+alias gw='cd ~/github/webCarouselQ/'
+
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # for the .dotfiles repository.
