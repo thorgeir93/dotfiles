@@ -103,7 +103,7 @@ vmstart () {
 }
 
 # ssh to server with vi as a terminal navigator.
-sshvi () { ssh $@ -t 'bash -o vi'; }
+sshvi () { ssh $@ -lt 'bash -o vi'; }
 
 #######################
 ## KEYBOARD SETTINGS ##
