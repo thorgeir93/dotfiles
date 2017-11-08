@@ -1,13 +1,17 @@
 "execute pathogen#infect()
 
-
-
 "call notify#emitNotification('Title', 'Body')
 
 "set statusline+=%#warningmsg#
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
 
+" By turning on spell-checking in our ~/.vimrc, 
+" we’ll be turning on word completion as well.
+" The following command will let us press CTRL-N 
+" or CTRL-P in insert-mode to complete the word 
+" we’re typing!
+"set complete+=kspell
 
 " Search in every subdirectories
 " Add all subdirectories in current location to vim-path.
@@ -120,6 +124,9 @@ nnoremap <F6> :pwd<CR>:lcd %:p:h<CR>
 nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
 "xnoremap <F8> :'<,'>w !python<CR>
 xnoremap <F8> :w !python<CR>
+
+nnoremap <F10> :setlocal spell! set spelllang=en_us<CR>
+
 
 "nnoremap <F8> :!python -c @"<CR>
 "nnoremap <F8> :!python `echo %`<CR>
