@@ -19,6 +19,12 @@ execute pathogen#infect()
 "set statusline+=%{SyntasticStatuslineFlag()}
 "set statusline+=%*
 
+" By turning on spell-checking in our ~/.vimrc, 
+" we’ll be turning on word completion as well.
+" The following command will let us press CTRL-N 
+" or CTRL-P in insert-mode to complete the word 
+" we’re typing!
+"set complete+=kspell
 
 " Search in every subdirectories
 " Add all subdirectories in current location to vim-path.
@@ -113,6 +119,18 @@ set ignorecase smartcase
 """"""""""""""""""""
 "" CUSTOM MAPPING ""
 """"""""""""""""""""
+
+" Create TODO line for the ~/TODO.md.
+" Find the latest note in the file and creates a TODO line 
+" above that note.
+" example output: '[ ]-20170926T1736+0000-'
+nmap <F4> <ESC>O<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA - <ESC>:noh<CR>a
+
+" Create Title
+nmap <F3> <ESC>/----------<CR>kO<ESC>:r !date +\%Y-\%m-\%d<ESC>kJo<Tab>----------<ESC>j:noh<CR><ESC><F4><ESC>o<ESC>kA
+
+"O[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA - <ESC>:noh<CR>a
+
 "au BufNewFile *.py 0r /home/thorgeir/vimtemplates/header.template
 nnoremap <F5> :set list!<CR>
 nnoremap <F6> :pwd<CR>:lcd %:p:h<CR>
@@ -120,10 +138,14 @@ nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
 "xnoremap <F8> :'<,'>w !python<CR>
 xnoremap <F8> :w !python<CR>
 
+nnoremap <F10> :setlocal spell! set spelllang=en_us<CR>
+
+
 "nnoremap <F8> :!python -c @"<CR>
 "nnoremap <F8> :!python `echo %`<CR>
 
 nnoremap za za:syntax sync fromstart<CR>
+
 
 " Create a dubug printing statement in python.
 imap p<Tab> print('=======')<CR>print()

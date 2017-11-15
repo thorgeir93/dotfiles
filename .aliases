@@ -3,7 +3,7 @@ alias ipython_cb='LD_LIBRARY_PATH=/export/unicomplex_data/unicomplex/mounts/wr/s
 alias tmux='TERM=xterm-256color tmux'
 
 # Open all file in the current directory in fullscreen mode.
-alias feh='feh -F *'
+#alias feh='feh -F *'
 #alias ls='ls --color -la'
 
 # 
@@ -52,6 +52,11 @@ alias uxtlm='cd $repository/task/linkmonitor'
 alias uxtvtu='cd $repository/task/virustotal_feed_url'
 alias uxtdow='cd $repository/task/downloaders'
 
+# Let you know when the command has finished.
+# E.g. $ sleep 10 | alert
+# After 10 sec. it will create a pop-up window 
+# in the right upper corner withe 'sleep 10' 
+# as a content.
 #
 # SANDBOX DIRECTORIES SHORTCUTS
 #
