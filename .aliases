@@ -21,6 +21,8 @@ alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="htt
 # vim-movement in ipyton as a default option.
 alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
 
+alias python=/usr/bin/python2.7
+
 # Some hax to get more acces ( i think :/ for usb things)
 alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' 
 

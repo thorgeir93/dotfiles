@@ -28,6 +28,9 @@ execute pathogen#infect()
 
 " Search in every subdirectories
 " Add all subdirectories in current location to vim-path.
+set path+=.
+set path+=/export/unicomplex_data/unicomplex/**
+set path+=/home/thorgeir/gitlab/**
 set path+=**
 
 " Show the file/folder search result in a text bar above the search bar.
@@ -74,13 +77,13 @@ endfunction
 
 " Allow me to use same keys for tmux and vim to switch between windows.
 "github.com/codegangsta/dotfiles/tree/master/vim/vim/bundle/vim-tmux-navigator
-"let g:tmux_navigator_no_mappings = 1
-"nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
-"nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
-"nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
-"nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
-"nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
-"
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
+
 "function! TmuxMove(direction)
 "        let wnr = winnr()
 "        silent! execute 'wincmd ' . a:direction
@@ -277,6 +280,7 @@ let g:dbext_default_profile_c3_fooze_read_drone   ='type=MYSQL:user=drone:passwd
 let g:dbext_default_profile_c4_ipgever_write_root='type=MYSQL:user=root:host=c4ipgever01.amadis.com'
 "let g:dbext_default_profile_c3_sb_write_sba_api='type=MYSQL:user=sba_api:passwd=Pr0nt0API:host=c3sandboxnursery05.amadis.com'
 let g:dbext_default_profile_c3_sb_write_root='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=10.3.32.80'
+let g:dbext_default_profile_c3_sb_new_write_root='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxsql01.amadis.com'
 let g:dbext_default_profile = 'c3_write_thorgeir'
 
 
