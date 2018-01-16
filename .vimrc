@@ -275,12 +275,24 @@ let g:dbext_default_profile_c3_lm_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat
 "let g:dbext_default_profile_c4_sb_read_apt_user='type=MYSQL:user=apt_user:passwd=`cat /home/thorgeir/.config/mysql/sb.txt`:host=c4sbdb01.amadis.com:port=3306'
 let g:dbext_default_profile_c4_sb_read_apt_user='type=MYSQL:user=apt_user:passwd=Pr0nt0@pt:host=c4sbdb01.amadis.com:port=3306'
 
-let g:dbext_default_profile_c3_dev_sb_write_api_user='type=MYSQL:user=api_user:passwd=`cat /home/thorgeir/.config/mysql/sb.txt`:host=c3unicmplx13.amadis.com:port=3306'
 let g:dbext_default_profile_c3_fooze_read_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=10.3.18.41:port=3306'
 let g:dbext_default_profile_c4_ipgever_write_root='type=MYSQL:user=root:host=c4ipgever01.amadis.com'
 "let g:dbext_default_profile_c3_sb_write_sba_api='type=MYSQL:user=sba_api:passwd=Pr0nt0API:host=c3sandboxnursery05.amadis.com'
+
+"let g:dbext_default_profile_c3_unimatrix_drone    ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=c3unicomplexdb01.amadis.com:port=3306'
+let g:dbext_default_profile_c3_db05_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3db05.amadis.com:port=3306'
+let g:dbext_default_profile_c3_logdata_read_slackbot='type=MYSQL:user=slackbot:passwd=gettowork:host=c3logdatadb02.amadis.com:port=3306'
+let g:dbext_default_profile_c3_db03_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3db03.amadis.com:port=3306'
+
+"
+" SANDBOX
+"
 let g:dbext_default_profile_c3_sb_write_root='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=10.3.32.80'
-let g:dbext_default_profile_c3_sb_new_write_root='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxsql01.amadis.com'
+let g:dbext_default_profile_c3_dev_old_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3unicmplx13.amadis.com:port=3306'
+
+let g:dbext_default_profile_c3_dev_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxnursery05.amadis.com'
+let g:dbext_default_profile_c3_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxsql01.amadis.com'
+
 let g:dbext_default_profile = 'c3_write_thorgeir'
 
 
