@@ -133,8 +133,21 @@ vmstart () {
 }
 
 # ssh to server with vi as a terminal navigator.
-ssh () { ssh $@ -lt 'bash -o vi'; }
 
+#ssh_recursive_count=0
+#origin
+#ssh () { 
+#    if [[ $ssh_recursive_count -gt 0 ]]; then
+#        ssh_recursive_count=0
+#    else
+#        ssh_recursive_count=$((ssh_recursive_count))
+#        /bin/ssh $@ -lt 'bash -o vi'; 
+#    fi
+#}
+        
+#ssh () { 
+    #/bin/ssh $@ -t 'bash --login -o vi'
+#}
 
 #######################
 ## KEYBOARD SETTINGS ##

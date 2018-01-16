@@ -25,13 +25,12 @@ alias python=/usr/bin/python2.7
 
 # Some hax to get more acces ( i think :/ for usb things)
 alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' 
-
 alias pdfviewer='evince'
 alias pdfviewer2='zathura'
-
 alias openshot='/home/thorgeir/Downloads/'
-
 alias senv='source /export/unicomplex_data/unicomplex/env.sh'
+
+alias ssh_vi="ssh $@ -lt 'bash -o vi';"
 
 #
 # UNICOMPLEX DIRECTORIES SHORTCUTS
