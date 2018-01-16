@@ -232,6 +232,10 @@ hdmi_orient () {
     xrandr --output LVDS1 --auto --output HDMI1 --auto --right-of LVDS1
 }
 
+hdmi_3_orient () {
+    xrandr --output DP-1 --auto --rotate left --output HDMI-1 --auto --right-of DP-1 --output HDMI-3 --auto --right-of HDMI-1
+}
+
 
 hdmi_monitor_data_office () {
     display1='HDMI-1'
@@ -328,3 +332,4 @@ sup () {
 stty -ixon
 
 source ~/.aliases
+source ~/.kube/zsh_completion # Complete the words for kubectl tool.

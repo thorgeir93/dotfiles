@@ -3,7 +3,7 @@ alias ipython_cb='LD_LIBRARY_PATH=/export/unicomplex_data/unicomplex/mounts/wr/s
 alias tmux='TERM=xterm-256color tmux'
 
 # Open all file in the current directory in fullscreen mode.
-alias feh='feh -F *'
+#alias feh='feh -F *'
 #alias ls='ls --color -la'
 
 # 
@@ -26,16 +26,20 @@ alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="htt
 # vim-movement in ipyton as a default option.
 alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
 
+alias python=/usr/bin/python2.7
+
 # Some hax to get more acces ( i think :/ for usb things)
 alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' 
-
 alias pdfviewer='evince'
 alias pdfviewer2='zathura'
-
 alias openshot='/home/thorgeir/Downloads/'
-
 alias senv='source /export/unicomplex_data/unicomplex/env.sh'
 
+alias ssh_vi="ssh $@ -lt 'bash -o vi';"
+
+#
+# UNICOMPLEX DIRECTORIES SHORTCUTS
+#
 # Changing directories in the unicomplex repository.
 repository=/export/unicomplex_data/unicomplex/
 
@@ -48,11 +52,28 @@ alias uxplf='cd $repository/module/python/linkfunnel'
 alias uxtlf='cd $repository/task/linkfunnel'
 alias uxplm='cd $repository/module/python/linkmonitor'
 alias uxpth='cd $repository/module/python/thorgeir_utils'
-alias uxpapt='cd $reository/module/python/abutils/tools'
+alias uxpapt='cd $repository/module/python/abutils/tools'
+alias uxpaut='cd $repository/module/python/abutils/tools/url_tool'
 alias uxtlm='cd $repository/task/linkmonitor'
 alias uxtvtu='cd $repository/task/virustotal_feed_url'
 alias uxtdow='cd $repository/task/downloaders'
 
+# Let you know when the command has finished.
+# E.g. $ sleep 10 | alert
+# After 10 sec. it will create a pop-up window 
+# in the right upper corner withe 'sleep 10' 
+# as a content.
+#
+# SANDBOX DIRECTORIES SHORTCUTS
+#
+sb_repository=/home/thorgeir/gitlab/sandbox/
+alias sb='cd $sb_repository'
+alias sba='cd $sb_repository/aptlab'
+alias sbac='cd $sb_repository/aptlab/cuckoo'
+alias sbap='cd $sb_repository/aptlab/payload'
+alias sbcca='cd $sb_repository/cuckoo/cuckoo_api'
+
+alias st='cd ~/store/storage/'
 
 alias gw='cd ~/github/webCarouselQ/'
 
