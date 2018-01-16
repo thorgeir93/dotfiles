@@ -223,12 +223,23 @@ vpnoffice () {
     # thorgeirs, SG**.., push, <iphone DUO>, 
 }
 
+vpnoffice_via_duo () {
+    cd ~
+    # old method (RSA)
+    # sudo openvpn --config ~/openvpn/office.ovpn
+    # add username and password (thorgeir, 3jZhpd####)
+   
+    # new method (DUO)
+    sudo openvpn --auth-retry interact --config ~/openvpn3/client.ovpn
+    # thorgeirs, SG**.., push, <iphone DUO>, 
+}
+
 vpnc4 () {
     cd ~
     # old method (RSA)
     # sudo openvpn is the version 2.3
     # openvpn is the version 2.4, we want to use that version.
-    sudo /usr/local/sbin/openvpn --config ~/openvpn/c4.ovpn
+    sudo openvpn --config ~/openvpn/c4.ovpn
     # add username and password 
     # (thsigurdsson, [pin to RSA app] then passw. is the RSA token number)
 }
@@ -245,8 +256,13 @@ sshdev () {
 
 vpnc3 () {
     cd ~
-    sudo openvpn --config ~/openvpn/commtouch2.ovpn
+    # RSA
+    #sudo openvpn --config ~/openvpn/commtouch2.ovpn
     # add username and password (thsigurdsson, pin and rsa passcode)
+
+    # DUO
+    sudo openvpn --auth-retry interact --config ~/openvpn/c3-duo-openvpn.conf 
+    # add username and password (thsigurdsson, /asolf...:push)
 }
 ##############
 ## DISPLAYS ##
@@ -257,6 +273,10 @@ vga_orient () {
 
 hdmi_orient () {
     xrandr --output LVDS1 --auto --output HDMI1 --auto --right-of LVDS1
+}
+
+hdmi_orient_thinkpad () {
+    xrandr --output eDP-1 --auto --output HDMI-2 --auto --left-of eDP-1
 }
 
 
