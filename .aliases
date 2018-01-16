@@ -21,6 +21,8 @@ alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="htt
 # vim-movement in ipyton as a default option.
 alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
 
+alias python=/usr/bin/python2.7
+
 # Some hax to get more acces ( i think :/ for usb things)
 alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' 
 
@@ -47,6 +49,7 @@ alias uxtlf='cd $repository/task/linkfunnel'
 alias uxplm='cd $repository/module/python/linkmonitor'
 alias uxpth='cd $repository/module/python/thorgeir_utils'
 alias uxpapt='cd $repository/module/python/abutils/tools'
+alias uxpaut='cd $repository/module/python/abutils/tools/url_tool'
 alias uxtlm='cd $repository/task/linkmonitor'
 alias uxtvtu='cd $repository/task/virustotal_feed_url'
 alias uxtdow='cd $repository/task/downloaders'
@@ -64,6 +67,7 @@ alias sb='cd $sb_repository'
 alias sba='cd $sb_repository/aptlab'
 alias sbac='cd $sb_repository/aptlab/cuckoo'
 alias sbap='cd $sb_repository/aptlab/payload'
+alias sbcca='cd $sb_repository/cuckoo/cuckoo_api'
 
 alias st='cd ~/store/storage/'
 
