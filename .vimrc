@@ -138,9 +138,10 @@ hi Folded cterm=underline ctermfg=80 ctermbg=168
 hi Comment ctermfg=37
 hi Todo cterm=underline ctermfg=80 ctermbg=168
 hi Search cterm=bold,underline ctermfg=24 ctermbg=168
-hi StatusLine cterm=bold ctermbg=80
 hi VertSplit cterm=bold ctermbg=80
-hi StatusLineNC cterm=bold ctermbg=80
+
+hi StatusLine ctermfg=64 ctermbg=80 cterm=bold
+hi StatusLineNC ctermfg=249 ctermbg=80 cterm=none
 
 hi WildMenu cterm=underline ctermfg=6 ctermbg=Yellow
 
@@ -199,22 +200,11 @@ set laststatus=2
 " Show b:keymap_name in status line.
 "set statusline^=%k
 set statusline=
-"set statusline+=%#Folded#
-"set statusline+=\ %f
-set statusline+=\ %f
-set statusline+=%m\
+set statusline+=\ \ \ \ %f
+set statusline+=%m
 set statusline+=%=
-set statusline+=\ %y
-set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-set statusline+=\[%{&fileformat}\]
-set statusline+=\ %p%%
 set statusline+=\ %l:%c
-set statusline+=\
-"hi StatusLine ctermbg=White cterm=Bold ctermfg=Black
-"hi StatusLineNC ctermbg=White cterm=Italic ctermfg=Black
-"hi StatusLine ctermbg=DarkRed
-"hi StatusLineNC ctermbg=Gray
-"hi StatusLineNC cterm=Italic
+set statusline+=\ %p%%\ \ \ \ 
 
 """""""""""""""""""
 "" Fold settings ""
