@@ -2,7 +2,7 @@
 !URxvt.font:xft:Monaco:pixelsize=10
 URxvt*font: xft:Dejavu Sans Mono:pixelsize=11
 !URxvt.font:xft:Monaco:pixelsize=11
-#URxvt.font:xft:DejaVu Sans Mono:style=Book:pixelsize=14
+!URxvt.font:xft:DejaVu Sans Mono:style=Book:pixelsize=14
 URxvt.background:       black
 URxvt.foreground:       white
 URxvt.scrollBar:        false

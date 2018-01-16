@@ -2,7 +2,7 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+    . /etc/bashrc
 fi
 
 # Enable vim commands in bash
@@ -98,14 +98,14 @@ battery () {
 # it would go to third parent directory above
 mkcd () {
     # Creates a directory og move into it
-	mkdir "$1"
-	cd "$1"
+    mkdir "$1"
+    cd "$1"
 }
 
 cpcd () {
     # copy the file to path and then goes to that path
-	cp "$1" "$2"
-	cd "$2"
+    cp "$1" "$2"
+    cd "$2"
 }
 
 cdls() { cd "$@" && ls;  }
@@ -116,20 +116,20 @@ cd3 () { cd "../../..";  }
 ## ENTERTAINMENT ##
 ###################
 sup () {
-	echo "$1" | curl -F "sprunge=<-" http://sprunge.us | xclip -selection "clipboard" 
+    echo "$1" | curl -F "sprunge=<-" http://sprunge.us | xclip -selection "clipboard" 
 }
 
 ######################
 ## VIRTUAL MACHINES ##
 ######################
 vmssh () {
-	cd ~/Documents/virtual_machine/vagrant
-	sudo vagrant ssh
+    cd ~/Documents/virtual_machine/vagrant
+    sudo vagrant ssh
 }
 
 vmstart () {
-	cd ~/Documents/virtual_machine/vagrant
-	sudo vagrant up
+    cd ~/Documents/virtual_machine/vagrant
+    sudo vagrant up
 }
 
 # ssh to server with vi as a terminal navigator.
@@ -283,6 +283,20 @@ hdmi_orient () {
     xrandr --output LVDS1 --auto --output HDMI1 --auto --right-of LVDS1
 }
 
+hdmi_orient_3 () {
+    # Positions:
+    #  __  __  __
+    # |  ||__||__|
+    # |__|
+    #
+    leftt_display="DP-1"
+    middle_display="HDMI-1"
+    right_display='HDMI-3'
+    xrandr  --output $left --auto --rotate left \
+            --output $middle --auto --right-of $left \
+            --output $right --auto --right-of $middle
+}
+
 
 hdmi_monitor_data_office () {
     display1='HDMI-1'
@@ -361,6 +375,10 @@ cptext () {
 ##########################
 mykill() {
     for pid in pgrep $1; do pkill $pid; done 
+}
+
+function cal_is () {
+    python ~/github/thorgeir/calendar_icelandic/cal_is.py
 }
 
 ####################

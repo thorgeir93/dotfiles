@@ -119,6 +119,35 @@ set number
 set ruler
 set ignorecase smartcase
 
+
+"
+" Colorize
+"
+" Run :hi to list the current color scheme.
+" Display current colorscheme for component.
+"   :so $VIMRUNTIME/syntax/hitest.vim
+" Change the color for a special key component.
+"   :hi <Special key> term=standout ctermfg=21 ctermbg=168 guifg=Cyan guibg=DarkGrey
+
+" Light blue
+hi Statement ctermfg=41
+hi MatchParen term=underline ctermbg=15
+hi Identifier term=NONE cterm=None ctermfg=9
+hi Function ctermfg=52
+hi Folded cterm=underline ctermfg=80 ctermbg=168
+hi Comment ctermfg=37
+hi Todo cterm=underline ctermfg=80 ctermbg=168
+hi Search cterm=bold,underline ctermfg=24 ctermbg=168
+hi StatusLine cterm=bold ctermbg=80
+hi VertSplit cterm=bold ctermbg=80
+hi StatusLineNC cterm=bold ctermbg=80
+
+hi WildMenu cterm=underline ctermfg=6 ctermbg=Yellow
+
+hi Visual term=reverse cterm=reverse guibg=Grey
+syntax on
+
+
 """"""""""""""""""""
 "" CUSTOM MAPPING ""
 """"""""""""""""""""
@@ -163,16 +192,24 @@ nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 nnoremap <silent> <Leader>0 :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> <Leader>9 :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 
-""" colors
-hi Visual term=reverse cterm=reverse guibg=Grey
-hi Folded ctermbg=168
-syntax on
-
 "
 " STATUSLINE
 "
+set laststatus=2
 " Show b:keymap_name in status line.
-" set statusline^=%k
+"set statusline^=%k
+set statusline=
+"set statusline+=%#Folded#
+"set statusline+=\ %f
+set statusline+=\ %f
+set statusline+=%m\
+set statusline+=%=
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\
 "hi StatusLine ctermbg=White cterm=Bold ctermfg=Black
 "hi StatusLineNC ctermbg=White cterm=Italic ctermfg=Black
 "hi StatusLine ctermbg=DarkRed
@@ -186,8 +223,8 @@ if has("folding")
     set foldenable        " enable folding
     set foldmethod=indent " fold based on syntax highlighting
     set fillchars="fold:"
-    hi Folded ctermbg=168
-    hi Folded ctermfg=21
+    "hi Folded ctermbg=168
+    "hi Folded ctermfg=21
     set foldtext=FoldText()
     "function! FoldText()
     "      
