@@ -55,8 +55,10 @@ alias uxpth='cd $repository/module/python/thorgeir_utils'
 alias uxpapt='cd $repository/module/python/abutils/tools'
 alias uxpaut='cd $repository/module/python/abutils/tools/url_tool'
 alias uxtlm='cd $repository/task/linkmonitor'
-alias uxtvtu='cd $repository/task/virustotal_feed_url'
+alias uxtvt='cd $repository/task/virustotal_feed'
 alias uxtdow='cd $repository/task/downloaders'
+alias uxtsc='cd $repository/task/scaleway_'
+alias uxtsc='cd $repository/task/scaleway_ip_rotator'
 
 # Let you know when the command has finished.
 # E.g. $ sleep 10 | alert
