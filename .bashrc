@@ -316,9 +316,9 @@ hdmi_orient_3 () {
     # |  ||__||__|
     # |__|
     #
-    leftt_display="DP-1"
-    middle_display="HDMI-1"
-    right_display='HDMI-3'
+    left="DP-1"
+    middle="HDMI-1"
+    right='HDMI-3'
     xrandr  --output $left --auto --rotate left \
             --output $middle --auto --right-of $left \
             --output $right --auto --right-of $middle
@@ -377,6 +377,7 @@ hdmi_bright_down_office () {
     xrandr --output $display2 --brightness $SUB
 }
 
+hdmi_orient_3
 
 ##########
 ## COPY ##
@@ -405,7 +406,7 @@ mykill() {
 }
 
 function cal_is () {
-    python ~/github/thorgeir/calendar_icelandic/cal_is.py
+    python ~/github/thorgeir/calendar_icelandic/cal_is.py "$@"
 }
 
 ####################

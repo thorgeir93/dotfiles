@@ -157,7 +157,7 @@ syntax on
 " Find the latest note in the file and creates a TODO line 
 " above that note.
 " example output: '[ ]-20170926T1736+0000-'
-nmap <F4> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA - <ESC>:noh<CR>a
+nmap <F4> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA -  <ESC>:noh<CR>a
 
 " Create Title
 nmap <F3> <ESC>/----------<CR>kO<ESC>:r !date +\%Y-\%m-\%d<ESC>kJo<Tab>----------<ESC>j:noh<CR><ESC><F4><ESC>o<ESC>kA
