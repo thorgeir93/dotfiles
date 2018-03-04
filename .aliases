@@ -18,7 +18,8 @@ alias img='gpicview'
 alias vncviewer='vncviewer -Shared'
 
 # For the office network.
-alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="http://jira-proxy.mordor.local/proxy.pac"' 
+#alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="http://jira-proxy.mordor.local/proxy.pac"' 
+alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="http://10.101.255.240/proxy.pac"' 
 
 # I use files instead.
 #alias c3devwritedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-dev-config'
@@ -81,3 +82,5 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # for the .dotfiles repository.
 alias config='/usr/bin/git --git-dir=/home/thorgeir/.cfg/ --work-tree=/home/thorgeir'
+
+alias slack-term='/usr/bin/slack-term -config ~/.config/slack-term/slack-term.json'
