@@ -36,6 +36,10 @@ set path+=**
 " Show the file/folder search result in a text bar above the search bar.
 set wildmenu
 
+" change the current working directory whenever you
+" open a file, switch buffers, delete a buffer or open/close a window.
+set autochdir
+
 let mapleader=" "
 
 set tags =./tags,tags;
@@ -101,8 +105,9 @@ nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 set backspace=indent,eol,start
 set foldmethod=indent
 
-set scrolloff=10    " N spaces between the cursor and the end of the file 
-                    " and the beginning of the file
+" N spaces between the cursor and the end of the file 
+" and the beginning of the file
+set scrolloff=10    
 set background=dark
 set tabstop=4
 set shiftwidth=4    " Indents will have a width of 4
@@ -127,7 +132,8 @@ set ignorecase smartcase
 " Display current colorscheme for component.
 "   :so $VIMRUNTIME/syntax/hitest.vim
 " Change the color for a special key component.
-"   :hi <Special key> term=standout ctermfg=21 ctermbg=168 guifg=Cyan guibg=DarkGrey
+"   :hi <Special key> term=standout ctermfg=21 ctermbg=168 \
+"   guifg=Cyan guibg=DarkGrey
 
 " Light blue
 hi Statement ctermfg=41
@@ -140,24 +146,30 @@ hi Todo cterm=underline ctermfg=80 ctermbg=168
 hi Search cterm=bold,underline ctermfg=24 ctermbg=168
 hi VertSplit cterm=bold ctermbg=80
 
-hi StatusLine ctermfg=64 ctermbg=80 cterm=bold
-hi StatusLineNC ctermfg=249 ctermbg=80 cterm=none
-
-hi WildMenu cterm=underline ctermfg=6 ctermbg=Yellow
+hi StatusLine ctermfg=12 ctermbg=80 cterm=bold
+hi StatusLineNC ctermfg=11 ctermbg=80 cterm=none
+hi WildMenu cterm=bold ctermfg=14 ctermbg=16
 
 hi Visual term=reverse cterm=reverse guibg=Grey
+
+hi TabLineFill cterm=none ctermfg=64 ctermbg=80
+hi TabLineSel cterm=none ctermfg=12 ctermbg=16
+hi TabLine cterm=none ctermfg=12 ctermbg=80
+
 syntax on
 
+" Highlight columns that are longer than 75 columns
+" with Error message color highlighting.
+match ErrorMsg '\%>75v.\+'
 
 """"""""""""""""""""
 "" CUSTOM MAPPING ""
 """"""""""""""""""""
-
 " Create TODO line for the ~/TODO.md.
 " Find the latest note in the file and creates a TODO line 
 " above that note.
 " example output: '[ ]-20170926T1736+0000-'
-nmap <F4> <ESC>O<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA - <ESC>:noh<CR>a
+nmap <F4> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA -  <ESC>:noh<CR>a
 
 " Create Title
 nmap <F3> <ESC>/----------<CR>kO<ESC>:r !date +\%Y-\%m-\%d<ESC>kJo<Tab>----------<ESC>j:noh<CR><ESC><F4><ESC>o<ESC>kA
@@ -168,14 +180,9 @@ nmap <F3> <ESC>/----------<CR>kO<ESC>:r !date +\%Y-\%m-\%d<ESC>kJo<Tab>---------
 nnoremap <F5> :set list!<CR>
 nnoremap <F6> :pwd<CR>:lcd %:p:h<CR>
 nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
-"xnoremap <F8> :'<,'>w !python<CR>
 xnoremap <F8> :w !python<CR>
 
 nnoremap <F10> :setlocal spell! set spelllang=en_us<CR>
-
-
-"nnoremap <F8> :!python -c @"<CR>
-"nnoremap <F8> :!python `echo %`<CR>
 
 nnoremap za za:syntax sync fromstart<CR>
 
@@ -275,14 +282,38 @@ autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
 function! DBextPostResult(db_type, buf_nr)
     " If dealing with a MYSQL database
     if a:db_type == 'MYSQL'
-        " Assuming the first column is an integer
-        " highlight it using the WarningMsg color
-        silent !notify-send -t 100 "MySQL Query Finish"
-        redraw!
-        "syntax sync fromstart
-        "!paplay /usr/share/sounds/freedesktop/stereo/complete.oga
+
+        " Bind horizontal scrolling for 'scrollbind' windows.
+        " (default: ver,jump)
+        set scrollopt=hor
+
+        " Bind buffers (lock them toogether)
+        set scrollbind
+
+        " Split the current buffer with height 3xrow
+        3split
+
+        " Lock the window height.
+        set winfixheight
+
+        " Your position is in the splitted window.
+        " Delete the unnecessary information at the top
+        " by deleting the next two lines.
+        execute "normal dj"
     endif
 endfunction
+
+
+"let g:dbext_default_buffer_lines=40
+let g:dbext_default_buffer_lines = 60
+
+" If you want each buffer to have its OWN Result buffer, you can define:
+"let g:dbext_default_use_sep_result_buffer = 1 " (default=0)
+
+" When the command is run, the results are displayed in the Result
+" buffer, setting display_cmd_line = 1, will also display the command
+" that was run to generate the output.  Useful for debugging.
+"let g:dbext_default_display_cmd_line = 1
 
 
 " Change the default profile by write 
@@ -296,6 +327,7 @@ let g:dbext_default_profile_c3_ms_read_drone   ='type=MYSQL:user=drone:passwd=`c
 let g:dbext_default_profile_c3_dev_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3dev-db01.amadis.com:port=3306'
 let g:dbext_default_profile_c3_uni_read_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=10.3.18.41:port=3306'
 let g:dbext_default_profile_c3_lm_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=c3db04.amadis.com:port=3306'
+let g:dbext_default_profile_c3_lm_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=10.3.18.32:port=3306'
 let g:dbext_default_profile_c3_lm_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3db04.amadis.com:port=3306'
 
 "mysql --user=apt_user --host=c4sbdb01 --password=Pr0nt0@pt
@@ -310,6 +342,9 @@ let g:dbext_default_profile_c4_ipgever_write_root='type=MYSQL:user=root:host=c4i
 let g:dbext_default_profile_c3_db05_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3db05.amadis.com:port=3306'
 let g:dbext_default_profile_c3_logdata_read_slackbot='type=MYSQL:user=slackbot:passwd=gettowork:host=c3logdatadb02.amadis.com:port=3306'
 let g:dbext_default_profile_c3_db03_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3db03.amadis.com:port=3306'
+let g:dbext_default_profile_c3_sb_write_root='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=10.3.32.80'
+
+let g:dbext_default_profile_c3_yara_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3yaradb01.amadis.com'
 
 "
 " SANDBOX

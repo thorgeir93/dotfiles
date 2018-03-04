@@ -5,6 +5,21 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
+#############################
+# BASH/PROMPT CUSTOMIZATION #
+#############################
+#USER="\e[96m\e[48;5;16m"
+#HI="\e[34m"
+#USER="\e[96m"
+#BRACKET="\e[93m"
+#RESET="\e[0m"
+#
+#FIRST_PART_PS1="${BRACKET}[${RESET}${HI}\u${RESET}${BRACKET}@"
+#SECOND_PART_PS1="${RESET}${HI}\h${RESET} ${USER}\W${RESET}${BRACKET}]${RESET}${USER}\$ ${RESET}"
+#PS1=${FIRST_PART_PS1}${SECOND_PART_PS1}
+
+#PS1="${BRACKET}[\u${USER}@${RESET}${BRACKET}\h${RESET} ${USER}\W${RESET}${BRACKET}]\$ ${RESET}"
+
 # Enable vim commands in bash
 set -o vi
 
@@ -14,6 +29,9 @@ export EDITOR=vim
 # For Boost library.
 export LIBS="-L/home/thorgeir/downloads/boost_1_64_0/stage/lib"
 export CPPFLAGS="-I/home/thorgeir/downloads/boost_1_64_0"
+
+# To make kafkacat work.
+export LD_LIBRARY_PATH=/usr/local/lib
 
 # For the mdv tool (terminal markdown viewer)
 export MDV_THEME=995.1179
@@ -317,9 +335,9 @@ hdmi_orient_3 () {
     # |  ||__||__|
     # |__|
     #
-    leftt_display="DP-1"
-    middle_display="HDMI-1"
-    right_display='HDMI-3'
+    left="DP-1"
+    middle="HDMI-1"
+    right='HDMI-3'
     xrandr  --output $left --auto --rotate left \
             --output $middle --auto --right-of $left \
             --output $right --auto --right-of $middle
@@ -378,6 +396,7 @@ hdmi_bright_down_office () {
     xrandr --output $display2 --brightness $SUB
 }
 
+hdmi_orient_3
 
 ##########
 ## COPY ##
@@ -406,7 +425,7 @@ mykill() {
 }
 
 function cal_is () {
-    python ~/github/thorgeir/calendar_icelandic/cal_is.py
+    python ~/github/thorgeir/calendar_icelandic/cal_is.py "$@"
 }
 
 ####################
