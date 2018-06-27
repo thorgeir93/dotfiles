@@ -67,14 +67,14 @@ wifi_list() {
 }
 
 wifi_connect() {
-    # :param: <WIFI name> <Password>
+    # :params: <WIFI name> <Password>
     #   Accept a wifi name which you can get from `wifi_list` command.
     #   and a password to access the router.
     nmcli device wifi connect $1 password $2 
 }
 
 wifi_connect_no_password() {
-    # :param: <WIFI name> <Password>
+    # :param: <WIFI name>
     #   Accept a wifi name which you can get from `wifi_list` command.
     #   and a password to access the router.
     nmcli device wifi connect $1
@@ -281,6 +281,7 @@ vpnoffice_via_duo () {
     # new method (DUO)
     sudo openvpn --auth-retry interact --config ~/openvpn3/client.ovpn
     # thorgeirs, SG**.., push, <iphone DUO>, 
+    # Update 4. mars 2018: thorgeirs/SG..2 and wait for 4 sec. and then type push.
 }
 
 vpnc4 () {
