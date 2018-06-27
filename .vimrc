@@ -1,4 +1,4 @@
-"execute pathogen#infect()
+execute pathogen#infect()
 
 "set nocompatible              " be iMproved, required
 "filetype off                  " required
@@ -40,7 +40,7 @@ set wildmenu
 " open a file, switch buffers, delete a buffer or open/close a window.
 set autochdir
 
-let mapleader=" "
+"let mapleader=" "
 
 set tags =./tags,tags;
 "set tags+=~/sandbox/aptlab/bank_api2.tags;
@@ -160,7 +160,7 @@ syntax on
 
 " Highlight columns that are longer than 75 columns
 " with Error message color highlighting.
-match ErrorMsg '\%>75v.\+'
+"match ErrorMsg '\%>75v.\+'
 
 """"""""""""""""""""
 "" CUSTOM MAPPING ""
@@ -352,8 +352,13 @@ let g:dbext_default_profile_c3_yara_read_drone='type=MYSQL:user=drone:passwd=ass
 let g:dbext_default_profile_c3_sb_write_root='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=10.3.32.80'
 let g:dbext_default_profile_c3_dev_old_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3unicmplx13.amadis.com:port=3306'
 
+let g:dbext_default_profile_c3_dev_sb_write_apt_user='type=MYSQL:user=apt_user:passwd=Pr0nt0@pt:host=c3sandboxnursery05.amadis.com'
 let g:dbext_default_profile_c3_dev_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxnursery05.amadis.com'
 let g:dbext_default_profile_c3_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxsql01.amadis.com'
+
+
+" Berlin
+let g:dbext_default_profile_ber1_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=production-av-mysql-sandbox-ber1-001.ber1.cynet'
 
 let g:dbext_default_profile = 'c3_write_thorgeir'
 
