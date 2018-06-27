@@ -68,15 +68,13 @@ alias uxtsc='cd $repository/task/scaleway_ip_rotator'
 #
 # SANDBOX DIRECTORIES SHORTCUTS
 #
-sb_repository=/home/thorgeir/gitlab/sandbox
+sb_repository=/home/thorgeir/gitlab/sandbox_array
 alias sb='cd $sb_repository'
 alias sba='cd $sb_repository/aptlab'
 alias sbac='cd $sb_repository/aptlab/cuckoo'
 alias sbap='cd $sb_repository/aptlab/payload'
 alias sbcca='cd $sb_repository/cuckoo/cuckoo_api'
 alias sbdep='cd $sb_repository/sandbox_array_deployment'
-
-alias st='cd ~/store/storage/'
 
 alias gw='cd ~/github/webCarouselQ/'
 

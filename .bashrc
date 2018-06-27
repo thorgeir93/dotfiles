@@ -288,9 +288,16 @@ vpnc4 () {
     # old method (RSA)
     # sudo openvpn is the version 2.3
     # openvpn is the version 2.4, we want to use that version.
-    sudo openvpn --config ~/openvpn/c4.ovpn
+    #sudo openvpn --config ~/openvpn/c4.ovpn
     # add username and password 
     # (thsigurdsson, [pin to RSA app] then passw. is the RSA token number)
+
+    # Last update: 2018-03-07
+    sudo /root/Downloads/openvpn-2.4.5/src/openvpn/openvpn --config /home/thorgeir/openvpn/c4.ovpn
+    #sudo su --command="/home/thorgeir/Downloads/openvpn-2.4.5/src/openvpn --config /home/thorgeir/openvpn/c4.ovpn"
+    #        --shell=/bin/bash root
+    # add username and password 
+    # (thsigurdsson,  </a...!>:push)
 }
 
 sshoffice () {
@@ -423,9 +430,9 @@ mykill() {
     for pid in pgrep $1; do pkill $pid; done 
 }
 
-function cal_is () {
-    python ~/github/thorgeir/calendar_icelandic/cal_is.py "$@"
-}
+#function cal_is () {
+#    python ~/github/thorgeir/calendar_icelandic/cal_is/cal_is.py "$@"
+#}
 
 ####################
 ## SYSTEM CONTROL ##
