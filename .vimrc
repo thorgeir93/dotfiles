@@ -1,4 +1,4 @@
-"execute pathogen#infect()
+execute pathogen#infect()
 
 "set nocompatible              " be iMproved, required
 "filetype off                  " required
@@ -160,7 +160,7 @@ syntax on
 
 " Highlight columns that are longer than 75 columns
 " with Error message color highlighting.
-match ErrorMsg '\%>75v.\+'
+"match ErrorMsg '\%>75v.\+'
 
 """"""""""""""""""""
 "" CUSTOM MAPPING ""
