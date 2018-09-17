@@ -53,23 +53,17 @@ alias uxplf='cd $repository/module/python/linkfunnel'
 alias uxtlf='cd $repository/task/linkfunnel'
 alias uxplm='cd $repository/module/python/linkmonitor'
 alias uxpth='cd $repository/module/python/thorgeir_utils'
-alias uxpapt='cd $repository/module/python/abutils/tools'
-alias uxpaut='cd $repository/module/python/abutils/tools/url_tool'
+alias uxpab='cd $repository/module/python/abutils/tools'
+alias uxpabu='cd $repository/module/python/abutils/tools/url_tool'
 alias uxtlm='cd $repository/task/linkmonitor'
 alias uxtvt='cd $repository/task/virustotal_feed'
 alias uxtdow='cd $repository/task/downloaders'
-alias uxtsc='cd $repository/task/scaleway_'
 alias uxtsc='cd $repository/task/scaleway_ip_rotator'
+alias uxtsm='cd $repository/task/sandbox_monitoring'
 
-# Let you know when the command has finished.
-# E.g. $ sleep 10 | alert
-# After 10 sec. it will create a pop-up window 
-# in the right upper corner withe 'sleep 10' 
-# as a content.
-#
 # SANDBOX DIRECTORIES SHORTCUTS
 #
-sb_repository=/home/thorgeir/gitlab/sandbox
+sb_repository=/home/thorgeir/gitlab/sandbox_array
 alias sb='cd $sb_repository'
 alias sba='cd $sb_repository/aptlab'
 alias sbac='cd $sb_repository/aptlab/cuckoo'
@@ -81,6 +75,11 @@ alias st='cd ~/store/storage/'
 
 alias gw='cd ~/github/webCarouselQ/'
 
+# Let you know when the command has finished.
+# E.g. $ sleep 10 | alert
+# After 10 sec. it will create a pop-up window 
+# in the right upper corner withe 'sleep 10' 
+# as a content.
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # for the .dotfiles repository.
