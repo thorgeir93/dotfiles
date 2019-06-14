@@ -170,9 +170,10 @@ vmstart () {
 #    fi
 #}
         
-#ssh () { 
-    #/bin/ssh $@ -t 'bash --login -o vi'
-#}
+drone () { 
+    drone_nr=${1}
+    /bin/ssh drone${drone_nr} -t 'cd /export/unicomplex_data/unicomplex ; bash --login -o vi'
+}
 
 #######################
 ## KEYBOARD SETTINGS ##
@@ -342,12 +343,33 @@ hdmi_orient_3 () {
     # |  ||__||__|
     # |__|
     #
-    left="DP-1"
-    middle="HDMI-1"
-    right='HDMI-3'
-    xrandr  --output $left --auto --rotate left \
-            --output $middle --auto --right-of $left \
-            --output $right --auto --right-of $middle
+
+    # Positions:
+    #  __  __  __ 
+    # |__||__||  |
+    #         |__|
+    #
+    communication="DP-2"
+    #up="DVI-I-2"
+    #--output $up --auto  --left-of $left \
+    browser='HDMI-2'
+    code="HDMI-1"
+    xrandr  --output $communication --auto --rotate left \
+            --output $browser --auto --left-of $communication \
+            --output $code --auto --left-of $browser
+   
+        
+    # Positions:
+    #  __  __  __
+    # |__||  ||__|
+    #     |__|
+    #
+    #communication="HDMI-1"
+    #browser='HDMI-3'
+    #code="DP-1"
+    #xrandr  --output $code --auto \
+    #        --output $communication --auto --rotate normal --left-of $code \
+    #        --output $browser --auto --right-of $code
 }
 
 
