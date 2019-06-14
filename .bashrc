@@ -270,7 +270,7 @@ vpnoffice () {
    
     # new method (DUO)
     sudo openvpn --auth-retry interact --config ~/openvpn3/client.ovpn
-    # thorgeirs, SG**.., push, <iphone DUO>, 
+    # thorgeirs, SG**.01, push, <iphone DUO>, 
 }
 
 vpnoffice_via_duo () {
@@ -282,7 +282,8 @@ vpnoffice_via_duo () {
     # new method (DUO)
     sudo openvpn --auth-retry interact --config ~/openvpn3/client.ovpn
     # thorgeirs, SG**.., push, <iphone DUO>, 
-    # Update 4. mars 2018: thorgeirs/SG..2 and wait for 4 sec. and then type push.
+    # Update 4. mars 2018: thorgeirs/SG..6! and wait for 4 sec. and then type push.
+    # Update 19. may 2018: thorgeirs/SG..1 and wait for 4 sec. and then type push.
 }
 
 vpnc4 () {
@@ -425,7 +426,7 @@ hdmi_bright_down_office () {
     xrandr --output $display2 --brightness $SUB
 }
 
-hdmi_orient_3
+#hdmi_orient_3
 
 ##########
 ## COPY ##
@@ -456,6 +457,12 @@ mykill() {
 #function cal_is () {
 #    python ~/github/thorgeir/calendar_icelandic/cal_is/cal_is.py "$@"
 #}
+
+is_caps_lock_on () {
+    xset q | grep LED | tail -c 2
+}
+
+
 
 ####################
 ## SYSTEM CONTROL ##
