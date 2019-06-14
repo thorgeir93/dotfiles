@@ -71,8 +71,6 @@ alias sbap='cd $sb_repository/aptlab/payload'
 alias sbcca='cd $sb_repository/cuckoo/cuckoo_api'
 alias sbdep='cd $sb_repository/sandbox_array_deployment'
 
-alias st='cd ~/store/storage/'
-
 alias gw='cd ~/github/webCarouselQ/'
 
 # Let you know when the command has finished.

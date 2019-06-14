@@ -170,9 +170,10 @@ vmstart () {
 #    fi
 #}
         
-#ssh () { 
-    #/bin/ssh $@ -t 'bash --login -o vi'
-#}
+drone () { 
+    drone_nr=${1}
+    /bin/ssh drone${drone_nr} -t 'cd /export/unicomplex_data/unicomplex ; bash --login -o vi'
+}
 
 #######################
 ## KEYBOARD SETTINGS ##
@@ -269,7 +270,7 @@ vpnoffice () {
    
     # new method (DUO)
     sudo openvpn --auth-retry interact --config ~/openvpn3/client.ovpn
-    # thorgeirs, SG**.., push, <iphone DUO>, 
+    # thorgeirs, SG**.01, push, <iphone DUO>, 
 }
 
 vpnoffice_via_duo () {
@@ -281,7 +282,8 @@ vpnoffice_via_duo () {
     # new method (DUO)
     sudo openvpn --auth-retry interact --config ~/openvpn3/client.ovpn
     # thorgeirs, SG**.., push, <iphone DUO>, 
-    # Update 4. mars 2018: thorgeirs/SG..2 and wait for 4 sec. and then type push.
+    # Update 4. mars 2018: thorgeirs/SG..6! and wait for 4 sec. and then type push.
+    # Update 19. may 2018: thorgeirs/SG..1 and wait for 4 sec. and then type push.
 }
 
 vpnc4 () {
@@ -289,9 +291,16 @@ vpnc4 () {
     # old method (RSA)
     # sudo openvpn is the version 2.3
     # openvpn is the version 2.4, we want to use that version.
-    sudo openvpn --config ~/openvpn/c4.ovpn
+    #sudo openvpn --config ~/openvpn/c4.ovpn
     # add username and password 
     # (thsigurdsson, [pin to RSA app] then passw. is the RSA token number)
+
+    # Last update: 2018-03-07
+    sudo /root/Downloads/openvpn-2.4.5/src/openvpn/openvpn --config /home/thorgeir/openvpn/c4.ovpn
+    #sudo su --command="/home/thorgeir/Downloads/openvpn-2.4.5/src/openvpn --config /home/thorgeir/openvpn/c4.ovpn"
+    #        --shell=/bin/bash root
+    # add username and password 
+    # (thsigurdsson,  </a...!>:push)
 }
 
 sshoffice () {
@@ -335,12 +344,33 @@ hdmi_orient_3 () {
     # |  ||__||__|
     # |__|
     #
-    left="DP-1"
-    middle="HDMI-1"
-    right='HDMI-3'
-    xrandr  --output $left --auto --rotate left \
-            --output $middle --auto --right-of $left \
-            --output $right --auto --right-of $middle
+
+    # Positions:
+    #  __  __  __ 
+    # |__||__||  |
+    #         |__|
+    #
+    communication="DP-2"
+    #up="DVI-I-2"
+    #--output $up --auto  --left-of $left \
+    browser='HDMI-2'
+    code="HDMI-1"
+    xrandr  --output $communication --auto --rotate left \
+            --output $browser --auto --left-of $communication \
+            --output $code --auto --left-of $browser
+   
+        
+    # Positions:
+    #  __  __  __
+    # |__||  ||__|
+    #     |__|
+    #
+    #communication="HDMI-1"
+    #browser='HDMI-3'
+    #code="DP-1"
+    #xrandr  --output $code --auto \
+    #        --output $communication --auto --rotate normal --left-of $code \
+    #        --output $browser --auto --right-of $code
 }
 
 
@@ -396,7 +426,7 @@ hdmi_bright_down_office () {
     xrandr --output $display2 --brightness $SUB
 }
 
-hdmi_orient_3
+#hdmi_orient_3
 
 ##########
 ## COPY ##
@@ -424,9 +454,15 @@ mykill() {
     for pid in pgrep $1; do pkill $pid; done 
 }
 
-function cal_is () {
-    python ~/github/thorgeir/calendar_icelandic/cal_is.py "$@"
+#function cal_is () {
+#    python ~/github/thorgeir/calendar_icelandic/cal_is/cal_is.py "$@"
+#}
+
+is_caps_lock_on () {
+    xset q | grep LED | tail -c 2
 }
+
+
 
 ####################
 ## SYSTEM CONTROL ##

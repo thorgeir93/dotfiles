@@ -1,4 +1,4 @@
-execute pathogen#infect()
+"execute pathogen#infect()
 
 "set nocompatible              " be iMproved, required
 "filetype off                  " required
@@ -194,6 +194,8 @@ nnoremap za za:syntax sync fromstart<CR>
 
 " Create a dubug printing statement in python.
 imap p<Tab> print('=======')<CR>print()
+imap j<Tab> print(json.dumps(, indent=3, default=str))
+
 " Generates a fold skeleton.
 nmap fold1<Tab> i#-- <CR>{{{1<CR>1}}}<ESC>kkA 
 nmap fold2<Tab> i#-- <CR>{{{2<CR>2}}}<ESC>kkA 
