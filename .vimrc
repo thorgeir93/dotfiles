@@ -284,29 +284,29 @@ autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
 " Size of the window
 " let g:dbext_default_buffer_lines = 40
 " Notify user when MySQL query have finish
-function! DBextPostResult(db_type, buf_nr)
-    " If dealing with a MYSQL database
-    if a:db_type == 'MYSQL'
-
-        " Bind horizontal scrolling for 'scrollbind' windows.
-        " (default: ver,jump)
-        set scrollopt=hor
-
-        " Bind buffers (lock them toogether)
-        set scrollbind
-
-        " Split the current buffer with height 3xrow
-        3split
-
-        " Lock the window height.
-        set winfixheight
-
-        " Your position is in the splitted window.
-        " Delete the unnecessary information at the top
-        " by deleting the next two lines.
-        execute "normal dj"
-    endif
-endfunction
+"function! DBextPostResult(db_type, buf_nr)
+"    " If dealing with a MYSQL database
+"    if a:db_type == 'MYSQL'
+"
+"        " Bind horizontal scrolling for 'scrollbind' windows.
+"        " (default: ver,jump)
+"        set scrollopt=hor
+"
+"        " Bind buffers (lock them toogether)
+"        set scrollbind
+"
+"        " Split the current buffer with height 3xrow
+"        3split
+"
+"        " Lock the window height.
+"        set winfixheight
+"
+"        " Your position is in the splitted window.
+"        " Delete the unnecessary information at the top
+"        " by deleting the next two lines.
+"        execute "normal dj"
+"    endif
+"endfunction
 
 
 "let g:dbext_default_buffer_lines=40
