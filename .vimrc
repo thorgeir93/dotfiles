@@ -174,18 +174,67 @@ syntax on
 " Find the latest note in the file and creates a TODO line 
 " above that note.
 " example output: '[ ]-20170926T1736+0000-'
-nmap <F4> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA -  <ESC>:noh<CR>a
+
+let g:TODO_START = "*"
+let g:TODO_DONE = "x"
+let g:TODO_BLOCK= " "
+
+function! GetInsideBracket()
+  " Return the character(s) in the brackets in the beginning of the line.
+  execute "normal mx0t]yi]`x"
+  return @"
+endfunction
+
+function! ChangeInsideBracket(symbol)
+  " Replace the string in the brackets with the given symbol.
+  execute "normal mx0t]r" . a:symbol . "`x"
+endfunction
+
+" Change:
+" '[ ]-20170926T1736+0000-' 
+" To:
+" '[x]-20170926T1736+0000-' 
+" And the otherway arround.
+function! Todo_change(symbol)
+  " Delete what is inside the brackets
+  " [ ] - ... becomes [] or
+  " [x] - ... becomes []
+  call ChangeInsideBracket(a:symbol)
+
+  " Assign the last copied string to variable
+  " (what is inside in the brackets)
+  ""let l:bracket_string = GetInsideBracket()
+
+  ""if l:bracket_string == "x"
+  ""  call ChangeInsideBracket(" ")
+  ""else
+  ""  call ChangeInsideBracket("x")
+  ""endif
+
+  ""execute "normal `x"
+endfunction
+
+"function! todo_start()
+"  execute "normal
+
 
 " Create Title
-nmap <F3> <ESC>/----------<CR>kO<ESC>:r !date +\%Y-\%m-\%d<ESC>kJo<Tab>----------<ESC>j:noh<CR><ESC><F4><ESC>o<ESC>kA
+nmap <F2> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M --utc<CR>kJA -  <ESC>:noh<CR>a
+nmap <F3> :call Todo_change(g:TODO_START)<CR>
+nmap <F4> :call Todo_change(g:TODO_BLOCK)<CR>
+nmap <F5> :call Todo_change(g:TODO_DONE)<CR>A (<ESC>:r !date +\%H\%M --utc<CR>kJxA)<ESC>
+nmap <F6> <ESC>?[<CR>jjO<ESC>:r !date +\%Y-\%m-\%d<ESC>kJo<Tab>----------<ESC>j:noh<CR><ESC><F2><ESC>o<ESC>kA
 
+"nmap <F2> :call TODOToggle()<CR>
+
+"<ESC>mx0t]rx`x<ESC>
+"
 "O[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA - <ESC>:noh<CR>a
 
 "au BufNewFile *.py 0r /home/thorgeir/vimtemplates/header.template
-nnoremap <F5> :set list!<CR>
-nnoremap <F6> :pwd<CR>:lcd %:p:h<CR>
 nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
 xnoremap <F8> :w !python<CR>
+nnoremap <F9> :set list!<CR>
 
 nnoremap <F10> :setlocal spell! set spelllang=en_us<CR>
 
