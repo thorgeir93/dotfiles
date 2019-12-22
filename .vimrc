@@ -1,36 +1,25 @@
-"execute pathogen#infect()
+filetype off
 
-"set nocompatible              " be iMproved, required
-"filetype off                  " required
-"
-"" set the runtime path to include Vundle and initialize
-"set rtp+=~/.vim/bundle/Vundle.vim
-"call vundle#begin()
-"
-"Plugin 'christoomey/vim-tmux-navigator'
-"
-"" All of your Plugins must be added before the following line
-"call vundle#end()            " required
-"filetype plugin indent on    " required
+" execute pathogen#infect() 
+" call pathogen#helptags()
 
-"call notify#emitNotification('Title', 'Body')
+let g:pymode_options_colorcolumn = 0
 
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
+" Disable ":lopen" option like pylint.
+let g:pymode_lint_cwindow = 0
 
-" By turning on spell-checking in our ~/.vimrc, 
-" we’ll be turning on word completion as well.
-" The following command will let us press CTRL-N 
-" or CTRL-P in insert-mode to complete the word 
-" we’re typing!
-"set complete+=kspell
+filetype plugin indent on
+
+" ALE - PYLINT options
+" Run linters only when I save files
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+
+set paste
 
 " Search in every subdirectories
 " Add all subdirectories in current location to vim-path.
 set path+=.
-set path+=/export/unicomplex_data/unicomplex/**
-set path+=/home/thorgeir/gitlab/**
 set path+=**
 
 " Show the file/folder search result in a text bar above the search bar.
@@ -40,17 +29,14 @@ set wildmenu
 " open a file, switch buffers, delete a buffer or open/close a window.
 set autochdir
 
-"let mapleader=" "
-
 set tags =./tags,tags;
-"set tags+=~/sandbox/aptlab/bank_api2.tags;
-set tags+=~/sandbox/aptlab/cuckoo.tags;
-set tags+=/export/unicomplex_data/unicomplex/tags;
 
 """"""""""""""""""""""
 "" MODELINE SUPPORT ""
 """"""""""""""""""""""
-" Enable modeline (custom vim option in file)
+" Enable modeline
+" Allow you to add custom vim options in file e.g.
+"       # vim: set expandtab:
 set modeline
 
 """""""""""""""""""""""
@@ -62,57 +48,16 @@ set splitright
 " don't open folds when searching
 set fdo-=search
 
-" Create the `tags` file (may need to install ctags first)
-" -f: where to save the index-file.
-command! MakeTags !ctags -R -f /export/unicomplex_data/unicomplex/.bzr/tags /export/unicomplex_data/unicomplex/module
-let g:toggleHighlightWhitespace = 1
-function! HighlightExtraWhitespace()
-    " Toggle the extra whitespace highlighting.
-    " Highlight the unwanted white spaces.
-    if g:toggleHighlightWhitespace == 1 "normal action, do the hi
-      let g:toggleHighlightWhitespace = 0
-      highlight ExtraWhitespace ctermbg=red guibg=red
-      match ExtraWhitespace /\s\+$/
-    else
-      let g:toggleHighlightWhitespace = 1
-      call clearmatches()
-    endif
-endfunction
-
-" Allow me to use same keys for tmux and vim to switch between windows.
-"github.com/codegangsta/dotfiles/tree/master/vim/vim/bundle/vim-tmux-navigator
-"let g:tmux_navigator_no_mappings = 1
-"nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
-"nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
-"nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
-"nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
-"nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
-"
-"function! TmuxMove(direction)
-"        let wnr = winnr()
-"        try
-"            execute 'wincmd ' . a:direction
-"        catch
-"            echohl ErrorMsg | echo 'E11: Invalid in command-line window; <CR> executes, CTRL-C quits: wincmd k' | echohl None
-"        endtry
-"        "silent! execute 'wincmd ' . a:direction
-"        " If the winnr is still the same after we moved, it is the last pane
-"        if wnr == winnr()
-"                call system('tmux select-pane -' . tr(a:direction, 'phjkl', 'lLDUR'))
-"        end
-"endfunction
-"
-"nnoremap <silent> <c-h> :call TmuxMove('h')<cr>
-"nnoremap <silent> <c-j> :call TmuxMove('j')<cr>
-"nnoremap <silent> <c-k> :call TmuxMove('k')<cr>
-"nnoremap <silent> <c-l> :call TmuxMove('l')<cr>
-
 set backspace=indent,eol,start
+
+" The kind of folding used. Possible values:
+"   expr, manual, indent, marker, syntax, diff  
 set foldmethod=indent
 
 " N spaces between the cursor and the end of the file 
 " and the beginning of the file
 set scrolloff=10    
+
 set background=dark
 set tabstop=4
 set shiftwidth=4    " Indents will have a width of 4
@@ -153,6 +98,12 @@ hi VertSplit cterm=bold ctermbg=80
 
 hi StatusLine ctermfg=12 ctermbg=80 cterm=bold
 hi StatusLineNC ctermfg=11 ctermbg=80 cterm=none
+"hi StatusLine term=reverse ctermfg=64 ctermbg=80 gui=reverse "hi StatusLineNC term=reverse ctermfg=64 ctermbg=80 gui=reverse
+
+hi StatusLineTerm term=bold ctermfg=80 guifg=Cyan
+hi StatusLineTermNC term=bold ctermfg=80 guifg=Cyan 
+hi Terminal ctermfg=24 ctermbg=16
+
 hi WildMenu cterm=bold ctermfg=14 ctermbg=16
 
 hi Visual term=reverse cterm=reverse guibg=Grey
@@ -161,11 +112,19 @@ hi TabLineFill cterm=none ctermfg=64 ctermbg=80
 hi TabLineSel cterm=none ctermfg=12 ctermbg=16
 hi TabLine cterm=none ctermfg=12 ctermbg=80
 
+hi Error term=reverse ctermfg=2 ctermbg=4
+"hi Error term=None
 syntax on
 
-" Highlight columns that are longer than 75 columns
-" with Error message color highlighting.
-"match ErrorMsg '\%>75v.\+'
+""""""""""""""""""""""
+"" TERMINAL OPTIONS ""
+""""""""""""""""""""""
+" :terminal++rows=30 #for fixed size.
+" Split vertical
+" :vert ter
+if has('terminal')
+    set termwinscroll=90000
+endif
 
 """"""""""""""""""""
 "" CUSTOM MAPPING ""
@@ -174,26 +133,77 @@ syntax on
 " Find the latest note in the file and creates a TODO line 
 " above that note.
 " example output: '[ ]-20170926T1736+0000-'
+
+let g:TODO_START = "*"
+let g:TODO_DONE = "x"
+let g:TODO_BLOCK= " "
+
+function! GetInsideBracket()
+  " Return the character(s) in the brackets in the beginning of the line.
+  execute "normal mx0t]yi]`x"
+  return @"
+endfunction
+
+function! ChangeInsideBracket(symbol)
+  " Replace the string in the brackets with the given symbol.
+  execute "normal mx0t]r" . a:symbol . "`x"
+endfunction
+
+" Change:
+" '[ ]-20170926T1736+0000-' 
+" To:
+" '[x]-20170926T1736+0000-' 
+" And the otherway arround.
+function! Todo_change(symbol)
+  " Delete what is inside the brackets
+  " [ ] - ... becomes [] or
+  " [x] - ... becomes []
+  call ChangeInsideBracket(a:symbol)
+
+  " Assign the last copied string to variable
+  " (what is inside in the brackets)
+  ""let l:bracket_string = GetInsideBracket()
+
+  ""if l:bracket_string == "x"
+  ""  call ChangeInsideBracket(" ")
+  ""else
+  ""  call ChangeInsideBracket("x")
+  ""endif
+
+  ""execute "normal `x"
+endfunction
+
+"function! todo_start()
+"  execute "normal
+
+
+"function! CreateTODO()
+"    execute "normal O<ESC>i<Tab>[ ] - <ESC>"
+"    execute "normal :r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>"
+"    execute "normal kJA -  <ESC>:noh<CR>a"
+"endfunction
+
+
 nmap <F4> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA -  <ESC>:noh<CR>a
 
 " Create Title
-nmap <F3> <ESC>/----------<CR>kO<ESC>:r !date +\%Y-\%m-\%d<ESC>kJo<Tab>----------<ESC>j:noh<CR><ESC><F4><ESC>o<ESC>kA
-
-"O[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA - <ESC>:noh<CR>a
-
-"au BufNewFile *.py 0r /home/thorgeir/vimtemplates/header.template
-nnoremap <F5> :set list!<CR>
-nnoremap <F6> :pwd<CR>:lcd %:p:h<CR>
+nmap <F2> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M --utc<CR>kJA -  <ESC>:noh<CR>a
+nmap <F3> :call Todo_change(g:TODO_START)<CR>
+nmap <F4> :call Todo_change(g:TODO_BLOCK)<CR>
+nmap <F5> :call Todo_change(g:TODO_DONE)<CR>A (<ESC>:r !date +\%H\%M --utc<CR>kJxA)<ESC>
+nmap <F6> <ESC>?[<CR>jjO<ESC>:r !date +\%Y-\%m-\%d<ESC>kJo<Tab>----------<ESC>j:noh<CR><ESC><F2><ESC>o<ESC>kA
 nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
 xnoremap <F8> :w !python<CR>
+nnoremap <F9> :set list!<CR>
 
 nnoremap <F10> :setlocal spell! set spelllang=en_us<CR>
 
 nnoremap za za:syntax sync fromstart<CR>
 
-
 " Create a dubug printing statement in python.
 imap p<Tab> print('=======')<CR>print()
+imap j<Tab> print(json.dumps(, indent=3, default=str))
+
 " Generates a fold skeleton.
 nmap fold1<Tab> i#-- <CR>{{{1<CR>1}}}<ESC>kkA 
 nmap fold2<Tab> i#-- <CR>{{{2<CR>2}}}<ESC>kkA 
@@ -209,8 +219,6 @@ nnoremap <silent> <Leader>9 :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 " STATUSLINE
 "
 set laststatus=2
-" Show b:keymap_name in status line.
-"set statusline^=%k
 set statusline=
 set statusline+=\ \ \ \ %f
 set statusline+=%m
@@ -218,61 +226,19 @@ set statusline+=%=
 set statusline+=\ %l:%c
 set statusline+=\ %p%%\ \ \ \ 
 
-"""""""""""""""""""
-"" Fold settings ""
-"""""""""""""""""""
-if has("folding")
-    set foldenable        " enable folding
-    set foldmethod=indent " fold based on syntax highlighting
-    set fillchars="fold:"
-    "hi Folded ctermbg=168
-    "hi Folded ctermfg=21
-    set foldtext=FoldText()
-    "function! FoldText()
-    "      
-    "endfunction
-    function! FoldText()
-      let line = getline(v:foldstart)
-      if match( line, '^[ \t]*\(\/\*\|\/\/\)[*/\\]*[ \t]*$' ) == 0
-        let initial = substitute( line, '^\([ \t]\)*\(\/\*\|\/\/\)\(.*\)', '\1\2', '' )
-        let linenum = v:foldstart + 1
-        while linenum < v:foldend
-          let line = getline( linenum )
-          let comment_content = substitute( line, '^\([ \t\/\*]*\)\(.*\)$', '\2', 'g' )
-          if comment_content != ''
-            break
-          endif
-          let linenum = linenum + 1
-        endwhile
-        let sub = initial . ' ' . comment_content
-      else
-        let sub = line
-        let startbrace = substitute( line, '^.*{[ \t]*$', '{', 'g')
-        if startbrace == '{'
-          let line = getline(v:foldend)
-          let endbrace = substitute( line, '^[ \t]*}\(.*\)$', '}', 'g')
-          if endbrace == '}'
-            let sub = sub.substitute( line, '^[ \t]*}\(.*\)$', '...}\1', 'g')
-          endif
-        endif
-      endif
-      let n = v:foldend - v:foldstart + 1
-      let info = " " . n . " lines"
-      let sub = sub . "                                                                                                                  "
-      let num_w = getwinvar( 0, '&number' ) * getwinvar( 0, '&numberwidth' )
-      let fold_w = getwinvar( 0, '&foldcolumn' )
-      let sub = strpart( sub, 0, winwidth(0) - strlen( info ) - num_w - fold_w - 1 )
-      return sub . info
-    endfunction
-endif
-
-
 """"""""""""
 "" EVENTS ""
 """"""""""""
 autocmd InsertEnter * :syntax sync fromstart
 
 autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+" Higlight the lines that are equal or more than 80 columns with the same color scheme as the comment scheme!
+augroup vimrc_autocmds
+    "autocmd BufEnter * highlight ColorColumn term=reverse ctermfg=64 ctermbg=80
+    autocmd BufEnter * highlight ColorColumn term=standout ctermfg=14 ctermbg=242
+    autocmd BufEnter *.py match ColorColumn /\%80v.*/
+    "autocmd TerminalOpen * 
+augroup END
 
 """""""""""""""
 "" FUNCTIONS ""
@@ -284,29 +250,29 @@ autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
 " Size of the window
 " let g:dbext_default_buffer_lines = 40
 " Notify user when MySQL query have finish
-function! DBextPostResult(db_type, buf_nr)
-    " If dealing with a MYSQL database
-    if a:db_type == 'MYSQL'
-
-        " Bind horizontal scrolling for 'scrollbind' windows.
-        " (default: ver,jump)
-        set scrollopt=hor
-
-        " Bind buffers (lock them toogether)
-        set scrollbind
-
-        " Split the current buffer with height 3xrow
-        3split
-
-        " Lock the window height.
-        set winfixheight
-
-        " Your position is in the splitted window.
-        " Delete the unnecessary information at the top
-        " by deleting the next two lines.
-        execute "normal dj"
-    endif
-endfunction
+"function! DBextPostResult(db_type, buf_nr)
+"    " If dealing with a MYSQL database
+"    if a:db_type == 'MYSQL'
+"
+"        " Bind horizontal scrolling for 'scrollbind' windows.
+"        " (default: ver,jump)
+"        set scrollopt=hor
+"
+"        " Bind buffers (lock them toogether)
+"        set scrollbind
+"
+"        " Split the current buffer with height 3xrow
+"        3split
+"
+"        " Lock the window height.
+"        set winfixheight
+"
+"        " Your position is in the splitted window.
+"        " Delete the unnecessary information at the top
+"        " by deleting the next two lines.
+"        execute "normal dj"
+"    endif
+"endfunction
 
 
 "let g:dbext_default_buffer_lines=40
@@ -359,7 +325,8 @@ let g:dbext_default_profile_c3_dev_old_sb_write_api_user='type=MYSQL:user=api_us
 
 let g:dbext_default_profile_c3_dev_sb_write_apt_user='type=MYSQL:user=apt_user:passwd=Pr0nt0@pt:host=c3sandboxnursery05.amadis.com'
 let g:dbext_default_profile_c3_dev_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxnursery05.amadis.com'
-let g:dbext_default_profile_c3_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxsql01.amadis.com'
+" let g:dbext_default_profile_c3_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxsql01.amadis.com'
+let g:dbext_default_profile_c3_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=production-sandboxsql-ash1-001.threatlab.ash1.cynet'
 
 
 " Berlin

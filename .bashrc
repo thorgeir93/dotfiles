@@ -173,9 +173,10 @@ vmstart () {
 #    fi
 #}
         
-#ssh () { 
-    #/bin/ssh $@ -t 'bash --login -o vi'
-#}
+drone () { 
+    drone_nr=${1}
+    /bin/ssh drone${drone_nr} -t 'cd /export/unicomplex_data/unicomplex ; bash --login -o vi'
+}
 
 #######################
 ## KEYBOARD SETTINGS ##
@@ -307,9 +308,16 @@ vpnc4 () {
     # old method (RSA)
     # sudo openvpn is the version 2.3
     # openvpn is the version 2.4, we want to use that version.
-    sudo openvpn --config ~/openvpn/c4.ovpn
+    #sudo openvpn --config ~/openvpn/c4.ovpn
     # add username and password 
     # (thsigurdsson, [pin to RSA app] then passw. is the RSA token number)
+
+    # Last update: 2018-03-07
+    sudo /root/Downloads/openvpn-2.4.5/src/openvpn/openvpn --config /home/thorgeir/openvpn/c4.ovpn
+    #sudo su --command="/home/thorgeir/Downloads/openvpn-2.4.5/src/openvpn --config /home/thorgeir/openvpn/c4.ovpn"
+    #        --shell=/bin/bash root
+    # add username and password 
+    # (thsigurdsson,  </a...!>:push)
 }
 
 sshoffice () {
@@ -353,12 +361,33 @@ hdmi_orient_3 () {
     # |  ||__||__|
     # |__|
     #
-    left="DP-1"
-    middle="HDMI-1"
-    right='HDMI-3'
-    xrandr  --output $left --auto --rotate left \
-            --output $middle --auto --right-of $left \
-            --output $right --auto --right-of $middle
+
+    # Positions:
+    #  __  __  __ 
+    # |__||__||  |
+    #         |__|
+    #
+    communication="DP-2"
+    #up="DVI-I-2"
+    #--output $up --auto  --left-of $left \
+    browser='HDMI-2'
+    code="HDMI-1"
+    xrandr  --output $communication --auto --rotate left \
+            --output $browser --auto --left-of $communication \
+            --output $code --auto --left-of $browser
+   
+        
+    # Positions:
+    #  __  __  __
+    # |__||  ||__|
+    #     |__|
+    #
+    #communication="HDMI-1"
+    #browser='HDMI-3'
+    #code="DP-1"
+    #xrandr  --output $code --auto \
+    #        --output $communication --auto --rotate normal --left-of $code \
+    #        --output $browser --auto --right-of $code
 }
 
 
@@ -444,6 +473,7 @@ mykill() {
 
 #function cal_is () {
 #    python ~/github/thorgeir/calendar_icelandic/cal_is.py "$@"
+#    python ~/github/thorgeir/calendar_icelandic/cal_is/cal_is.py "$@"
 #}
 
 is_caps_lock_on () {

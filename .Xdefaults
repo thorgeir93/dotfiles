@@ -15,7 +15,7 @@ URxvt.scrollBar:        false
 URxvt.tintColor:        white
 !URxvt.fading:           25 # make other terminals dark.
 URxvt.fadeColor:        black
-URxvt.shading:          60
+URxvt.shading:          100
 URxvt.inheritPixmap:    true
 URxvt.pointerColor:     black
 URxvt.pointerColor2:    white
