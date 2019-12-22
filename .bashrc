@@ -50,8 +50,11 @@ update_pi_monitoring () {
     "
 }
 
-# Load resource file (e.g. colors and font styles)
-#xrdb ~/.Xr
+reload_bash () {
+    # Load resource file (e.g. colors and font styles)
+    xrdb ~/.Xdefaults
+    reset
+}
 #transset-df --actual .9
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
@@ -283,6 +286,20 @@ vpnoffice_via_duo () {
     # thorgeirs, SG**.., push, <iphone DUO>, 
     # Update 4. mars 2018: thorgeirs/SG..6! and wait for 4 sec. and then type push.
     # Update 19. may 2018: thorgeirs/SG..1 and wait for 4 sec. and then type push.
+    # Update Mon Sep 17 16:57:00 GMT 2018: thorgeirs/KBVe...01! (mail.cyren.com) and wait for 4 sec. and then type push.
+    # Update Wed Nov 28 20:07:33 UTC 2018: thorgeirs/KBVe...02! (mail.cyren.com) and wait for 4 sec. and then type push.
+    # Update Sun Jan 20 19:14:40 UTC 2019: thorgeirs/KBVe...03! (mail.cyren.com) and wait for 4 sec. and then type push.
+    # Update Fri Jul 12 11:25:37 UTC 2019: thorgeirs/KBVe...04! (mail.cyren.com) and wait for 4 sec. and then type push.
+    # Update Wed Sep 18 16:36:56 UTC 2019: thorgeirs/KBVe...05! (mail.cyren.com) and wait for 4 sec. and then type push.
+    # Update Tue Dec  3 16:03:48 UTC 2019: thorgeirs/KBVe...06! (mail.cyren.com) and wait for 4 sec. and then type push.
+
+    # Connect to ber1, for example to be able to use vncviewer.
+    #sudo route add -net 10.105.54.0/24 gw 172.30.232.1 tun0
+
+    # Connect to C3
+    #sudo route add -net 10.3.0.0/16 gw 172.30.232.1 tun0
+    # OR #
+    #sudo route add -net 10.3.0.0/16 gw 172.30.236.1 tun0
 }
 
 vpnc4 () {
@@ -313,7 +330,7 @@ vpnc3 () {
 
     # DUO
     sudo openvpn --auth-retry interact --config ~/openvpn/c3-duo-openvpn.conf 
-    # add username and password (thsigurdsson, /asolf...:push)
+    # add username and password (thsigurdsson, /asolf...#:push)
 }
 ##############
 ## DISPLAYS ##
@@ -353,7 +370,7 @@ hdmi_monitor_data_office () {
 }
 
 hdmi_monitor_data_lenovo () {
-    display='HDMI1'
+    display='HDMI-2'
     bright_step='0.1'
     brightness=`xrandr --verbose | grep -m 2 -i brightness | cut -f2 -d ' ' | cat -n | awk '$1 == "2" {print $2}'`
 }
@@ -367,7 +384,7 @@ hdmi_bright_down_lenovo () {
 }
 
 hdmi_bright_up_lenovo () {
-    hdmi_monitor_data_lenovo
+    hdmi_monito_data_lenovo
    
     ADD=`echo $brightness $bright_step | awk '{ print $1 + $2 }'`
     echo $display' brightness '$ADD
@@ -425,12 +442,27 @@ mykill() {
     for pid in pgrep $1; do pkill $pid; done 
 }
 
-function cal_is () {
-    python ~/github/thorgeir/calendar_icelandic/cal_is.py "$@"
-}
+#function cal_is () {
+#    python ~/github/thorgeir/calendar_icelandic/cal_is.py "$@"
+#}
 
 is_caps_lock_on () {
     xset q | grep LED | tail -c 2
+}
+
+wifi_connect_phone () {
+    wifi_connect "AndroidAP"
+}
+
+
+photo_facebook () {
+    # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
+    echo 'for img in $(ls ./*.JPG); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 $img); done'
+}
+
+c3_connect_to_specific_host () {
+ echo "ssh -L 8080:c3blowfishclient02.amadis.com:80 10.101.1.14"
+ echo "then run localhost:8080"
 }
 
 
