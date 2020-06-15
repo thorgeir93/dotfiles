@@ -244,6 +244,56 @@ augroup END
 "" FUNCTIONS ""
 """""""""""""""
 
+function! DisplayRegisters()
+    for c in range(0, 9)
+        echo system('echo ' . c . ': ' . shellescape(getreg(c)))
+    endfor
+
+    for c in range(0, 25)
+        let char = nr2char(c + char2nr("a"))
+        echo system('echo ' . char . ': ' . shellescape(getreg(char)))
+    endfor
+endfunction
+" You can use https://vim.fandom.com/wiki/Have_Vim_check_automatically_if_the_file_has_changed_externally
+" to get ideas.
+function! Test()
+    echo system('rm /tmp/vim.registers')
+    redir > /tmp/vim.registers | silent call DisplayRegisters() | redir END
+endfunction
+
+fun! AutoreadPython()
+python << EOF
+import time, vim
+try: import thread
+except ImportError: import _thread as thread # Py3
+
+def autoread():
+    vim.command('checktime')  # Run the 'checktime' command
+    vim.command('redraw')     # Actually update the display
+
+#def update_registers(filepath):
+#    registers = {}
+#    for number in range(0, 9):
+#        registers[number] = (
+#            vim.command('shellescape(getreg({char}))'.format(char=number))
+#        )
+#
+#    with open(filepath, 'w') as file_handler:
+#        file_handler.writeline(registers[1])
+
+def autoread_loop():
+    while True:
+        time.sleep(1)
+        autoread()
+        #update_registers('/tmp/vim.registers')
+
+thread.start_new_thread(autoread_loop, ())
+EOF
+endfun
+
+"call Test()
+
+
 """""""""""""""""""""""
 " MySQL configuration "
 """""""""""""""""""""""
