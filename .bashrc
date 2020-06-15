@@ -350,6 +350,17 @@ vpnc3 () {
     # add username and password (thsigurdsson, pin and rsa passcode)
 
     # DUO
+    sudo openvpn --auth-retry interact --config ~/openvpn/c9-duo-openvpn-tcp.conf 
+    # add username and password (thsigurdsson, /asolf...:push)
+}
+
+vpnc3 () {
+    cd ~
+    # RSA
+    #sudo openvpn --config ~/openvpn/commtouch2.ovpn
+    # add username and password (thsigurdsson, pin and rsa passcode)
+
+    # DUO
     sudo openvpn --auth-retry interact --config ~/openvpn/c3-duo-openvpn.conf 
     # add username and password (thsigurdsson, /asolf...#:push)
 }

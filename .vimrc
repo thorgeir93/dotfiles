@@ -21,6 +21,7 @@ set paste
 " Add all subdirectories in current location to vim-path.
 set path+=.
 set path+=**
+set path+=/export/unicomplex_data/unicomplex/module/python/**
 
 " Show the file/folder search result in a text bar above the search bar.
 set wildmenu
@@ -94,7 +95,8 @@ hi Folded cterm=underline ctermfg=80 ctermbg=168
 hi Comment ctermfg=37
 hi Todo cterm=underline ctermfg=80 ctermbg=168
 hi Search cterm=bold,underline ctermfg=24 ctermbg=168
-hi VertSplit cterm=bold ctermbg=80
+hi VertSplit cterm=bold ctermbg=80 ctermfg=80
+"hi VertSplit term=reverse cterm=bold ctermbg=80 gui=reverse 
 
 hi StatusLine ctermfg=12 ctermbg=80 cterm=bold
 hi StatusLineNC ctermfg=11 ctermbg=80 cterm=none
@@ -122,6 +124,7 @@ syntax on
 " :terminal++rows=30 #for fixed size.
 " Split vertical
 " :vert ter
+" set termwinscroll=90000
 if has('terminal')
     set termwinscroll=90000
 endif
@@ -244,6 +247,56 @@ augroup END
 "" FUNCTIONS ""
 """""""""""""""
 
+function! DisplayRegisters()
+    for c in range(0, 9)
+        echo system('echo ' . c . ': ' . shellescape(getreg(c)))
+    endfor
+
+    for c in range(0, 25)
+        let char = nr2char(c + char2nr("a"))
+        echo system('echo ' . char . ': ' . shellescape(getreg(char)))
+    endfor
+endfunction
+" You can use https://vim.fandom.com/wiki/Have_Vim_check_automatically_if_the_file_has_changed_externally
+" to get ideas.
+function! Test()
+    echo system('rm /tmp/vim.registers')
+    redir > /tmp/vim.registers | silent call DisplayRegisters() | redir END
+endfunction
+
+fun! AutoreadPython()
+python << EOF
+import time, vim
+try: import thread
+except ImportError: import _thread as thread # Py3
+
+def autoread():
+    vim.command('checktime')  # Run the 'checktime' command
+    vim.command('redraw')     # Actually update the display
+
+#def update_registers(filepath):
+#    registers = {}
+#    for number in range(0, 9):
+#        registers[number] = (
+#            vim.command('shellescape(getreg({char}))'.format(char=number))
+#        )
+#
+#    with open(filepath, 'w') as file_handler:
+#        file_handler.writeline(registers[1])
+
+def autoread_loop():
+    while True:
+        time.sleep(1)
+        autoread()
+        #update_registers('/tmp/vim.registers')
+
+thread.start_new_thread(autoread_loop, ())
+EOF
+endfun
+
+"call Test()
+
+
 """""""""""""""""""""""
 " MySQL configuration "
 """""""""""""""""""""""
@@ -300,7 +353,7 @@ let g:dbext_default_profile_c3_uni_read_drone='type=MYSQL:user=drone:passwd=`cat
 let g:dbext_default_profile_c3_lm_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=c3db04.amadis.com:port=3306'
 let g:dbext_default_profile_c3_lm_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=10.3.18.32:port=3306'
 let g:dbext_default_profile_c3_lm_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3db04.amadis.com:port=3306'
-j
+
 "mysql --user=apt_user --host=c4sbdb01 --password=Pr0nt0@pt
 "let g:dbext_default_profile_c4_sb_read_apt_user='type=MYSQL:user=apt_user:passwd=`cat /home/thorgeir/.config/mysql/sb.txt`:host=c4sbdb01.amadis.com:port=3306'
 let g:dbext_default_profile_c4_sb_read_apt_user='type=MYSQL:user=apt_user:passwd=Pr0nt0@pt:host=c4sbdb01.amadis.com:port=3306'
