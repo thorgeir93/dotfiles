@@ -20,6 +20,7 @@ alias vncviewer='vncviewer -Shared'
 # For the office network.
 #alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="http://jira-proxy.mordor.local/proxy.pac"' 
 alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="http://10.101.255.240/proxy.pac"' 
+# USE chrome_proxy command instead ! see `vim /usr/bin/chrome_proxy`
 
 # I use files instead.
 #alias c3devwritedb='mysql --defaults-extra-file=/home/thorgeir/.config/mysql/write-dev-config'
