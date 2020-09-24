@@ -9,16 +9,28 @@ fi
 # BASH/PROMPT CUSTOMIZATION #
 #############################
 #USER="\e[96m\e[48;5;16m"
-#HI="\e[34m"
-#USER="\e[96m"
-#BRACKET="\e[93m"
-#RESET="\e[0m"
-#
+#HI="\e[0;34m"
+#USER="\e[0;96m"
+#BRACKET="\e[0;93m"
+#RESET="\e[m"
+##
 #FIRST_PART_PS1="${BRACKET}[${RESET}${HI}\u${RESET}${BRACKET}@"
-#SECOND_PART_PS1="${RESET}${HI}\h${RESET} ${USER}\W${RESET}${BRACKET}]${RESET}${USER}\$ ${RESET}"
+#SECOND_PART_PS1="${RESET}${HI}\h${RESET}:${BRACKET}\w${RESET}${BRACKET}]${RESET}${HI}\$ ${RESET}"
 #PS1=${FIRST_PART_PS1}${SECOND_PART_PS1}
 
+#export PS1="\u@\h:[\w]\\$\[$(tput sgr0)\]"
+# To see colors go to ~/github/thorgeir/utils and python print_colors.py.
+# tweak colors to get example like "9;2;93m"
+export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+
+#PS1="\[\033[0;0m\]\[\033[0;34m\]thorgeir\[\033[0;0m\]@\[\033[0;34m\]\h:\[\033[1;93m\]\w\[\033[0;0m\]$ "
+#export PS1="\[\033[0;0m\]\[\e[32;40m\]\u\[\e[m\]@\[\e[33m\]\h\[\e[m\]\[\e[33m\]:\[\e[m\]\[\e[32m\]\w\[\e[m\]\[\e[37m\]\\$\[\e[m\] "
+           #"\[\033[0;0m\]\[\033[0;31m\]root\[\033[0;0m\]"
+#PS1="\e[0;93m[\e[m\e[0;34m\u\e[m\e[0;93m@\e[m\e[0;34m\h\e[m:\e[0;93m\w\e[m\e[0;93m]\e[m\e[0;34m$ \e[m"
+
 #PS1="${BRACKET}[\u${USER}@${RESET}${BRACKET}\h${RESET} ${USER}\W${RESET}${BRACKET}]\$ ${RESET}"
+
+#$PS1="[\[\033[0;0m\]\[\033[0;0m\]thorgeir\[\033[0;0m\]@\[\033[0;32m\]\h \[\033[1;31m\]\W \[\033[0;0m\]]$ "
 
 # Enable vim commands in bash
 set -o vi
@@ -496,6 +508,11 @@ c3_connect_to_specific_host () {
 }
 
 
+t () {
+    # Create given number of panes in the current tmux window/session.
+    number_of_panes=${1};
+    bash ~/gitlab/thorgeir/tools/tgrid.sh ${number_of_panes}
+}
 
 ####################
 ## SYSTEM CONTROL ##
