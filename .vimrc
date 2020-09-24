@@ -1,6 +1,6 @@
 filetype off
 
-" execute pathogen#infect() 
+execute pathogen#infect() 
 " call pathogen#helptags()
 
 let g:pymode_options_colorcolumn = 0
@@ -45,6 +45,32 @@ set modeline
 """""""""""""""""""""""
 set splitbelow
 set splitright
+
+"""
+" NETRW
+"""
+" Same as if you tab `i` letter three times in netrw view.
+let g:netrw_liststyle = 3
+
+" Removing the banner
+let g:netrw_banner = 0
+
+" Set the width of the directory explorer
+
+" open files in a new vertical split
+let g:netrw_browse_split = 2
+
+" Preview in vertical
+let g:netrw_preview   = 1
+let g:netrw_winsize   = 75
+
+" Vertical split
+let g:netrw_altv = 1
+
+
+
+
+
 
 " don't open folds when searching
 set fdo-=search
@@ -219,6 +245,29 @@ nnoremap <silent> <Leader>0 :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
 nnoremap <silent> <Leader>9 :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 
 "
+" ctrl-s | Saving changes
+"
+" Copy from 
+" vim.fandom.com/wiki/Map_Ctrl-S_to_save_current_or_new_files
+" ----
+" If the current buffer has never been saved, it will have no name,
+" call the file browser to save it, otherwise just save it.
+command! -nargs=0 -bar Update if &modified 
+                           \|    if empty(bufname('%'))
+                           \|        browse confirm write
+                           \|    else
+                           \|        confirm write
+                           \|    endif
+                           \|endif
+nnoremap <silent> <C-S> :<C-u>Update<CR>
+"inoremap <C-S> <C-O>:Update<CR>
+"noremap <silent> <C-S> :update<CR>
+"vnoremap <silent> <C-S> <C-C>:update<CR>
+"inoremap <silent> <C-S> <C-O>:update<CR>
+
+
+
+"
 " STATUSLINE
 "
 set laststatus=2
@@ -306,29 +355,31 @@ endfun
 " Size of the window
 " let g:dbext_default_buffer_lines = 40
 " Notify user when MySQL query have finish
-"function! DBextPostResult(db_type, buf_nr)
-"    " If dealing with a MYSQL database
-"    if a:db_type == 'MYSQL'
-"
-"        " Bind horizontal scrolling for 'scrollbind' windows.
-"        " (default: ver,jump)
-"        set scrollopt=hor
-"
-"        " Bind buffers (lock them toogether)
-"        set scrollbind
-"
-"        " Split the current buffer with height 3xrow
-"        3split
-"
-"        " Lock the window height.
-"        set winfixheight
-"
-"        " Your position is in the splitted window.
-"        " Delete the unnecessary information at the top
-"        " by deleting the next two lines.
-"        execute "normal dj"
-"    endif
-"endfunction
+function! DBextPostResult(db_type, buf_nr)
+    " If dealing with a MYSQL database
+    if a:db_type == 'MYSQL'
+
+        " Make windows Equal Size
+        wincmd =
+        "" Bind horizontal scrolling for 'scrollbind' windows.
+        "" (default: ver,jump)
+        "set scrollopt=hor
+
+        "" Bind buffers (lock them toogether)
+        "set scrollbind
+
+        "" Split the current buffer with height 3xrow
+        "3split
+
+        "" Lock the window height.
+        "set winfixheight
+
+        "" Your position is in the splitted window.
+        "" Delete the unnecessary information at the top
+        "" by deleting the next two lines.
+        "execute "normal dj"
+    endif
+endfunction
 
 
 "let g:dbext_default_buffer_lines=40
@@ -348,12 +399,12 @@ let g:dbext_default_buffer_lines = 60
 "   /*dbext: profile=c3_dev_write_thorgeir*/
 let g:dbext_default_profile_c3_read_thorgeir ='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=db-read.c3.amadis.com:port=3306'
 let g:dbext_default_profile_c3_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=db-write.c3.amadis.com:port=3306'
-let g:dbext_default_profile_c3_read_drone    ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=db-read.c3.amadis.com:port=3306'
-let g:dbext_default_profile_c3_write_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=db-write.c3.amadis.com:port=3306'
-let g:dbext_default_profile_c3_ms_read_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=c3multiscannerdb01.amadis.com:port=3306'
+let g:dbext_default_profile_c3_read_drone    ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=db-read.c3.amadis.com:port=3306'
+let g:dbext_default_profile_c3_write_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=db-write.c3.amadis.com:port=3306'
+let g:dbext_default_profile_c3_ms_read_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=c3multiscannerdb01.amadis.com:port=3306'
 let g:dbext_default_profile_c3_dev_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3dev-db01.amadis.com:port=3306'
-let g:dbext_default_profile_c3_uni_read_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=10.3.18.41:port=3306'
-let g:dbext_default_profile_c3_lm_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=c3db04.amadis.com:port=3306'
+let g:dbext_default_profile_c3_uni_read_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=10.3.18.41:port=3306'
+let g:dbext_default_profile_c3_lm_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=c3db04.amadis.com:port=3306'
 let g:dbext_default_profile_c3_lm_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=10.3.18.32:port=3306'
 let g:dbext_default_profile_c3_lm_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3db04.amadis.com:port=3306'
 
@@ -361,11 +412,11 @@ let g:dbext_default_profile_c3_lm_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat
 "let g:dbext_default_profile_c4_sb_read_apt_user='type=MYSQL:user=apt_user:passwd=`cat /home/thorgeir/.config/mysql/sb.txt`:host=c4sbdb01.amadis.com:port=3306'
 let g:dbext_default_profile_c4_sb_read_apt_user='type=MYSQL:user=apt_user:passwd=Pr0nt0@pt:host=c4sbdb01.amadis.com:port=3306'
 
-let g:dbext_default_profile_c3_fooze_read_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=10.3.18.41:port=3306'
+let g:dbext_default_profile_c3_fooze_read_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=10.3.18.41:port=3306'
 let g:dbext_default_profile_c4_ipgever_write_root='type=MYSQL:user=root:host=c4ipgever01.amadis.com'
 "let g:dbext_default_profile_c3_sb_write_sba_api='type=MYSQL:user=sba_api:passwd=Pr0nt0API:host=c3sandboxnursery05.amadis.com'
 
-"let g:dbext_default_profile_c3_unimatrix_drone    ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep.txt`:host=c3unicomplexdb01.amadis.com:port=3306'
+"let g:dbext_default_profile_c3_unimatrix_drone    ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=c3unicomplexdb01.amadis.com:port=3306'
 let g:dbext_default_profile_c3_db05_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3db05.amadis.com:port=3306'
 let g:dbext_default_profile_c3_logdata_read_slackbot='type=MYSQL:user=slackbot:passwd=gettowork:host=c3logdatadb02.amadis.com:port=3306'
 let g:dbext_default_profile_c3_db03_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3db03.amadis.com:port=3306'
