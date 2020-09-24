@@ -85,7 +85,7 @@ wifi_connect() {
     # :params: <WIFI name> <Password>
     #   Accept a wifi name which you can get from `wifi_list` command.
     #   and a password to access the router.
-    nmcli device wifi connect $1 password $2 
+    nmcli device wifi connect "$1" password \'$2\'
 }
 
 wifi_connect_no_password() {
@@ -305,6 +305,9 @@ vpnoffice_via_duo () {
     # Update Fri Jul 12 11:25:37 UTC 2019: thorgeirs/KBVe...04! (mail.cyren.com) and wait for 4 sec. and then type push.
     # Update Wed Sep 18 16:36:56 UTC 2019: thorgeirs/KBVe...05! (mail.cyren.com) and wait for 4 sec. and then type push.
     # Update Tue Dec  3 16:03:48 UTC 2019: thorgeirs/KBVe...06! (mail.cyren.com) and wait for 4 sec. and then type push.
+    # Update Wed Mar 11 18:33:11 UTC 2020: thorgeirs/KBVe...07! (mail.cyren.com) and wait for 4 sec. and then type push.
+
+
 
     # Connect to ber1, for example to be able to use vncviewer.
     #sudo route add -net 10.105.54.0/24 gw 172.30.232.1 tun0
@@ -342,6 +345,27 @@ sshdev () {
     ssh thorgeir@10.3.80.41
 }
 
+forticlient () {
+    #cp /etc/resolv.conf /tmp/resolv.conf.backup && (sleep 60; sudo cp -f /tmp/resolv.conf.backup /etc/resolv.conf) &
+
+    #/home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh ASH1 thsigurdsson
+    /home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh IL thsigurdsson
+    # (thsigurdsson,  /a...#) without push
+    #(set -x; sleep 60)
+
+}
+
+vpnc3 () {
+    cd ~
+    # RSA
+    #sudo openvpn --config ~/openvpn/commtouch2.ovpn
+    # add username and password (thsigurdsson, pin and rsa passcode)
+
+    # DUO
+    sudo openvpn --auth-retry interact --config ~/openvpn/c9-duo-openvpn-tcp.conf 
+    # add username and password (thsigurdsson, /asolf...:push)
+}
+
 vpnc3 () {
     cd ~
     # RSA
@@ -365,6 +389,11 @@ hdmi_orient () {
 
 hdmi_orient_thinkpad () {
     xrandr --output eDP-1 --auto --output HDMI-2 --auto --left-of eDP-1
+}
+hdmi_orient_docker () {
+    # Using HDMI and DVI as adapters.
+    #xrandr --output eDP-1 --auto --output DP-2-1 --left-of eDP-1 --output DP-2-2 --auto --left-of DP-2-1
+    xrandr --output DP-2-1 --auto --output DP-2-2 --right-of DP-2-1 --output eDP-1 --right-of DP-2-2
 }
 
 hdmi_orient_3 () {
@@ -493,7 +522,7 @@ is_caps_lock_on () {
 }
 
 wifi_connect_phone () {
-    wifi_connect "AndroidAP"
+    wifi_connect "AndroidAP" "ee4b0b56297e"
 }
 
 
