@@ -419,6 +419,18 @@ hdmi_orient_3 () {
     #        --output $browser --auto --right-of $code
 }
 
+hdmi_orient_office () {
+
+    # Positions:
+    #  __  __ 
+    # |__||__|
+    #     
+    left='HDMI-2'
+    right="HDMI-1"
+    xrandr  --output $left --auto \
+            --output $right --auto --right-of $left
+}
+
 
 hdmi_monitor_data_office () {
     display1='HDMI-1'

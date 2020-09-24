@@ -194,7 +194,7 @@ nmap <F2> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M --utc<CR>kJA - 
 nmap <F3> :call Todo_change(g:TODO_START)<CR>
 nmap <F4> :call Todo_change(g:TODO_BLOCK)<CR>
 nmap <F5> :call Todo_change(g:TODO_DONE)<CR>A (<ESC>:r !date +\%H\%M --utc<CR>kJxA)<ESC>
-nmap <F6> <ESC>?[<CR>jjO<ESC>:r !date +\%Y-\%m-\%d<ESC>kJo<Tab>----------<ESC>j:noh<CR><ESC><F2><ESC>o<ESC>kA
+nmap <F6> <ESC>?.*\S.*\n<CR>jjO<ESC>:r !date +\%Y-\%m-\%d<ESC>kJo<Tab>----------<ESC>j:noh<CR><ESC><F2><ESC>o<ESC>kA
 nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
 xnoremap <F8> :w !python<CR>
 nnoremap <F9> :set list!<CR>
@@ -295,6 +295,9 @@ EOF
 endfun
 
 "call Test()
+
+
+
 
 
 """""""""""""""""""""""
