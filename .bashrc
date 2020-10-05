@@ -21,7 +21,15 @@ fi
 #export PS1="\u@\h:[\w]\\$\[$(tput sgr0)\]"
 # To see colors go to ~/github/thorgeir/utils and python print_colors.py.
 # tweak colors to get example like "9;2;93m"
-export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+
+
+if [[ $(hostname) == "MEGAS" ]]; then
+    export PS1="\[\033[38;5;27m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;27m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+else
+    export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+fi
+
+#export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
 
 #PS1="\[\033[0;0m\]\[\033[0;34m\]thorgeir\[\033[0;0m\]@\[\033[0;34m\]\h:\[\033[1;93m\]\w\[\033[0;0m\]$ "
 #export PS1="\[\033[0;0m\]\[\e[32;40m\]\u\[\e[m\]@\[\e[33m\]\h\[\e[m\]\[\e[33m\]:\[\e[m\]\[\e[32m\]\w\[\e[m\]\[\e[37m\]\\$\[\e[m\] "
@@ -252,15 +260,15 @@ c3random_drone () {
     $cmd
 }
 
-c3thorgeir (){
-    user='thorgeir'
-    host='c3dev-thorgeir01.amadis.com'
-    ssh $user'@'$host
-}
-
-c3devcuckoo (){
-    sshvi $1'@c3devcuckoo01.amadis.com'
-}
+#c3thorgeir (){
+#    user='thorgeir'
+#    host='c3dev-thorgeir01.amadis.com'
+#    ssh $user'@'$host
+#}
+#
+#c3devcuckoo (){
+#    sshvi $1'@c3devcuckoo01.amadis.com'
+#}
 
 c3_api_drone13 (){
     user='thorgeir'
@@ -335,21 +343,22 @@ vpnc4 () {
     # (thsigurdsson,  </a...!>:push)
 }
 
-sshoffice () {
-    ssh thorgeir@10.101.1.14
-    # add thorgeir's password (6oN...)
-    # now you are connected
-}
-
-sshdev () {
-    ssh thorgeir@10.3.80.41
-}
+#sshoffice () {
+#    ssh thorgeir@10.101.1.14
+#    # add thorgeir's password (6oN...)
+#    # now you are connected
+#}
+#
+#sshdev () {
+#    ssh thorgeir@10.3.80.41
+#}
 
 forticlient () {
     #cp /etc/resolv.conf /tmp/resolv.conf.backup && (sleep 60; sudo cp -f /tmp/resolv.conf.backup /etc/resolv.conf) &
 
-    #/home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh ASH1 thsigurdsson
-    /home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh IL thsigurdsson
+    # Search in lastpass for password, search "forti"
+    /home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh ASH1 thsigurdsson
+    #/home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh IL thsigurdsson
     # (thsigurdsson,  /a...#) without push
     #(set -x; sleep 60)
 

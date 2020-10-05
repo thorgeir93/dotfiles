@@ -213,12 +213,14 @@ endfunction
 "endfunction
 
 
-nmap <F4> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA -  <ESC>:noh<CR>a
+"nmap <F4> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA -  <ESC>:noh<CR>a
+"nmap <F4> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA -  <ESC>:noh<CR>a
+
 
 " Create Title
-nmap <F2> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M --utc<CR>kJA -  <ESC>:noh<CR>a
+nmap <F2> <ESC>O<ESC>i  [ ]<ESC>:r!date +\%Y\%m\%dT\%H\%M --utc<CR>kJxA: <ESC>:noh<CR>a
 nmap <F3> :call Todo_change(g:TODO_START)<CR>
-nmap <F4> :call Todo_change(g:TODO_BLOCK)<CR>
+"nmap <F4> :call Todo_change(g:TODO_BLOCK)<CR>
 nmap <F5> :call Todo_change(g:TODO_DONE)<CR>A (<ESC>:r !date +\%H\%M --utc<CR>kJxA)<ESC>
 nmap <F6> <ESC>?.*\S.*\n<CR>jjO<ESC>:r !date +\%Y-\%m-\%d<ESC>kJo<Tab>----------<ESC>j:noh<CR><ESC><F2><ESC>o<ESC>kA
 nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
