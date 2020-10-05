@@ -75,6 +75,18 @@ set number
 set ruler
 set ignorecase smartcase
 
+""""""""""""""""""""""""""""""""""""""""
+"" REMEMBER WHICH CODE YOU HAD FOLDED ""
+""""""""""""""""""""""""""""""""""""""""
+" TODO only do this for sql files
+" TODO Add sql syntax to .sql files.
+" TODO Set manual foldmethod only on sql files.
+augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave * mkview
+  autocmd BufWinEnter * silent! loadview
+augroup END
+
 
 "
 " Colorize

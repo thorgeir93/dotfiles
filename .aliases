@@ -10,7 +10,7 @@ alias tmux='TERM=xterm-256color tmux'
 alias sprunge='curl -F "sprunge=<-" http://sprunge.us'
 
 # View image
-alias img='gpicview'
+# alias img='gpicview'
 
 # VNC shared allow you to view desktop on a
 # server without breaking connection for other

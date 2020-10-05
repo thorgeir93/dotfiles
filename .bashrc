@@ -69,6 +69,23 @@ wifi_list() {
     nmcli device wifi 
 }
 
+wifi_connect_with_username_and_password () {
+    connection_name=$1; shift
+    SSID=$1; shift
+    USERNAME=$1; shift
+    nmcli connection add  type wifi con-name "$connection_name" \
+        ifname wlp3s0 ssid "$SSID" --  \
+            wifi-sec.key-mgmt wpa-eap \
+            802-1x.eap ttls \
+            802-1x.phase2-auth mschapv2 \
+            802-1x.identity "$USERNAME"
+
+    # wifi_connect_with_username_and_password hrstudents01 HR-Students guolin19
+    # Translates to:
+    # + nmcli connection add  type wifi con-name "hrstudents01" ifname wlp3s0 ssid "HR-Students" --  wifi-sec.key-mgmt wpa-eap 802-1x.eap ttls 802-1x.phase2-auth mschapv2 802-1x.identity "guolin19"
+
+}
+
 wifi_connect() {
     # :params: <WIFI name> <Password>
     #   Accept a wifi name which you can get from `wifi_list` command.
@@ -381,7 +398,12 @@ hdmi_orient_thinkpad () {
 hdmi_orient_docker () {
     # Using HDMI and DVI as adapters.
     #xrandr --output eDP-1 --auto --output DP-2-1 --left-of eDP-1 --output DP-2-2 --auto --left-of DP-2-1
-    xrandr --output DP-2-1 --auto --output DP-2-2 --right-of DP-2-1 --output eDP-1 --right-of DP-2-2
+    #xrandr --output DP-2-1 --auto --output DP-2-2 --right-of DP-2-1 --output eDP-1 --right-of DP-2-2
+    xrandr --output DP-2-2 --auto --output DP-2-1 --right-of DP-2-2 --output eDP-1 --right-of DP-2-1
+}
+
+screenrecord () {
+    ffmpeg -f x11grab -s $(xdpyinfo | grep -i dimensions: | sed 's/[^0-9]*pixels.*(.*).*//' | sed 's/[^0-9x]*//') -r 25 -i :0.0 valami.avi
 }
 
 hdmi_orient_3 () {
@@ -516,7 +538,7 @@ wifi_connect_phone () {
 
 photo_facebook () {
     # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
-    echo 'for img in $(ls ./*.JPG); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 $img); done'
+    echo 'mkdir -p shrink; for img in $(ls *.JPG); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
 }
 
 c3_connect_to_specific_host () {
