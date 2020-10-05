@@ -9,16 +9,36 @@ fi
 # BASH/PROMPT CUSTOMIZATION #
 #############################
 #USER="\e[96m\e[48;5;16m"
-#HI="\e[34m"
-#USER="\e[96m"
-#BRACKET="\e[93m"
-#RESET="\e[0m"
-#
+#HI="\e[0;34m"
+#USER="\e[0;96m"
+#BRACKET="\e[0;93m"
+#RESET="\e[m"
+##
 #FIRST_PART_PS1="${BRACKET}[${RESET}${HI}\u${RESET}${BRACKET}@"
-#SECOND_PART_PS1="${RESET}${HI}\h${RESET} ${USER}\W${RESET}${BRACKET}]${RESET}${USER}\$ ${RESET}"
+#SECOND_PART_PS1="${RESET}${HI}\h${RESET}:${BRACKET}\w${RESET}${BRACKET}]${RESET}${HI}\$ ${RESET}"
 #PS1=${FIRST_PART_PS1}${SECOND_PART_PS1}
 
+#export PS1="\u@\h:[\w]\\$\[$(tput sgr0)\]"
+# To see colors go to ~/github/thorgeir/utils and python print_colors.py.
+# tweak colors to get example like "9;2;93m"
+
+
+if [[ $(hostname) == "MEGAS" ]]; then
+    export PS1="\[\033[38;5;27m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;27m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+else
+    export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+fi
+
+#export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+
+#PS1="\[\033[0;0m\]\[\033[0;34m\]thorgeir\[\033[0;0m\]@\[\033[0;34m\]\h:\[\033[1;93m\]\w\[\033[0;0m\]$ "
+#export PS1="\[\033[0;0m\]\[\e[32;40m\]\u\[\e[m\]@\[\e[33m\]\h\[\e[m\]\[\e[33m\]:\[\e[m\]\[\e[32m\]\w\[\e[m\]\[\e[37m\]\\$\[\e[m\] "
+           #"\[\033[0;0m\]\[\033[0;31m\]root\[\033[0;0m\]"
+#PS1="\e[0;93m[\e[m\e[0;34m\u\e[m\e[0;93m@\e[m\e[0;34m\h\e[m:\e[0;93m\w\e[m\e[0;93m]\e[m\e[0;34m$ \e[m"
+
 #PS1="${BRACKET}[\u${USER}@${RESET}${BRACKET}\h${RESET} ${USER}\W${RESET}${BRACKET}]\$ ${RESET}"
+
+#$PS1="[\[\033[0;0m\]\[\033[0;0m\]thorgeir\[\033[0;0m\]@\[\033[0;32m\]\h \[\033[1;31m\]\W \[\033[0;0m\]]$ "
 
 # Enable vim commands in bash
 set -o vi
@@ -257,15 +277,15 @@ c3random_drone () {
     $cmd
 }
 
-c3thorgeir (){
-    user='thorgeir'
-    host='c3dev-thorgeir01.amadis.com'
-    ssh $user'@'$host
-}
-
-c3devcuckoo (){
-    sshvi $1'@c3devcuckoo01.amadis.com'
-}
+#c3thorgeir (){
+#    user='thorgeir'
+#    host='c3dev-thorgeir01.amadis.com'
+#    ssh $user'@'$host
+#}
+#
+#c3devcuckoo (){
+#    sshvi $1'@c3devcuckoo01.amadis.com'
+#}
 
 c3_api_drone13 (){
     user='thorgeir'
@@ -340,21 +360,22 @@ vpnc4 () {
     # (thsigurdsson,  </a...!>:push)
 }
 
-sshoffice () {
-    ssh thorgeir@10.101.1.14
-    # add thorgeir's password (6oN...)
-    # now you are connected
-}
-
-sshdev () {
-    ssh thorgeir@10.3.80.41
-}
+#sshoffice () {
+#    ssh thorgeir@10.101.1.14
+#    # add thorgeir's password (6oN...)
+#    # now you are connected
+#}
+#
+#sshdev () {
+#    ssh thorgeir@10.3.80.41
+#}
 
 forticlient () {
     #cp /etc/resolv.conf /tmp/resolv.conf.backup && (sleep 60; sudo cp -f /tmp/resolv.conf.backup /etc/resolv.conf) &
 
-    #/home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh ASH1 thsigurdsson
-    /home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh IL thsigurdsson
+    # Search in lastpass for password, search "forti"
+    /home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh ASH1 thsigurdsson
+    #/home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh IL thsigurdsson
     # (thsigurdsson,  /a...#) without push
     #(set -x; sleep 60)
 
@@ -439,6 +460,18 @@ hdmi_orient_3 () {
     #xrandr  --output $code --auto \
     #        --output $communication --auto --rotate normal --left-of $code \
     #        --output $browser --auto --right-of $code
+}
+
+hdmi_orient_office () {
+
+    # Positions:
+    #  __  __ 
+    # |__||__|
+    #     
+    left='HDMI-2'
+    right="HDMI-1"
+    xrandr  --output $left --auto \
+            --output $right --auto --right-of $left
 }
 
 
@@ -547,6 +580,11 @@ c3_connect_to_specific_host () {
 }
 
 
+t () {
+    # Create given number of panes in the current tmux window/session.
+    number_of_panes=${1};
+    bash ~/gitlab/thorgeir/tools/tgrid.sh ${number_of_panes}
+}
 
 ####################
 ## SYSTEM CONTROL ##
