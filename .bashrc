@@ -1,9 +1,20 @@
 # .bashrc
 
+# prompt before overwrite
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
+
+# Setting the HISTFILESIZE and HISTSIZE variables to
+# an empty string makes the bash history size unlimited.
+# (ref.: soberkoder.com/unlimited-bash-history)
+export HISTFILESIZE=
+export HISTSIZE=
 
 #############################
 # BASH/PROMPT CUSTOMIZATION #
@@ -25,6 +36,13 @@ fi
 
 if [[ $(hostname) == "MEGAS" ]]; then
     export PS1="\[\033[38;5;27m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;27m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+
+elif [[ $(hostname) == "SMYRILL" ]]; then
+    color=48
+    export PS1="\[\033[38;5;${color}m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;${color}m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+
+    # 
+
 else
     export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
 fi
@@ -154,6 +172,18 @@ PROMPT_COMMAND='echo -en "\033]0;$PWD\007"'
 battery () {
     echo "Check battery!"
     bash ~/.config/i3/microprograms/notify_battery.sh
+}
+
+todo () {
+    vim -n ~/git/lab/thorgeir/worklogs/worklogs/todo.log
+}
+
+todomd () {
+    vim -n ~/git/lab/thorgeir/worklogs/worklogs/todo.markdown
+}
+
+todomu () {
+    vim -n ~/git/lab/thorgeir/worklogs/worklogs/todo_malware_urls.log
 }
 
 ###############
@@ -414,8 +444,9 @@ hdmi_orient () {
 }
 
 hdmi_orient_thinkpad () {
-    xrandr --output eDP-1 --auto --output HDMI-2 --auto --left-of eDP-1
+    xrandr --output eDP-1 --auto --output HDMI-2 --auto --right-of eDP-1
 }
+
 hdmi_orient_docker () {
     # Using HDMI and DVI as adapters.
     #xrandr --output eDP-1 --auto --output DP-2-1 --left-of eDP-1 --output DP-2-2 --auto --left-of DP-2-1
@@ -548,6 +579,12 @@ cptext () {
     echo "---------"
     echo "Use Ctrl-v to export output"
 }
+
+xc () {
+    # Paste from clipbard to stdout.
+    echo $(xclip -selection clipboard -o)
+}
+
 ##########################
 ## COMMAND-LINE SCRIPTS ##
 ##########################
@@ -571,7 +608,12 @@ wifi_connect_phone () {
 
 photo_facebook () {
     # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
-    echo 'mkdir -p shrink; for img in $(ls *.JPG); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
+    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
+}
+
+facebook_photo () {
+    # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
+    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
 }
 
 c3_connect_to_specific_host () {
@@ -583,8 +625,37 @@ c3_connect_to_specific_host () {
 t () {
     # Create given number of panes in the current tmux window/session.
     number_of_panes=${1};
-    bash ~/gitlab/thorgeir/tools/tgrid.sh ${number_of_panes}
+    bash ~/git/lab/thorgeir/tools/tgrid.sh ${number_of_panes}
 }
+
+disk_eject () {
+    echo sudo umount /run/media/thorgeir/Elements
+    echo udisksctl power-off -b /dev/sda1
+}
+
+
+notification () {
+    # information about notification system.
+    echo 'notify-send "test" "body"'
+    echo "ps aux | grep -i noti"
+    echo "cat /usr/share/dbus-1/services/org.freedesktop.Notifications.service"
+    echo "To fix the missing notification, I clicked on the icon in right down corner and hit clear all notifications."
+}
+
+touchdate () {
+    # $ touchdate mytext.log
+    # Creates file mytext_<current date>.log
+    name=$(echo ${1} | cut -d"." -f1)
+    ext=$(echo ${1} | cut -d"." -f2)
+    touch ${name}_$(date --utc '+%Y%m%dT%H%M%S').${ext}
+}
+
+#export IS_DISPLAY_SET=0
+#
+#if [[ ${IS_DISPLAY_SET} == 0 ]] && [[ $(xrandr | grep eDP | wc -l) == 1 ]] && [[ $(xrandr | grep " connected " | wc -l) == 3 ]];
+#    then hdmi_orient_docker
+#    export IS_DISPLAY_SET=1
+#fi
 
 ####################
 ## SYSTEM CONTROL ##
@@ -596,3 +667,33 @@ t () {
 stty -ixon
 
 source ~/.aliases
+
+help_sync_images () {
+    # Mount my icybox external hard drive to my local directory.
+    echo sudo mount /dev/sda1 /mnt/icybox
+    echo cd ~/Pictures/from_camera/
+
+    # Notice the end-backslash on the first `2020`.
+    # Remove -n flag if you want to run this command.
+    # -n is just dry run and shows what will happen.
+    echo rsync -anv 2020/ /mnt/icybox/media/photos/2020
+}
+
+help_set_caps() {
+    echo "xdotool key Caps_Lock"
+}
+
+
+BARRACUDA () {
+    echo BARRACUDA LOVES GREG.
+}
+embla () {
+    echo Hi, Embla!
+}
+
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi

@@ -3,6 +3,8 @@ alias ipython_cb='LD_LIBRARY_PATH=/export/unicomplex_data/unicomplex/mounts/wr/s
 alias tmux='TERM=xterm-256color tmux'
 
 alias db="cd ~/gitlab/thorgeir/db_queries"
+alias gl="cd ~/git/lab"
+alias gltw="cd ~/git/lab/thorgeir/worklogs"
 
 #alias t4='bash ~/gitlab/thorgeir/tools/tgrid.sh 4'
 
@@ -75,8 +77,6 @@ alias sbac='cd $sb_repository/aptlab/cuckoo'
 alias sbap='cd $sb_repository/aptlab/payload'
 alias sbcca='cd $sb_repository/cuckoo/cuckoo_api'
 alias sbdep='cd $sb_repository/sandbox_array_deployment'
-
-alias gw='cd ~/github/webCarouselQ/'
 
 # Let you know when the command has finished.
 # E.g. $ sleep 10 | alert

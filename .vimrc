@@ -1,4 +1,4 @@
-filetype off
+" filetype off
 
 execute pathogen#infect() 
 " call pathogen#helptags()
@@ -66,8 +66,6 @@ let g:netrw_winsize   = 75
 
 " Vertical split
 let g:netrw_altv = 1
-
-
 
 
 
@@ -175,7 +173,8 @@ endif
 " above that note.
 " example output: '[ ]-20170926T1736+0000-'
 
-let g:TODO_START = "*"
+let g:TODO_START = "/"
+let g:TODO_URGENT = "!"
 let g:TODO_DONE = "x"
 let g:TODO_BLOCK= " "
 
@@ -187,6 +186,7 @@ endfunction
 
 function! ChangeInsideBracket(symbol)
   " Replace the string in the brackets with the given symbol.
+  " The x is the marker to jump back to where we were.
   execute "normal mx0t]r" . a:symbol . "`x"
 endfunction
 
@@ -214,6 +214,40 @@ function! Todo_change(symbol)
   ""execute "normal `x"
 endfunction
 
+function! Todo_change(symbol)
+  " Delete what is inside the brackets
+  " [ ] - ... becomes [] or
+  " [x] - ... becomes []
+  call ChangeInsideBracket(a:symbol)
+
+  " Assign the last copied string to variable
+  " (what is inside in the brackets)
+  ""let l:bracket_string = GetInsideBracket()
+
+  ""if l:bracket_string == "x"
+  ""  call ChangeInsideBracket(" ")
+  ""else
+  ""  call ChangeInsideBracket("x")
+  ""endif
+
+  ""execute "normal `x"
+endfunction
+
+" TODO WHEN TODO BULLET IS FINISHED, MOVE THE TODO UP
+" TODO Calculate minutes on this day, all the minutes or hours in the '(' and ')'
+
+"nmap <leader>tc <ESC>O<ESC>i  - [ ] <ESC>:r!date +\%H\%M --utc<CR>kJA: <ESC>:noh<CR>a
+
+" Create Title
+nmap <F2> <ESC>O<ESC>i  - [ ] <ESC>:r!date +\%H\%M --utc<CR>kJA: <ESC>:noh<CR>a
+nmap <F3> :call Todo_change(g:TODO_START)<CR>
+nmap <F4> :call Todo_change(g:TODO_BLOCK)<CR>
+nmap <F5> :call Todo_change(g:TODO_DONE)<CR>A (<ESC>:r !date +\%H\%M --utc<CR>kJxA)<ESC>
+nmap <F6> <ESC>?.*\S.*\n<CR>jjO# <ESC>:r !date +\%Y-\%m-\%d<ESC>kJj:noh<CR><ESC><F2><ESC>o<ESC>kA
+nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
+xnoremap <F8> :w !python<CR>
+nnoremap <F9> :set list!<CR>
+
 "function! todo_start()
 "  execute "normal
 
@@ -229,15 +263,6 @@ endfunction
 "nmap <F4> <ESC>O<ESC>i<Tab>[ ] - <ESC>:r !date +\%Y\%m\%dT\%H\%M\%z --utc<CR>kJA -  <ESC>:noh<CR>a
 
 
-" Create Title
-nmap <F2> <ESC>O<ESC>i  [ ]<ESC>:r!date +\%Y\%m\%dT\%H\%M --utc<CR>kJxA: <ESC>:noh<CR>a
-nmap <F3> :call Todo_change(g:TODO_START)<CR>
-"nmap <F4> :call Todo_change(g:TODO_BLOCK)<CR>
-nmap <F5> :call Todo_change(g:TODO_DONE)<CR>A (<ESC>:r !date +\%H\%M --utc<CR>kJxA)<ESC>
-nmap <F6> <ESC>?.*\S.*\n<CR>jjO<ESC>:r !date +\%Y-\%m-\%d<ESC>kJo<Tab>----------<ESC>j:noh<CR><ESC><F2><ESC>o<ESC>kA
-nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
-xnoremap <F8> :w !python<CR>
-nnoremap <F9> :set list!<CR>
 
 nnoremap <F10> :setlocal spell! set spelllang=en_us<CR>
 
@@ -279,7 +304,8 @@ nnoremap <silent> <C-S> :<C-u>Update<CR>
 "vnoremap <silent> <C-S> <C-C>:update<CR>
 "inoremap <silent> <C-S> <C-O>:update<CR>
 
-
+" Edit file under cursor (create if not exists).
+noremap <leader>gf :vsplit <cfile><cr>
 
 "
 " STATUSLINE
