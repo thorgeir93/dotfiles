@@ -446,7 +446,7 @@ hdmi_orient_office () {
     #  __  __ 
     # |__||__|
     #     
-    left='HDMI-2'
+    left='HDMI-3'
     right="HDMI-1"
     xrandr  --output $left --auto \
             --output $right --auto --right-of $left
@@ -562,6 +562,17 @@ t () {
     # Create given number of panes in the current tmux window/session.
     number_of_panes=${1};
     bash ~/gitlab/thorgeir/tools/tgrid.sh ${number_of_panes}
+}
+
+
+help_network_wired_troubleshooting () {
+    echo nmcli device status
+    echo journal -f # To see networking logs.
+}
+
+help_laptop_tempature () {
+    echo $ sensors {get CPU temp}
+    echo $ sudo systemctl stop systemd-logind.service
 }
 
 ####################
