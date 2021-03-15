@@ -1,4 +1,4 @@
-! xrdb %
+!xrdb %
 ! #(to reload)
 ! (from: help.ubuntu.com/community/TransparentTerminals)
 !URxvt.font:xft:Monaco:pixelsize=10
@@ -6,8 +6,8 @@
 !URxvt*font: xft:Dejavu Sans Mono:pixelsize=15
 
 URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
+!URxvt*font: xft:Dejavu Sans Mono:pixelsize=25
 
-!URxvt*font: xft:Dejavu Sans Mono:pixelsize=35
 !URxvt.font:xft:Monaco:pixelsize=11
 !URxvt.font:xft:DejaVu Sans Mono:style=Book:pixelsize=14
 URxvt.background:       black
@@ -64,8 +64,40 @@ Xft.antialias:true
 !URxvt.colorUL:      #87afd7
 !
 ! black
-*.color0:       #11111
-*.color8:       #11111 
+!!*.color0:       #111111
+!!*.color8:       #111111
+!!
+!!! red
+!!*.color1:       #8f423c
+!!*.color9:       #eeaa88
+!!
+!!! green
+!!*.color2:       #bbbb88
+!!*.color10:      #ccc68d
+!!
+!!! yellow
+!!*color3:        #b58900
+!!*color11:       #797979
+!!
+!!! blue
+!!*.color4:       #e0ba69
+!!*.color12:      #c9b957
+!!
+!!! magenta
+!!*.color5:       #709289
+!!*.color13:      #ffcbab
+!!
+!!! cyan
+!!*.color6:       #d13516
+!!*.color14:      #c25431
+!!
+!!! white
+!!*.color7:       #efe2e0
+!!*.color15:      #f9f1ed
+
+! For example `null` in colorful jq output.
+*.color0:       #ffffff
+*.color8:       #ffffff
 
 ! red
 *.color1:       #8f423c

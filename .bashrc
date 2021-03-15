@@ -1,9 +1,20 @@
 # .bashrc
 
+# prompt before overwrite
+#alias rm='rm -i'
+#alias cp='cp -i'
+#alias mv='mv -i'
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
+
+# Setting the HISTFILESIZE and HISTSIZE variables to
+# an empty string makes the bash history size unlimited.
+# (ref.: soberkoder.com/unlimited-bash-history)
+export HISTFILESIZE=
+export HISTSIZE=
 
 #############################
 # BASH/PROMPT CUSTOMIZATION #
@@ -25,6 +36,13 @@ fi
 
 if [[ $(hostname) == "MEGAS" ]]; then
     export PS1="\[\033[38;5;27m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;27m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+
+elif [[ $(hostname) == "SMYRILL" ]]; then
+    color=48
+    export PS1="\[\033[38;5;${color}m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;${color}m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+
+    # 
+
 else
     export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
 fi
@@ -89,6 +107,23 @@ wifi_list() {
     nmcli device wifi 
 }
 
+wifi_connect_with_username_and_password () {
+    connection_name=$1; shift
+    SSID=$1; shift
+    USERNAME=$1; shift
+    nmcli connection add  type wifi con-name "$connection_name" \
+        ifname wlp3s0 ssid "$SSID" --  \
+            wifi-sec.key-mgmt wpa-eap \
+            802-1x.eap ttls \
+            802-1x.phase2-auth mschapv2 \
+            802-1x.identity "$USERNAME"
+
+    # wifi_connect_with_username_and_password hrstudents01 HR-Students guolin19
+    # Translates to:
+    # + nmcli connection add  type wifi con-name "hrstudents01" ifname wlp3s0 ssid "HR-Students" --  wifi-sec.key-mgmt wpa-eap 802-1x.eap ttls 802-1x.phase2-auth mschapv2 802-1x.identity "guolin19"
+
+}
+
 wifi_connect() {
     # :params: <WIFI name> <Password>
     #   Accept a wifi name which you can get from `wifi_list` command.
@@ -137,6 +172,18 @@ PROMPT_COMMAND='echo -en "\033]0;$PWD\007"'
 battery () {
     echo "Check battery!"
     bash ~/.config/i3/microprograms/notify_battery.sh
+}
+
+todo () {
+    vim -n ~/git/lab/thorgeir/worklogs/worklogs/todo.log
+}
+
+todomd () {
+    vim -n ~/git/lab/thorgeir/worklogs/worklogs/todo.markdown
+}
+
+todomu () {
+    vim -n ~/git/lab/thorgeir/worklogs/worklogs/todo_malware_urls.log
 }
 
 ###############
@@ -397,12 +444,18 @@ hdmi_orient () {
 }
 
 hdmi_orient_thinkpad () {
-    xrandr --output eDP-1 --auto --output HDMI-2 --auto --left-of eDP-1
+    xrandr --output eDP-1 --auto --output HDMI-2 --auto --right-of eDP-1
 }
+
 hdmi_orient_docker () {
     # Using HDMI and DVI as adapters.
     #xrandr --output eDP-1 --auto --output DP-2-1 --left-of eDP-1 --output DP-2-2 --auto --left-of DP-2-1
-    xrandr --output DP-2-1 --auto --output DP-2-2 --right-of DP-2-1 --output eDP-1 --right-of DP-2-2
+    #xrandr --output DP-2-1 --auto --output DP-2-2 --right-of DP-2-1 --output eDP-1 --right-of DP-2-2
+    xrandr --output DP-2-2 --auto --output DP-2-1 --right-of DP-2-2 --output eDP-1 --right-of DP-2-1
+}
+
+screenrecord () {
+    ffmpeg -f x11grab -s $(xdpyinfo | grep -i dimensions: | sed 's/[^0-9]*pixels.*(.*).*//' | sed 's/[^0-9x]*//') -r 25 -i :0.0 valami.avi
 }
 
 hdmi_orient_3 () {
@@ -526,6 +579,12 @@ cptext () {
     echo "---------"
     echo "Use Ctrl-v to export output"
 }
+
+xc () {
+    # Paste from clipbard to stdout.
+    echo $(xclip -selection clipboard -o)
+}
+
 ##########################
 ## COMMAND-LINE SCRIPTS ##
 ##########################
@@ -549,7 +608,12 @@ wifi_connect_phone () {
 
 photo_facebook () {
     # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
-    echo 'for img in $(ls ./*.JPG); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 $img); done'
+    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
+}
+
+facebook_photo () {
+    # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
+    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
 }
 
 c3_connect_to_specific_host () {
@@ -561,7 +625,12 @@ c3_connect_to_specific_host () {
 t () {
     # Create given number of panes in the current tmux window/session.
     number_of_panes=${1};
-    bash ~/gitlab/thorgeir/tools/tgrid.sh ${number_of_panes}
+    bash ~/git/lab/thorgeir/tools/tgrid.sh ${number_of_panes}
+}
+
+disk_eject () {
+    echo sudo umount /run/media/thorgeir/Elements
+    echo udisksctl power-off -b /dev/sda1
 }
 
 
@@ -575,6 +644,29 @@ help_laptop_tempature () {
     echo $ sudo systemctl stop systemd-logind.service
 }
 
+notification () {
+    # information about notification system.
+    echo 'notify-send "test" "body"'
+    echo "ps aux | grep -i noti"
+    echo "cat /usr/share/dbus-1/services/org.freedesktop.Notifications.service"
+    echo "To fix the missing notification, I clicked on the icon in right down corner and hit clear all notifications."
+}
+
+touchdate () {
+    # $ touchdate mytext.log
+    # Creates file mytext_<current date>.log
+    name=$(echo ${1} | cut -d"." -f1)
+    ext=$(echo ${1} | cut -d"." -f2)
+    touch ${name}_$(date --utc '+%Y%m%dT%H%M%S').${ext}
+}
+
+#export IS_DISPLAY_SET=0
+#
+#if [[ ${IS_DISPLAY_SET} == 0 ]] && [[ $(xrandr | grep eDP | wc -l) == 1 ]] && [[ $(xrandr | grep " connected " | wc -l) == 3 ]];
+#    then hdmi_orient_docker
+#    export IS_DISPLAY_SET=1
+#fi
+
 ####################
 ## SYSTEM CONTROL ##
 ####################
@@ -585,3 +677,107 @@ help_laptop_tempature () {
 stty -ixon
 
 source ~/.aliases
+
+help_sync_images () {
+    # Mount my icybox external hard drive to my local directory.
+    echo sudo mount /dev/sda1 /mnt/icybox
+    echo cd ~/Pictures/from_camera/
+
+    # Notice the end-backslash on the first `2020`.
+    # Remove -n flag if you want to run this command.
+    # -n is just dry run and shows what will happen.
+    echo rsync -anv 2020/ /mnt/icybox/media/photos/2020
+}
+
+help_set_caps() {
+    echo "xdotool key Caps_Lock"
+}
+
+
+BARRACUDA () {
+    echo BARRACUDA LOVES GREG.
+}
+embla () {
+    echo Hi, Embla!
+}
+
+default_browser () {
+    vim ~/.config/mimeapps.list
+}
+
+work_clean () {
+    echo "Remove unnecessary files and folders"
+    rm ./*.pyc
+    rm ./*.swp
+    rm -r ./__pycache__
+    rm -r ./.pytest_cache
+}
+
+
+help_screensaver_off () {
+    # Turn off screensaver on laptop.
+    # Add these lines to ~/.bash_profile
+    # After reboot run xset -q to see if
+    # it had take affect.
+    echo xset s off 
+    echo xset s noblank
+    echo xset -dpms
+}
+
+help_set_default_browser () {
+    # Credit: https://unix.stackexchange.com/a/579994
+    # See current browser.
+    echo xdg-mime query default x-scheme-handler/https
+
+    # Set default Browser.
+    echo xdg-mime default google-chrome.desktop x-scheme-handler/https
+    echo xdg-mime default google-chrome.desktop x-scheme-handler/http
+
+    # Verify the changes.
+    echo xdg-mime query default x-scheme-handler/https
+}
+
+
+help_add_echo_cancel_to_pulseaudio () {
+    # Credit:
+    #   * https://www.youtube.com/watch?v=lTodCeVAfpI
+    #   * https://gist.githubusercontent.com/grigio/cb93c3e8710a6f045a3dd9456ec01799/raw/94f07c7d75bcf5dd9b08a9c3034844223ec6fbe1/fix-microphone-background-noise.sh
+    #   * https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio 
+    #
+    echo "echo load-module module-echo-cancel source_name=noechosource sink_name=noechosink >> /etc/pulse/default.pa"
+    echo "echo set-default-source noechosource >> /etc/pulse/default.pa"
+    echo "echo set-default-sink noechosink >> /etc/pulse/default.pa"
+    
+    echo "pulseaudio -k"
+}
+
+help_install_pulseaudio () {
+    # Credit: https://linoxide.com/linux-how-to/install-equalizer-pulseeffects-linux/
+    # Podcast related: https://dlnxtend.com/8
+    echo sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo  
+    echo sudo flatpak install flathub com.github.wwmm.pulseeffects
+}
+
+help_pulseeffect () {
+    # Run this GUI app.
+    echo install using flatpak
+    echo run with flatpak
+    echo $ flatpak run com.github.wwmm.pulseeffects
+    echo Also run:
+    echo $ pavucontrol
+    echo Here you can control wich application use which audio input.
+    echo Worth to consider to to use this command
+    echo pulseeffects --gapplication-service
+    echo more info: https://news.ycombinator.com/item?id=24985090
+}
+
+help_network_share_ethernet () {
+  echo https://www.cesariogarcia.com/?p=611
+}
+
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
