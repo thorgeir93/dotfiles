@@ -239,14 +239,26 @@ endfunction
 "nmap <leader>tc <ESC>O<ESC>i  - [ ] <ESC>:r!date +\%H\%M --utc<CR>kJA: <ESC>:noh<CR>a
 
 " Create Title
-nmap <F2> <ESC>O<ESC>i  - [ ] <ESC>:r!date +\%H\%M --utc<CR>kJA: <ESC>:noh<CR>a
+" nmap <F2> <ESC>O<ESC>i  - [ ] <ESC>:r!date +\%H\%M --utc<CR>kJA: <ESC>:noh<CR>a
+nmap <F2> <ESC>O<ESC>i  - [ ] () <ESC>:noh<CR>a
 nmap <F3> :call Todo_change(g:TODO_START)<CR>
 nmap <F4> :call Todo_change(g:TODO_BLOCK)<CR>
-nmap <F5> :call Todo_change(g:TODO_DONE)<CR>A (<ESC>:r !date +\%H\%M --utc<CR>kJxA)<ESC>
+nmap <F5> :call Todo_change(g:TODO_DONE)<CR><ESC>
 nmap <F6> <ESC>?.*\S.*\n<CR>jjO# <ESC>:r !date +\%Y-\%m-\%d<ESC>kJj:noh<CR><ESC><F2><ESC>o<ESC>kA
 nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
 xnoremap <F8> :w !python<CR>
 nnoremap <F9> :set list!<CR>
+
+
+" Date creations.
+" Installed vim-speeddating to be able to increase and decrease dates.
+"noremap! <expr> ,l strftime("%Y-%m-%d %H:%M")
+"noremap! <expr> ,D
+"          \ strftime("%Y") + strftime("%m") / 12 . "-" .
+"          \ repeat('0', 2-len((strftime("%m") + 1) % 12)) .
+"          \ (strftime("%m") + 1) % 12 .
+"          \ "-01"
+"
 
 "function! todo_start()
 "  execute "normal

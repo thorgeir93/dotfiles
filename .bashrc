@@ -1,9 +1,9 @@
 # .bashrc
 
 # prompt before overwrite
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
+#alias rm='rm -i'
+#alias cp='cp -i'
+#alias mv='mv -i'
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
@@ -689,6 +689,80 @@ BARRACUDA () {
 }
 embla () {
     echo Hi, Embla!
+}
+
+default_browser () {
+    vim ~/.config/mimeapps.list
+}
+
+work_clean () {
+    echo "Remove unnecessary files and folders"
+    rm ./*.pyc
+    rm ./*.swp
+    rm -r ./__pycache__
+    rm -r ./.pytest_cache
+}
+
+
+help_screensaver_off () {
+    # Turn off screensaver on laptop.
+    # Add these lines to ~/.bash_profile
+    # After reboot run xset -q to see if
+    # it had take affect.
+    echo xset s off 
+    echo xset s noblank
+    echo xset -dpms
+}
+
+help_set_default_browser () {
+    # Credit: https://unix.stackexchange.com/a/579994
+    # See current browser.
+    echo xdg-mime query default x-scheme-handler/https
+
+    # Set default Browser.
+    echo xdg-mime default google-chrome.desktop x-scheme-handler/https
+    echo xdg-mime default google-chrome.desktop x-scheme-handler/http
+
+    # Verify the changes.
+    echo xdg-mime query default x-scheme-handler/https
+}
+
+
+help_add_echo_cancel_to_pulseaudio () {
+    # Credit:
+    #   * https://www.youtube.com/watch?v=lTodCeVAfpI
+    #   * https://gist.githubusercontent.com/grigio/cb93c3e8710a6f045a3dd9456ec01799/raw/94f07c7d75bcf5dd9b08a9c3034844223ec6fbe1/fix-microphone-background-noise.sh
+    #   * https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio 
+    #
+    echo "echo load-module module-echo-cancel source_name=noechosource sink_name=noechosink >> /etc/pulse/default.pa"
+    echo "echo set-default-source noechosource >> /etc/pulse/default.pa"
+    echo "echo set-default-sink noechosink >> /etc/pulse/default.pa"
+    
+    echo "pulseaudio -k"
+}
+
+help_install_pulseaudio () {
+    # Credit: https://linoxide.com/linux-how-to/install-equalizer-pulseeffects-linux/
+    # Podcast related: https://dlnxtend.com/8
+    echo sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo  
+    echo sudo flatpak install flathub com.github.wwmm.pulseeffects
+}
+
+help_pulseeffect () {
+    # Run this GUI app.
+    echo install using flatpak
+    echo run with flatpak
+    echo $ flatpak run com.github.wwmm.pulseeffects
+    echo Also run:
+    echo $ pavucontrol
+    echo Here you can control wich application use which audio input.
+    echo Worth to consider to to use this command
+    echo pulseeffects --gapplication-service
+    echo more info: https://news.ycombinator.com/item?id=24985090
+}
+
+help_network_share_ethernet () {
+  echo https://www.cesariogarcia.com/?p=611
 }
 
 
