@@ -2,7 +2,7 @@
 ! #(to reload)
 ! (from: help.ubuntu.com/community/TransparentTerminals)
 !URxvt.font:xft:Monaco:pixelsize=10
-#URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
+!URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
 !URxvt*font: xft:Dejavu Sans Mono:pixelsize=15
 
 URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
@@ -96,8 +96,11 @@ Xft.antialias:true
 !!*.color15:      #f9f1ed
 
 ! For example `null` in colorful jq output.
-*.color0:       #ffffff
-*.color8:       #ffffff
+! Alsamixer background color for example.
+*.color0:       #222222
+
+! ssh user-thorgeir ... "kernel:"
+*.color8:       #008000
 
 ! red
 *.color1:       #8f423c
