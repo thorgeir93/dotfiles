@@ -95,11 +95,12 @@ Xft.antialias:true
 !!*.color7:       #efe2e0
 !!*.color15:      #f9f1ed
 
-! For example `null` in colorful jq output.
 ! Alsamixer background color for example.
-*.color0:       #222222
+*.color0:       #ffffff
 
-! ssh user-thorgeir ... "kernel:"
+! e.g.
+!  * ssh user-thorgeir ... "kernel:"
+!  * null` in colorful jq output.
 *.color8:       #008000
 
 ! red
@@ -115,11 +116,19 @@ Xft.antialias:true
 *color11:       #797979
 
 ! blue
-*.color4:       #e0ba69
+!! e.g. background  in nmtui
+!*.color4:       #e0ba69
+*.color4:       #222222
+
 *.color12:      #c9b957
+!*.color12:      #000080
 
 ! magenta
 *.color5:       #709289
+
+! e.g.
+!   * vim word completation background
+!   * vim json values
 *.color13:      #ffcbab
 
 ! cyan
@@ -127,5 +136,10 @@ Xft.antialias:true
 *.color14:      #c25431
 
 ! white
-*.color7:       #efe2e0
+! e.g.
+!   * nmtui box background
+!   * command line symbols thorgeir@MEGAS, >@<
+!*.color7:       #efe2e0
+*.color7:       #aaaaaa
+
 *.color15:      #f9f1ed
