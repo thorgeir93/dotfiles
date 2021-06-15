@@ -104,7 +104,9 @@ Xft.antialias:true
 *.color9:       #eeaa88
 
 ! green
-*.color2:       #bbbb88
+! E.g. Higlight color in directories with permission 777
+! original: *.color2:       #bbbb88
+*.color2:       #ffffff
 *.color10:      #ccc68d
 
 ! yellow
@@ -112,7 +114,9 @@ Xft.antialias:true
 *color11:       #797979
 
 ! blue
-*.color4:       #e0ba69
+! E.g. Text Color in directories with permission 777
+! original -> *.color4:       #e0ba69
+*.color4:       #000000
 *.color12:      #c9b957
 
 ! magenta
