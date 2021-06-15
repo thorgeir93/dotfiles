@@ -499,7 +499,7 @@ hdmi_orient_office () {
     #  __  __ 
     # |__||__|
     #     
-    left='HDMI-2'
+    left='HDMI-3'
     right="HDMI-1"
     xrandr  --output $left --auto \
             --output $right --auto --right-of $left
@@ -633,6 +633,16 @@ help_disk_eject () {
     echo udisksctl power-off -b /dev/sda1
 }
 
+
+help_network_wired_troubleshooting () {
+    echo nmcli device status
+    echo journal -f # To see networking logs.
+}
+
+help_laptop_tempature () {
+    echo $ sensors {get CPU temp}
+    echo $ sudo systemctl stop systemd-logind.service
+}
 
 notification () {
     # information about notification system.
@@ -775,6 +785,36 @@ help_network_share_ethernet () {
   echo https://www.cesariogarcia.com/?p=611
 }
 
+help_virtualbox_fullscreen () {
+    # this helped me:
+    #  * https://askubuntu.com/questions/573596/unable-to-install-guest-additions-cd-image-on-virtual-box
+    echo "read the comments in the function!"
+}
+
+shrink_videos () {
+    echo 'mkdir -p shrink; for mov in $(ls *.MOV); do (set -o xtrace; ffmpeg -i $mov -c:v libx264 -c:a copy -crf 20 ./shrink/$mov); done'
+
+    echo "# Recursivly find *.mov files and reduce size"
+    echo "# Store the shrinked file with same absolute path in shrink folder."
+    echo "# Print out shrink commands to shrink_commands.sh file."
+    echo "# For .MOV, mp4"
+    echo 'echo "set -o errexit" > shrink_commands.sh; find * -iname "*.mp4" -print0 | while read -r -d $'\0' mov; do echo mkdir -p shrink/$(dirname "$mov"); echo ffmpeg -i \"$mov\" -c:v libx264 -c:a copy -crf 20 \"shrink/$mov\"; done >> shrink_commands.sh;'
+
+    echo "# See the difference between folders."
+    echo "diff <(pushd Dropbox; find . | sort; popd) <(pushd Dropbox_shrink/shrink; find . | sort; popd) | less"
+}
+
+shrink_photos () {
+    # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
+    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
+}
+
+
+help_remove_duplicates () {
+    # Credit: https://superuser.com/a/691551 
+    echo 'fdupes -rf . | grep -v '^$' > duplicate_files'
+    echo 'xargs -d '\n' -a duplicate_files rm -v'
+}
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
