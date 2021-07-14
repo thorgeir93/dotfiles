@@ -403,6 +403,13 @@ vpnc4 () {
 forticlient () {
     #cp /etc/resolv.conf /tmp/resolv.conf.backup && (sleep 60; sudo cp -f /tmp/resolv.conf.backup /etc/resolv.conf) &
 
+    echo "SMS METHOD"
+    echo "=========="
+    echo "Go to: https://is.vpn.cyren.com"
+    echo "Type in Master Username and Password"
+    echo "In next window type 'sms' and hit enter."
+    echo "Password for VPN:<free ip password>,<one of sms codes>"
+
     # Search in lastpass for password, search "forti"
     /home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh ASH1 thsigurdsson
     #/home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh IL thsigurdsson
@@ -644,6 +651,16 @@ help_laptop_tempature () {
     echo $ sudo systemctl stop systemd-logind.service
 }
 
+help_scan_photos () {
+    # Search:
+    #   Linux driver epson perfection 1240U
+    # Download:
+    # * http://download.ebz.epson.net/dsc/search/01/search/searchModule
+    # * http://download.ebz.epson.net/dsc/search/01/search/searchModule
+    # * http://support.epson.net/linux/en/iscan_c.php?version=2.30.4
+    echo "Use iscan program."
+}
+
 notification () {
     # information about notification system.
     echo 'notify-send "test" "body"'
@@ -681,7 +698,7 @@ source ~/.aliases
 help_sync_images () {
     # Mount my icybox external hard drive to my local directory.
     echo sudo mount /dev/sda1 /mnt/icybox
-    echo cd ~/Pictures/from_camera/
+    echo cd ~/media
 
     # Notice the end-backslash on the first `2020`.
     # Remove -n flag if you want to run this command.
@@ -804,6 +821,17 @@ help_remove_duplicates () {
     # Credit: https://superuser.com/a/691551 
     echo 'fdupes -rf . | grep -v '^$' > duplicate_files'
     echo 'xargs -d '\n' -a duplicate_files rm -v'
+
+    # OTHER WAY, WHICH IS MUCH NICER!
+    # https://xyne.archlinux.ca/projects/rmdupes/
+    # Download tar, extracted and wolla!
+    # -n:   dry-run, just remove this flag to acually remove duplicates.
+    #       When this flag is not provide, it will ask you before you
+    #       want to remove the files.
+    # -r:   reference folder, use 2021 as the main source and
+    #       remove duplates in the books directory.
+    echo "cd ~/media"
+    echo "python3.6 ~/Downloads/rmdupes-2020.12/rmdupes ./books -r ./2021 -n"
 }
 
 export PYENV_ROOT="$HOME/.pyenv"
@@ -811,3 +839,5 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
