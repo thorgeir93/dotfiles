@@ -635,7 +635,7 @@ t () {
     bash ~/git/lab/thorgeir/tools/tgrid.sh ${number_of_panes}
 }
 
-disk_eject () {
+help_disk_eject () {
     echo sudo umount /run/media/thorgeir/Elements
     echo udisksctl power-off -b /dev/sda1
 }
@@ -696,6 +696,11 @@ stty -ixon
 source ~/.aliases
 
 help_sync_images () {
+
+    # Run this command on different terminal to watch 
+    # what happen for external hard drives.
+    echo udisksctl monitor
+
     # Mount my icybox external hard drive to my local directory.
     echo sudo mount /dev/sda1 /mnt/icybox
     echo cd ~/media
@@ -704,6 +709,11 @@ help_sync_images () {
     # Remove -n flag if you want to run this command.
     # -n is just dry run and shows what will happen.
     echo rsync -anv 2020/ /mnt/icybox/media/photos/2020
+
+    # Confirm no difference between folder and
+    # then you can delete the original copy
+    # Credit: https://askubuntu.com/questions/421712/comparing-the-contents-of-two-directories
+    echo  "diff <(find videos/ -type f -exec md5sum {} + | sort -k 2) <(find /run/media/thorgeir/Linux1T/media/videos/ -type f -exec md5sum {} + | sort -k 2)"
 }
 
 help_set_caps() {
@@ -733,7 +743,7 @@ work_clean () {
 
 help_screensaver_off () {
     # Turn off screensaver on laptop.
-    # Add these lines to ~/.bash_profile
+    # Add these lines to ~/.bash_profile or ~/.profile
     # After reboot run xset -q to see if
     # it had take affect.
     echo xset s off 
