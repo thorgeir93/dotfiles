@@ -195,6 +195,7 @@ endfunction
 " To:
 " '[x]-20170926T1736+0000-' 
 " And the otherway arround.
+
 function! Todo_change(symbol)
   " Delete what is inside the brackets
   " [ ] - ... becomes [] or
@@ -214,23 +215,13 @@ function! Todo_change(symbol)
   ""execute "normal `x"
 endfunction
 
-function! Todo_change(symbol)
-  " Delete what is inside the brackets
-  " [ ] - ... becomes [] or
-  " [x] - ... becomes []
-  call ChangeInsideBracket(a:symbol)
+function! Todo_init()
+	"execute "<ESC>?.*\S.*\n<CR>jjO# <ESC>:r !date +\%Y-\%m-\%d<ESC>kJj:noh<CR><ESC><F2><ESC>o<ESC>kA"
+	"execute "normal \<ESC>?.*\S.*\n\<CR>jjO# \<esc>:r !date +\%Y-\%m-\%d<esc>kJj:noh<CR><esc><F2><esc>o<esc>kA"
+  	"execute "insert Check slack, email, meetings (add alert if any), Precis Feed graph, Linkfunnel Graph"
+	execute "normal i  - [ ] () Check slack, email, daily graphs"
+	execute "normal o- [ ] () Check meetings (add alert if any)"
 
-  " Assign the last copied string to variable
-  " (what is inside in the brackets)
-  ""let l:bracket_string = GetInsideBracket()
-
-  ""if l:bracket_string == "x"
-  ""  call ChangeInsideBracket(" ")
-  ""else
-  ""  call ChangeInsideBracket("x")
-  ""endif
-
-  ""execute "normal `x"
 endfunction
 
 " TODO WHEN TODO BULLET IS FINISHED, MOVE THE TODO UP
@@ -244,10 +235,19 @@ nmap <F2> <ESC>O<ESC>i  - [ ] () <ESC>:noh<CR>a
 nmap <F3> :call Todo_change(g:TODO_START)<CR>
 nmap <F4> :call Todo_change(g:TODO_BLOCK)<CR>
 nmap <F5> :call Todo_change(g:TODO_DONE)<CR><ESC>
-nmap <F6> <ESC>?.*\S.*\n<CR>jjO# <ESC>:r !date +\%Y-\%m-\%d<ESC>kJj:noh<CR><ESC><F2><ESC>o<ESC>kA
+"nmap <F6> <ESC>?.*\S.*\n<CR>jjO# <ESC>:r !date +\%Y-\%m-\%d<ESC>kJj:noh<CR><ESC><F2><ESC>:call Todo_init()<CR><ESC>o<ESC>kA
+nmap <F6> <ESC>?.*\S.*\n<CR>jjO# <ESC>:r !date +\%Y-\%m-\%d<ESC>kJj:noh<CR><ESC><ESC>:call Todo_init()<CR><ESC>o<ESC>kA
+" nmap <F6> :call Todo_init()<CR>
 nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
-xnoremap <F8> :w !python<CR>
+" xnoremap <F8> :w !python<CR>
 nnoremap <F9> :set list!<CR>
+
+
+" Credit vim help ":help [I"
+" Default [I search for word under cursor and displays
+" list of matching line in the current file. This allows
+" me to choose which line to naviate from the given list
+map [I [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
 
 " Date creations.

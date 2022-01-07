@@ -10,8 +10,6 @@ URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
 
 !URxvt.font:xft:Monaco:pixelsize=11
 !URxvt.font:xft:DejaVu Sans Mono:style=Book:pixelsize=14
-URxvt.background:       black
-URxvt.foreground:       white
 URxvt.scrollBar:        false
 URxvt.tintColor:        white
 !URxvt.fading:           25 # make other terminals dark.
@@ -23,7 +21,8 @@ URxvt.pointerColor2:    white
 Xft.antialias:true
 ! fading: how much other terminals fade out.
 
-*cursorColor: red
+
+URxvt.perl-ext-common: default,tabbed,matcher,resize-font,-tabbed
 
 !! ( from the web )
 !!black
@@ -95,6 +94,10 @@ Xft.antialias:true
 !!*.color7:       #efe2e0
 !!*.color15:      #f9f1ed
 
+URxvt.background:       black
+URxvt.foreground:       white
+*cursorColor: red
+
 ! Alsamixer background color for example.
 *.color0:       #ffffff
 
@@ -120,10 +123,12 @@ Xft.antialias:true
 ! blue
 ! E.g. Text Color in directories with permission 777
 ! original -> *.color4:       #e0ba69
-*.color4:       #000000
+!*.color4:       #000000
+! e.g. Poetry install (was always black)
+*.color4:       #0078d4
 !! e.g. background  in nmtui
 !*.color4:       #e0ba69
-#*.color4:       #222222
+!*.color4:       #222222
 
 *.color12:      #c9b957
 !*.color12:      #000080
@@ -146,5 +151,4 @@ Xft.antialias:true
 !   * command line symbols thorgeir@MEGAS, >@<
 !*.color7:       #efe2e0
 *.color7:       #aaaaaa
-
 *.color15:      #f9f1ed
