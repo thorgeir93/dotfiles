@@ -333,3 +333,5 @@ stty -ixon
 
 source ~/.aliases
 source ~/.kube/zsh_completion # Complete the words for kubectl tool.
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

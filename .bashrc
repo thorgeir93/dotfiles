@@ -592,6 +592,16 @@ xc () {
     echo $(xclip -selection clipboard -o)
 }
 
+##
+## Work
+##
+daily_browsing () {
+    google-chrome --app=https://10.105.15.40/d/EXsm2tnnk/precis-futterkorb?orgId=1&from=now-30d&to=now&refresh=1m
+    google-chrome --app=http://production-grafana-ash1-001.threatlab.ash1.cynet/d/000000001/virus-lab?orgId=2
+    google-chrome --app="http://production-es-stats-master-ash1-001.threatlab.ash1.cynet/app/kibana#/dashboard/370afc00-19d4-11eb-83ac-1dfb9b48f17e?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-7d,mode:quick,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(darkTheme:!t,hidePanelTitles:!f,useMargins:!t),panels:!((embeddableConfig:(),gridData:(h:13,i:'1',w:48,x:0,y:56),id:a2fc2700-19d3-11eb-83ac-1dfb9b48f17e,panelIndex:'1',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:12,i:'3',w:48,x:0,y:0),id:'4d2848c0-5b02-11eb-83ac-1dfb9b48f17e',panelIndex:'3',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:12,i:'4',w:48,x:0,y:12),id:'786ecce0-5b0a-11eb-83ac-1dfb9b48f17e',panelIndex:'4',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:10,i:'5',w:48,x:0,y:46),id:'21923460-5cc3-11eb-83ac-1dfb9b48f17e',panelIndex:'5',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:10,i:'6',w:48,x:0,y:24),id:'29eaffc0-60a1-11eb-83ac-1dfb9b48f17e',panelIndex:'6',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:12,i:'7',w:48,x:0,y:34),id:'0cb1e420-60a4-11eb-83ac-1dfb9b48f17e',panelIndex:'7',type:visualization,version:'6.8.2')),query:(language:lucene,query:''),timeRestore:!f,title:'Linkfunnel%20-%20Malware%20URLs%20from%20Fooze',viewMode:view)"
+    exit 0
+}
+
 ##########################
 ## COMMAND-LINE SCRIPTS ##
 ##########################
@@ -697,23 +707,45 @@ source ~/.aliases
 
 help_sync_images () {
 
-    # Run this command on different terminal to watch 
-    # what happen for external hard drives.
-    echo udisksctl monitor
+    echo "Run this command on different terminal to watch "
+    echo "what happen for external hard drives."
+    echo "" 
+    echo "  $ udisksctl monitor"
+    echo "" 
+    echo "" 
 
-    # Mount my icybox external hard drive to my local directory.
-    echo sudo mount /dev/sda1 /mnt/icybox
-    echo cd ~/media
+    echo "Mount my icybox external hard drive to my local directory."
+    echo "First you can choose partition using this command:"
+    echo ""
+    echo "  $ disk_path=\$(lsblk -pJO | jq '.blockdevices | .[] | select(.size == \"3.7T\" and .serial == \"152D00539000\") | .children | .[] | select(.size == \"1T\" and .label == \"Linux1T\") | .name'\)"
+    echo "  $ mkdir -p /mnt/icybox"
+    echo "  $ sudo mount \${disk_path} /mnt/icybox"
+    echo "  $ cd ~/media/photos"
+    echo ""
 
     # Notice the end-backslash on the first `2020`.
     # Remove -n flag if you want to run this command.
     # -n is just dry run and shows what will happen.
-    echo rsync -anv 2020/ /mnt/icybox/media/photos/2020
+    echo ""
+    echo "Notice the end-backslash on the first '2020'."
+    echo "Remove -n flag if you want to run this command."
+    echo "-n is just dry run and shows what will happen."
+    echo ""
+    echo "  $ rsync -anv 2020/ /mnt/icybox/media/photos/2020"
+    echo ""
+    echo ""
 
-    # Confirm no difference between folder and
-    # then you can delete the original copy
-    # Credit: https://askubuntu.com/questions/421712/comparing-the-contents-of-two-directories
-    echo  "diff <(find videos/ -type f -exec md5sum {} + | sort -k 2) <(find /run/media/thorgeir/Linux1T/media/videos/ -type f -exec md5sum {} + | sort -k 2)"
+    echo "Count number files in directories under current path."
+    echo ""
+    echo '  $ for dir in $(ls); do echo -n "$dir: "; ls $dir | wc -l; done'
+    echo ""
+    echo ""
+
+    echo "Confirm no difference between folder and"
+    echo "then you can delete the original copy"
+    echo "Credit: https://askubuntu.com/questions/421712/comparing-the-contents-of-two-directories"
+    echo ""
+    echo "  $ diff <(find videos/ -type f -exec md5sum {} + | sort -k 2) <(find /run/media/thorgeir/Linux1T/media/videos/ -type f -exec md5sum {} + | sort -k 2)"
 }
 
 help_set_caps() {
@@ -856,6 +888,11 @@ help_remove_duplicates () {
     #       remove duplates in the books directory.
     echo "cd ~/media"
     echo "python3.6 ~/Downloads/rmdupes-2020.12/rmdupes ./books -r ./2021 -n"
+}
+
+help_move_files_into_subdir () {
+    echo "originally create to split 14GB image folder into several directories to be able to send each folder via WeTransfer"
+    echo 'for img in $(ls **); do num=$(echo $img | tr -dc '0-9'); dir=$(echo $(($num/80*80))); mkdir -p $dir; mv $img ./$dir/; done'
 }
 
 export PYENV_ROOT="$HOME/.pyenv"

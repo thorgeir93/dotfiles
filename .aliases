@@ -4,7 +4,15 @@ alias tmux='TERM=xterm-256color tmux'
 
 alias db="cd ~/gitlab/thorgeir/db_queries"
 alias gl="cd ~/git/lab"
+alias glt="cd ~/git/lab/thorgeir"
 alias gltw="cd ~/git/lab/thorgeir/worklogs"
+
+
+alias md2="cd ~/media/photos/2021"
+
+# Installed using flatbak:
+#   $ sudo flatpak install https://flathub.org/repo/appstream/org.gimp.GIMP.flatpakref 
+alias gimp="flatpak run org.gimp.GIMP"
 
 #alias t4='bash ~/gitlab/thorgeir/tools/tgrid.sh 4'
 
