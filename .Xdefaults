@@ -5,6 +5,8 @@
 !URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
 !URxvt*font: xft:Dejavu Sans Mono:pixelsize=15
 
+URxvt.perl-ext-common: resize-font
+
 URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
 !URxvt*font: xft:Dejavu Sans Mono:pixelsize=25
 

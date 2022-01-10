@@ -827,6 +827,20 @@ shrink_photos () {
 }
 
 
+help_mouse_wireless () {
+    echo "Install solaar:"
+    echo "git clone https://github.com/pwr-Solaar/Solaar.git"
+    echo "read docs/installation.md"
+    echo " ... copy udev rule on right place"
+    echo " ... pip3 install --user ."
+    echo " ... if password prompt, just skip ..."
+    echo "Run solaar program:"
+    echo "~/.local/bin/solaar"
+    echo "1. Click on 'Unifying Receiver'"
+    echo "2. then on light bulb"
+    echo "3. Turn on the mouse"
+}
+
 help_remove_duplicates () {
     # Credit: https://superuser.com/a/691551 
     echo 'fdupes -rf . | grep -v '^$' > duplicate_files'
