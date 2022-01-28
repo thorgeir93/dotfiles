@@ -177,6 +177,7 @@ let g:TODO_START = "/"
 let g:TODO_URGENT = "!"
 let g:TODO_DONE = "x"
 let g:TODO_BLOCK= " "
+let g:TODO_TIME_NONE= ""
 
 function! GetInsideBracket()
   " Return the character(s) in the brackets in the beginning of the line.
@@ -189,6 +190,19 @@ function! ChangeInsideBracket(symbol)
   " The x is the marker to jump back to where we were.
   execute "normal mx0t]r" . a:symbol . "`x"
 endfunction
+
+function! ChangeInsideParenthesis(symbol)
+  " Replace the string in the parenthesis with the given symbol.
+  " The x is the marker to jump back to where we were.
+  execute "normal mx0t)ci)" . a:symbol . "\<ESC>`x"
+endfunction
+
+function! ClearInsideParenthesis()
+  " Replace the string in the parenthesis with the given symbol.
+  " The x is the marker to jump back to where we were.
+  execute "normal mx0t)di)`x"
+endfunction
+
 
 " Change:
 " '[ ]-20170926T1736+0000-' 
@@ -237,9 +251,8 @@ nmap <F4> :call Todo_change(g:TODO_BLOCK)<CR>
 nmap <F5> :call Todo_change(g:TODO_DONE)<CR><ESC>
 "nmap <F6> <ESC>?.*\S.*\n<CR>jjO# <ESC>:r !date +\%Y-\%m-\%d<ESC>kJj:noh<CR><ESC><F2><ESC>:call Todo_init()<CR><ESC>o<ESC>kA
 nmap <F6> <ESC>?.*\S.*\n<CR>jjO# <ESC>:r !date +\%Y-\%m-\%d<ESC>kJj:noh<CR><ESC><ESC>:call Todo_init()<CR><ESC>o<ESC>kA
-" nmap <F6> :call Todo_init()<CR>
 nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
-" xnoremap <F8> :w !python<CR>
+nmap <F8> :call ClearInsideParenthesis()<CR>
 nnoremap <F9> :set list!<CR>
 
 
