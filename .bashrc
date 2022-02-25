@@ -454,6 +454,10 @@ hdmi_orient_thinkpad () {
     xrandr --output eDP-1 --auto --output HDMI-2 --auto --right-of eDP-1
 }
 
+hdmi_orient_thinkpad_duplicate () {
+    xrandr --output HDMI-2 --auto --same-as eDP-1
+}
+
 hdmi_orient_docker () {
     # Using HDMI and DVI as adapters.
     #xrandr --output eDP-1 --auto --output DP-2-1 --left-of eDP-1 --output DP-2-2 --auto --left-of DP-2-1
@@ -596,7 +600,7 @@ xc () {
 ## Work
 ##
 daily_browsing () {
-    google-chrome --app=https://10.105.15.40/d/EXsm2tnnk/precis-futterkorb?orgId=1&from=now-30d&to=now&refresh=1m
+    google-chrome --app=https://10.105.15.40/d/EXsm2tnnk/precis-futterkorb?orgId=1&from=now-2d&to=now&refresh=1m
     google-chrome --app=http://production-grafana-ash1-001.threatlab.ash1.cynet/d/000000001/virus-lab?orgId=2
     google-chrome --app="http://production-es-stats-master-ash1-001.threatlab.ash1.cynet/app/kibana#/dashboard/370afc00-19d4-11eb-83ac-1dfb9b48f17e?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-7d,mode:quick,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(darkTheme:!t,hidePanelTitles:!f,useMargins:!t),panels:!((embeddableConfig:(),gridData:(h:13,i:'1',w:48,x:0,y:56),id:a2fc2700-19d3-11eb-83ac-1dfb9b48f17e,panelIndex:'1',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:12,i:'3',w:48,x:0,y:0),id:'4d2848c0-5b02-11eb-83ac-1dfb9b48f17e',panelIndex:'3',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:12,i:'4',w:48,x:0,y:12),id:'786ecce0-5b0a-11eb-83ac-1dfb9b48f17e',panelIndex:'4',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:10,i:'5',w:48,x:0,y:46),id:'21923460-5cc3-11eb-83ac-1dfb9b48f17e',panelIndex:'5',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:10,i:'6',w:48,x:0,y:24),id:'29eaffc0-60a1-11eb-83ac-1dfb9b48f17e',panelIndex:'6',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:12,i:'7',w:48,x:0,y:34),id:'0cb1e420-60a4-11eb-83ac-1dfb9b48f17e',panelIndex:'7',type:visualization,version:'6.8.2')),query:(language:lucene,query:''),timeRestore:!f,title:'Linkfunnel%20-%20Malware%20URLs%20from%20Fooze',viewMode:view)"
     exit 0
