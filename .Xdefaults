@@ -5,8 +5,6 @@
 !URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
 !URxvt*font: xft:Dejavu Sans Mono:pixelsize=15
 
-!URxvt.perl-ext-common: resize-font
-
 URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
 !URxvt*font: xft:Dejavu Sans Mono:pixelsize=25
 
@@ -25,6 +23,10 @@ Xft.antialias:true
 
 
 URxvt.perl-ext-common: default,tabbed,matcher,resize-font,-tabbed
+
+URxvt.colorIT:      #87af5f
+URxvt.colorBD:      #d7d7d7
+URxvt.colorUL:      #87afd7
 
 !! ( from the web )
 !!black
