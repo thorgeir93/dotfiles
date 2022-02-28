@@ -179,7 +179,11 @@ todo () {
 }
 
 todomd () {
-    vim -n ~/git/lab/thorgeir/worklogs/worklogs/todo.markdown
+    pushd ~/git/lab/thorgeir/worklogs/
+    git pull
+    vim -n worklogs/todo.markdown
+    bash auto_commit.sh
+    popd
 }
 
 todomu () {
