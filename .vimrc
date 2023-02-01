@@ -1,5 +1,8 @@
 filetype off
 
+" List of plugins I use:
+"   * https://github.com/jlanzarotta/bufexplorer
+
 execute pathogen#infect() 
 " call pathogen#helptags()
 
@@ -9,6 +12,10 @@ let g:pymode_options_colorcolumn = 0
 let g:pymode_lint_cwindow = 0
 
 filetype plugin indent on
+
+" credit: https://vim.fandom.com/wiki/Omni_completion
+" Allow Omni completion
+set omnifunc=syntaxcomplete#Complete
 
 " ALE - PYLINT options
 " Run linters only when I save files
@@ -20,8 +27,8 @@ set paste
 " Search in every subdirectories
 " Add all subdirectories in current location to vim-path.
 set path+=.
-set path+=**
-set path+=/export/unicomplex_data/unicomplex/module/python/**
+"set path+=**
+"set path+=/export/unicomplex_data/unicomplex/module/python/**
 
 " Show the file/folder search result in a text bar above the search bar.
 set wildmenu
@@ -31,6 +38,15 @@ set wildmenu
 set autochdir
 
 set tags =./tags,tags;
+
+""""""""""""""""""""
+"" EDITING IN VIM ""
+""""""""""""""""""""
+" Correct spelling for a word that you are typing
+"   Credit: thegeekstuff.com/2009/01/vi-and-vim-editor-5-awesome-examples-for-automatic-word-completion-using-ctrl-x-magic
+" set dictionary+=/usr/share/dict/words
+" https://www.thegeekstuff.com/2008/12/vi-and-vim-editor-3-steps-to-enable-thesaurus-option/
+" set thesaurus+= /home/thorgeir/.config/vim
 
 """"""""""""""""""""""
 "" MODELINE SUPPORT ""
@@ -50,22 +66,35 @@ set splitright
 " NETRW
 """
 " Same as if you tab `i` letter three times in netrw view.
-let g:netrw_liststyle = 3
+"let g:netrw_liststyle = 3
 
 " Removing the banner
-let g:netrw_banner = 0
+"let g:netrw_banner = 0
 
 " Set the width of the directory explorer
 
 " open files in a new vertical split
-let g:netrw_browse_split = 2
+"let g:netrw_browse_split = 2
 
 " Preview in vertical
-let g:netrw_preview   = 1
-let g:netrw_winsize   = 75
+"let g:netrw_preview   = 1
+"let g:netrw_winsize   = 75
 
 " Vertical split
-let g:netrw_altv = 1
+"let g:netrw_altv = 1
+
+
+"let g:netrw_preview   = 1
+"let g:netrw_liststyle = 3
+"let g:netrw_winsize   = 250
+
+
+"let g:netrw_browse_split = 4
+"let g:netrw_winsize = 25
+"augroup ProjectDrawer
+"  autocmd!
+"  autocmd VimEnter * :Vexplore
+"augroup EN
 
 
 
@@ -107,11 +136,12 @@ set ignorecase smartcase
 " TODO only do this for sql files
 " TODO Add sql syntax to .sql files.
 " TODO Set manual foldmethod only on sql files.
-augroup remember_folds
-  autocmd!
-  autocmd BufWinLeave * mkview
-  autocmd BufWinEnter * silent! loadview
-augroup END
+" ATTENSION This code snippet makes some files have "syntax off"
+" augroup remember_folds
+"   autocmd!
+"   autocmd BufWinLeave * mkview
+"   autocmd BufWinEnter * silent! loadview
+" augroup END
 
 
 "
@@ -126,15 +156,24 @@ augroup END
 
 " Light blue
 hi Statement ctermfg=41
-hi MatchParen term=underline ctermbg=15
+"hi MatchParen term=underline ctermbg=15
+hi MatchParen ctermfg=64 ctermbg=None cterm=bold
 hi Identifier term=NONE cterm=None ctermfg=9
 hi Function ctermfg=52
-hi Folded cterm=underline ctermfg=80 ctermbg=168
+"hi Folded cterm=underline ctermfg=14 ctermbg=168
+hi Folded cterm=None ctermfg=14 ctermbg=168
 hi Comment ctermfg=37
 hi Todo cterm=underline ctermfg=80 ctermbg=168
-hi Search cterm=bold,underline ctermfg=24 ctermbg=168
+hi Search cterm=bold,underline ctermfg=None ctermbg=None
 hi VertSplit cterm=bold ctermbg=80 ctermfg=80
 "hi VertSplit term=reverse cterm=bold ctermbg=80 gui=reverse 
+
+" Use dark blue #192841, it is nice!
+" hi Pmenu ctermbg=gray guibg=gray
+hi Pmenu ctermfg=None ctermbg=80
+hi PmenuSel ctermbg=14 ctermfg=None
+hi PmenuThumb ctermbg=15
+hi PmenuSbar ctermbg=11
 
 hi StatusLine ctermfg=12 ctermbg=80 cterm=bold
 hi StatusLineNC ctermfg=11 ctermbg=80 cterm=none
@@ -166,6 +205,14 @@ syntax on
 if has('terminal')
     set termwinscroll=90000
 endif
+
+"
+"
+""""""""""""""""""""
+"" Copilot plugin ""
+""""""""""""""""""""
+" imap <silent><script><expr> <C-e> copilot#Accept("\<CR>")
+" let g:copilot_no_tab_map = v:true
 
 """"""""""""""""""""
 "" CUSTOM MAPPING ""
@@ -244,14 +291,14 @@ nnoremap <F10> :setlocal spell! set spelllang=en_us<CR>
 nnoremap za za:syntax sync fromstart<CR>
 
 " Create a dubug printing statement in python.
-imap p<Tab> print('=======')<CR>print()
-imap j<Tab> print(json.dumps(, indent=3, default=str))
+" imap p<Tab> print('=======')<CR>print()
+" imap j<Tab> print(json.dumps(, indent=3, default=str))
 
 " Generates a fold skeleton.
-nmap fold1<Tab> i#-- <CR>{{{1<CR>1}}}<ESC>kkA 
-nmap fold2<Tab> i#-- <CR>{{{2<CR>2}}}<ESC>kkA 
-nmap fold3<Tab> i#-- <CR>{{{3<CR>3}}}<ESC>kkA 
-nmap fold4<Tab> i#-- <CR>{{{4<CR>4}}}<ESC>kkA 
+" nmap fold1<Tab> i#-- <CR>{{{1<CR>1}}}<ESC>kkA 
+" nmap fold2<Tab> i#-- <CR>{{{2<CR>2}}}<ESC>kkA 
+" nmap fold3<Tab> i#-- <CR>{{{3<CR>3}}}<ESC>kkA 
+" nmap fold4<Tab> i#-- <CR>{{{4<CR>4}}}<ESC>kkA 
 
 nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
@@ -286,7 +333,8 @@ nnoremap <silent> <C-S> :<C-u>Update<CR>
 "
 set laststatus=2
 set statusline=
-set statusline+=\ \ \ \ %f
+set statusline+=\ \ \ \ %-10.3n                     " buffer number
+set statusline+=%f
 set statusline+=%m
 set statusline+=%=
 set statusline+=\ %l:%c
@@ -327,41 +375,7 @@ function! Test()
     redir > /tmp/vim.registers | silent call DisplayRegisters() | redir END
 endfunction
 
-fun! AutoreadPython()
-python << EOF
-import time, vim
-try: import thread
-except ImportError: import _thread as thread # Py3
-
-def autoread():
-    vim.command('checktime')  # Run the 'checktime' command
-    vim.command('redraw')     # Actually update the display
-
-#def update_registers(filepath):
-#    registers = {}
-#    for number in range(0, 9):
-#        registers[number] = (
-#            vim.command('shellescape(getreg({char}))'.format(char=number))
-#        )
-#
-#    with open(filepath, 'w') as file_handler:
-#        file_handler.writeline(registers[1])
-
-def autoread_loop():
-    while True:
-        time.sleep(1)
-        autoread()
-        #update_registers('/tmp/vim.registers')
-
-thread.start_new_thread(autoread_loop, ())
-EOF
-endfun
-
 "call Test()
-
-
-
-
 
 """""""""""""""""""""""
 " MySQL configuration "
@@ -369,234 +383,242 @@ endfun
 " Size of the window
 " let g:dbext_default_buffer_lines = 40
 " Notify user when MySQL query have finish
-function! DBextPostResult(db_type, buf_nr)
-    " If dealing with a MYSQL database
-    if a:db_type == 'MYSQL'
-
-        " Make windows Equal Size
-        wincmd =
-        "" Bind horizontal scrolling for 'scrollbind' windows.
-        "" (default: ver,jump)
-        "set scrollopt=hor
-
-        "" Bind buffers (lock them toogether)
-        "set scrollbind
-
-        "" Split the current buffer with height 3xrow
-        "3split
-
-        "" Lock the window height.
-        "set winfixheight
-
-        "" Your position is in the splitted window.
-        "" Delete the unnecessary information at the top
-        "" by deleting the next two lines.
-        "execute "normal dj"
-    endif
-endfunction
+"Function! DBextPostResult(db_type, buf_nr)
+"    " If dealing with a MYSQL database
+"    if a:db_type == 'MYSQL'
+"
+"        " Make windows Equal Size
+"        "wincmd =
+"        "" Bind horizontal scrolling for 'scrollbind' windows.
+"        "" (default: ver,jump)
+"        "set scrollopt=hor
+"
+"        "" Bind buffers (lock them toogether)
+"        "set scrollbind
+"
+"        "" Split the current buffer with height 3xrow
+"        "3split
+"
+"        "" Lock the window height.
+"        "set winfixheight
+"
+"        "" Your position is in the splitted window.
+"        "" Delete the unnecessary information at the top
+"        "" by deleting the next two lines.
+"        "execute "normal dj"
+"    endif
+"Endfunction
 
 
 "let g:dbext_default_buffer_lines=40
-let g:dbext_default_buffer_lines = 60
-
-" If you want each buffer to have its OWN Result buffer, you can define:
-"let g:dbext_default_use_sep_result_buffer = 1 " (default=0)
-
-" When the command is run, the results are displayed in the Result
-" buffer, setting display_cmd_line = 1, will also display the command
-" that was run to generate the output.  Useful for debugging.
-"let g:dbext_default_display_cmd_line = 1
-
-
-" Change the default profile by write 
-" in your vim (modeline) command, like so: 
-"   /*dbext: profile=c3_dev_write_thorgeir*/
-let g:dbext_default_profile_c3_read_thorgeir ='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=db-read.c3.amadis.com:port=3306'
-let g:dbext_default_profile_c3_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=db-write.c3.amadis.com:port=3306'
-let g:dbext_default_profile_c3_read_drone    ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=db-read.c3.amadis.com:port=3306'
-let g:dbext_default_profile_c3_write_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=db-write.c3.amadis.com:port=3306'
-let g:dbext_default_profile_c3_ms_read_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=c3multiscannerdb01.amadis.com:port=3306'
-let g:dbext_default_profile_c3_dev_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3dev-db01.amadis.com:port=3306'
-let g:dbext_default_profile_c3_uni_read_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=10.3.18.41:port=3306'
-let g:dbext_default_profile_c3_lm_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=c3db04.amadis.com:port=3306'
-let g:dbext_default_profile_c3_lm_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=10.3.18.32:port=3306'
-let g:dbext_default_profile_c3_lm_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3db04.amadis.com:port=3306'
-
-"mysql --user=apt_user --host=c4sbdb01 --password=Pr0nt0@pt
-"let g:dbext_default_profile_c4_sb_read_apt_user='type=MYSQL:user=apt_user:passwd=`cat /home/thorgeir/.config/mysql/sb.txt`:host=c4sbdb01.amadis.com:port=3306'
-let g:dbext_default_profile_c4_sb_read_apt_user='type=MYSQL:user=apt_user:passwd=Pr0nt0@pt:host=c4sbdb01.amadis.com:port=3306'
-
-let g:dbext_default_profile_c3_fooze_read_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=10.3.18.41:port=3306'
-let g:dbext_default_profile_c4_ipgever_write_root='type=MYSQL:user=root:host=c4ipgever01.amadis.com'
-"let g:dbext_default_profile_c3_sb_write_sba_api='type=MYSQL:user=sba_api:passwd=Pr0nt0API:host=c3sandboxnursery05.amadis.com'
-
-"let g:dbext_default_profile_c3_unimatrix_drone    ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=c3unicomplexdb01.amadis.com:port=3306'
-let g:dbext_default_profile_c3_db05_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3db05.amadis.com:port=3306'
-let g:dbext_default_profile_c3_logdata_read_slackbot='type=MYSQL:user=slackbot:passwd=gettowork:host=c3logdatadb02.amadis.com:port=3306'
-let g:dbext_default_profile_c3_db03_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3db03.amadis.com:port=3306'
-let g:dbext_default_profile_c3_sb_write_root='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=10.3.32.80'
-
-let g:dbext_default_profile_c3_yara_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3yaradb01.amadis.com'
-
+"Let g:dbext_default_buffer_lines = 60
 "
-" SANDBOX
+"" If you want each buffer to have its OWN Result buffer, you can define:
+""let g:dbext_default_use_sep_result_buffer = 1 " (default=0)
 "
-let g:dbext_default_profile_c3_sb_write_root='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=10.3.32.80'
-let g:dbext_default_profile_c3_dev_old_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3unicmplx13.amadis.com:port=3306'
-
-let g:dbext_default_profile_c3_dev_sb_write_apt_user='type=MYSQL:user=apt_user:passwd=Pr0nt0@pt:host=c3sandboxnursery05.amadis.com'
-let g:dbext_default_profile_c3_dev_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxnursery05.amadis.com'
-" let g:dbext_default_profile_c3_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxsql01.amadis.com'
-let g:dbext_default_profile_c3_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=production-sandboxsql-ash1-001.threatlab.ash1.cynet'
-
-
-" Berlin
-let g:dbext_default_profile_ber1_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=production-av-mysql-sandbox-ber1-001.ber1.cynet'
-
-let g:dbext_default_profile = 'c3_write_thorgeir'
-
-
-
-
-"let g:syntastic_always_populate_loc_list = 1
-"let g:NERDTreeDirArrowExpandable = '-'
-"let g:NERDTreeDirArrowCollapsible = '+'
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-
-"map <C-t> :NERDTreeToggle<CR>
-
-
-
+"" When the command is run, the results are displayed in the Result
+"" buffer, setting display_cmd_line = 1, will also display the command
+"" that was run to generate the output.  Useful for debugging.
+""let g:dbext_default_display_cmd_line = 1
 "
-" NEOVIM configuration
 "
-":tnoremap <CSI> <C-\><C-n>
-":tnoremap <M-Esc> <C-\><C-n>
+"" Change the default profile by write 
+"" in your vim (modeline) command, like so: 
+""   /*dbext: profile=c3_dev_write_thorgeir*/
+"Let g:dbext_default_profile_c3_read_thorgeir ='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=db-read.c3.amadis.com:port=3306'
+"Let g:dbext_default_profile_c3_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=db-write.c3.amadis.com:port=3306'
+"Let g:dbext_default_profile_c3_read_drone    ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=db-read.c3.amadis.com:port=3306'
+"Let g:dbext_default_profile_c3_write_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=db-write.c3.amadis.com:port=3306'
+"Let g:dbext_default_profile_c3_ms_read_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=c3multiscannerdb01.amadis.com:port=3306'
+"Let g:dbext_default_profile_c3_dev_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3dev-db01.amadis.com:port=3306'
+"Let g:dbext_default_profile_c3_uni_read_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=10.3.18.41:port=3306'
+"Let g:dbext_default_profile_c3_lm_drone='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=production-mysql-linkmon-ash1-001.threatlab.ash1.cynet:port=3306'
+"Let g:dbext_default_profile_c3_lm_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=10.3.18.32:port=3306'
+"Let g:dbext_default_profile_c3_lm_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=c3db04.amadis.com:port=3306'
 "
-":tnoremap <A-h> <C-\><C-n><C-w>h
-":tnoremap <A-j> <C-\><C-n><C-w>j
-":tnoremap <A-k> <C-\><C-n><C-w>k
-":tnoremap <A-l> <C-\><C-n><C-w>l
-":nnoremap <A-h> <C-w>h
-":nnoremap <A-j> <C-w>j
-":nnoremap <A-k> <C-w>k
-":nnoremap <A-l> <C-w>l
+""mysql --user=apt_user --host=c4sbdb01 --password=Pr0nt0@pt
+""let g:dbext_default_profile_c4_sb_read_apt_user='type=MYSQL:user=apt_user:passwd=`cat /home/thorgeir/.config/mysql/sb.txt`:host=c4sbdb01.amadis.com:port=3306'
+"Let g:dbext_default_profile_c4_sb_read_apt_user='type=MYSQL:user=apt_user:passwd=Pr0nt0@pt:host=c4sbdb01.amadis.com:port=3306'
+"
+"Let g:dbext_default_profile_c3_fooze_read_drone   ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=10.3.18.41:port=3306'
+"Let g:dbext_default_profile_c4_ipgever_write_root='type=MYSQL:user=root:host=c4ipgever01.amadis.com'
+""let g:dbext_default_profile_c3_sb_write_sba_api='type=MYSQL:user=sba_api:passwd=Pr0nt0API:host=c3sandboxnursery05.amadis.com'
+"
+""let g:dbext_default_profile_c3_unimatrix_drone    ='type=MYSQL:user=drone:passwd=`cat /home/thorgeir/.config/mysql/dronep`:host=c3unicomplexdb01.amadis.com:port=3306'
+"Let g:dbext_default_profile_c3_db05_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3db05.amadis.com:port=3306'
+"Let g:dbext_default_profile_c3_logdata_read_slackbot='type=MYSQL:user=slackbot:passwd=gettowork:host=c3logdatadb02.amadis.com:port=3306'
+"Let g:dbext_default_profile_c3_db03_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3db03.amadis.com:port=3306'
+"Let g:dbext_default_profile_c3_sb_write_root='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=10.3.32.80'
+"
+"Let g:dbext_default_profile_c3_yara_read_drone='type=MYSQL:user=drone:passwd=assimilatethis:host=c3yaradb01.amadis.com'
+"
+""
+"" SANDBOX
+""
+"Let g:dbext_default_profile_c3_sb_write_root='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=10.3.32.80'
+"Let g:dbext_default_profile_c3_dev_old_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3unicmplx13.amadis.com:port=3306'
+"
+"Let g:dbext_default_profile_c3_dev_sb_write_apt_user='type=MYSQL:user=apt_user:passwd=Pr0nt0@pt:host=c3sandboxnursery05.amadis.com'
+"Let g:dbext_default_profile_c3_dev_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxnursery05.amadis.com'
+"" let g:dbext_default_profile_c3_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=c3sandboxsql01.amadis.com'
+""let g:dbext_default_profile_c3_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=production-sandboxsql-ash1-001.threatlab.ash1.cynet'
+"Let g:dbext_default_profile_c3_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=production-mysql-sandbox-ash1-001.threatlab.ash1.cynet'
+"
+"
+"" Berlin
+"Let g:dbext_default_profile_ber1_pro_sb_write_api_user='type=MYSQL:user=api_user:passwd=Pr0nt0API:host=production-av-mysql-sandbox-ber1-001.ber1.cynet'
+"
+"Let g:dbext_default_profile = 'c3_write_thorgeir'
+"
+"
+"
+"
+""let g:syntastic_always_populate_loc_list = 1
+""let g:NERDTreeDirArrowExpandable = '-'
+""let g:NERDTreeDirArrowCollapsible = '+'
+""let g:syntastic_auto_loc_list = 1
+""let g:syntastic_check_on_open = 1
+""let g:syntastic_check_on_wq = 0
+"
+""map <C-t> :NERDTreeToggle<CR>
+"
+"
+"
+""
+"" NEOVIM configuration
+""
+"":tnoremap <CSI> <C-\><C-n>
+"":tnoremap <M-Esc> <C-\><C-n>
+""
+"":tnoremap <A-h> <C-\><C-n><C-w>h
+"":tnoremap <A-j> <C-\><C-n><C-w>j
+"":tnoremap <A-k> <C-\><C-n><C-w>k
+"":tnoremap <A-l> <C-\><C-n><C-w>l
+"":nnoremap <A-h> <C-w>h
+"":nnoremap <A-j> <C-w>j
+"":nnoremap <A-k> <C-w>k
+"":nnoremap <A-l> <C-w>l
+"
+""if exists("g:loaded_tmux_navigator") || &cp || v:version < 700
+""  finish
+""endif
+""let g:loaded_tmux_navigator = 1
+""
+""function! s:VimNavigate(direction)
+""  try
+""    execute 'wincmd ' . a:direction
+""  catch
+""    echohl ErrorMsg | echo 'E11: Invalid in command-line window; <CR> executes, CTRL-C quits: wincmd k' | echohl None
+""  endtry
+""endfunction
+""
+""if !get(g:, 'tmux_navigator_no_mappings', 0)
+""  nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+""  nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+""  nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+""  nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+""  nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
+""endif
+""
+""if empty($TMUX)
+""  command! TmuxNavigateLeft call s:VimNavigate('h')
+""  command! TmuxNavigateDown call s:VimNavigate('j')
+""  command! TmuxNavigateUp call s:VimNavigate('k')
+""  command! TmuxNavigateRight call s:VimNavigate('l')
+""  command! TmuxNavigatePrevious call s:VimNavigate('p')
+""  finish
+""endif
+""
+""command! TmuxNavigateLeft call s:TmuxAwareNavigate('h')
+""command! TmuxNavigateDown call s:TmuxAwareNavigate('j')
+""command! TmuxNavigateUp call s:TmuxAwareNavigate('k')
+""command! TmuxNavigateRight call s:TmuxAwareNavigate('l')
+""command! TmuxNavigatePrevious call s:TmuxAwareNavigate('p')
+""
+""if !exists("g:tmux_navigator_save_on_switch")
+""  let g:tmux_navigator_save_on_switch = 0
+""endif
+""
+""if !exists("g:tmux_navigator_disable_when_zoomed")
+""  let g:tmux_navigator_disable_when_zoomed = 0
+""endif
+""
+""function! s:TmuxOrTmateExecutable()
+""  return (match($TMUX, 'tmate') != -1 ? 'tmate' : 'tmux')
+""endfunction
+""
+""function! s:TmuxVimPaneIsZoomed()
+""  return s:TmuxCommand("display-message -p '#{window_zoomed_flag}'") == 1
+""endfunction
+""
+""function! s:TmuxSocket()
+""  " The socket path is the first value in the comma-separated list of $TMUX.
+""  return split($TMUX, ',')[0]
+""endfunction
+""
+""function! s:TmuxCommand(args)
+""  let cmd = s:TmuxOrTmateExecutable() . ' -S ' . s:TmuxSocket() . ' ' . a:args
+""  return system(cmd)
+""endfunction
+""
+""function! s:TmuxPaneCurrentCommand()
+""  echo s:TmuxCommand("display-message -p '#{pane_current_command}'")
+""endfunction
+""command! TmuxPaneCurrentCommand call s:TmuxPaneCurrentCommand()
+""
+""let s:tmux_is_last_pane = 0
+""augroup tmux_navigator
+""  au!
+""  autocmd WinEnter * let s:tmux_is_last_pane = 0
+""augroup END
+""
+""function! s:NeedsVitalityRedraw()
+""  return exists('g:loaded_vitality') && v:version < 704 && !has("patch481")
+""endfunction
+""
+""function! s:ShouldForwardNavigationBackToTmux(tmux_last_pane, at_tab_page_edge)
+""  if g:tmux_navigator_disable_when_zoomed && s:TmuxVimPaneIsZoomed()
+""    return 0
+""  endif
+""  return a:tmux_last_pane || a:at_tab_page_edge
+""endfunction
+""
+""function! s:TmuxAwareNavigate(direction)
+""  let nr = winnr()
+""  let tmux_last_pane = (a:direction == 'p' && s:tmux_is_last_pane)
+""  if !tmux_last_pane
+""    call s:VimNavigate(a:direction)
+""  endif
+""  let at_tab_page_edge = (nr == winnr())
+""  " Forward the switch panes command to tmux if:
+""  " a) we're toggling between the last tmux pane;
+""  " b) we tried switching windows in vim but it didn't have effect.
+""  if s:ShouldForwardNavigationBackToTmux(tmux_last_pane, at_tab_page_edge)
+""    if g:tmux_navigator_save_on_switch == 1
+""      try
+""        update " save the active buffer. See :help update
+""      catch /^Vim\%((\a\+)\)\=:E32/ " catches the no file name error
+""      endtry
+""    elseif g:tmux_navigator_save_on_switch == 2
+""      try
+""        wall " save all the buffers. See :help wall
+""      catch /^Vim\%((\a\+)\)\=:E141/ " catches the no file name error
+""      endtry
+""    endif
+""    let args = 'select-pane -t ' . shellescape($TMUX_PANE) . ' -' . tr(a:direction, 'phjkl', 'lLDUR')
+""    silent call s:TmuxCommand(args)
+""    if s:NeedsVitalityRedraw()
+""      redraw!
+""    endif
+""    let s:tmux_is_last_pane = 1
+""  else
+""    let s:tmux_is_last_pane = 0
+""  endif
+""endfunction
+"
+"" credit: https://vim.fandom.com/wiki/Customize_text_for_closed_folds
+"" Set a nicer foldtext function
 
-if exists("g:loaded_tmux_navigator") || &cp || v:version < 700
-  finish
-endif
-let g:loaded_tmux_navigator = 1
 
-function! s:VimNavigate(direction)
-  try
-    execute 'wincmd ' . a:direction
-  catch
-    echohl ErrorMsg | echo 'E11: Invalid in command-line window; <CR> executes, CTRL-C quits: wincmd k' | echohl None
-  endtry
-endfunction
-
-if !get(g:, 'tmux_navigator_no_mappings', 0)
-  nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
-  nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
-  nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
-  nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
-  nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
-endif
-
-if empty($TMUX)
-  command! TmuxNavigateLeft call s:VimNavigate('h')
-  command! TmuxNavigateDown call s:VimNavigate('j')
-  command! TmuxNavigateUp call s:VimNavigate('k')
-  command! TmuxNavigateRight call s:VimNavigate('l')
-  command! TmuxNavigatePrevious call s:VimNavigate('p')
-  finish
-endif
-
-command! TmuxNavigateLeft call s:TmuxAwareNavigate('h')
-command! TmuxNavigateDown call s:TmuxAwareNavigate('j')
-command! TmuxNavigateUp call s:TmuxAwareNavigate('k')
-command! TmuxNavigateRight call s:TmuxAwareNavigate('l')
-command! TmuxNavigatePrevious call s:TmuxAwareNavigate('p')
-
-if !exists("g:tmux_navigator_save_on_switch")
-  let g:tmux_navigator_save_on_switch = 0
-endif
-
-if !exists("g:tmux_navigator_disable_when_zoomed")
-  let g:tmux_navigator_disable_when_zoomed = 0
-endif
-
-function! s:TmuxOrTmateExecutable()
-  return (match($TMUX, 'tmate') != -1 ? 'tmate' : 'tmux')
-endfunction
-
-function! s:TmuxVimPaneIsZoomed()
-  return s:TmuxCommand("display-message -p '#{window_zoomed_flag}'") == 1
-endfunction
-
-function! s:TmuxSocket()
-  " The socket path is the first value in the comma-separated list of $TMUX.
-  return split($TMUX, ',')[0]
-endfunction
-
-function! s:TmuxCommand(args)
-  let cmd = s:TmuxOrTmateExecutable() . ' -S ' . s:TmuxSocket() . ' ' . a:args
-  return system(cmd)
-endfunction
-
-function! s:TmuxPaneCurrentCommand()
-  echo s:TmuxCommand("display-message -p '#{pane_current_command}'")
-endfunction
-command! TmuxPaneCurrentCommand call s:TmuxPaneCurrentCommand()
-
-let s:tmux_is_last_pane = 0
-augroup tmux_navigator
-  au!
-  autocmd WinEnter * let s:tmux_is_last_pane = 0
-augroup END
-
-function! s:NeedsVitalityRedraw()
-  return exists('g:loaded_vitality') && v:version < 704 && !has("patch481")
-endfunction
-
-function! s:ShouldForwardNavigationBackToTmux(tmux_last_pane, at_tab_page_edge)
-  if g:tmux_navigator_disable_when_zoomed && s:TmuxVimPaneIsZoomed()
-    return 0
-  endif
-  return a:tmux_last_pane || a:at_tab_page_edge
-endfunction
-
-function! s:TmuxAwareNavigate(direction)
-  let nr = winnr()
-  let tmux_last_pane = (a:direction == 'p' && s:tmux_is_last_pane)
-  if !tmux_last_pane
-    call s:VimNavigate(a:direction)
-  endif
-  let at_tab_page_edge = (nr == winnr())
-  " Forward the switch panes command to tmux if:
-  " a) we're toggling between the last tmux pane;
-  " b) we tried switching windows in vim but it didn't have effect.
-  if s:ShouldForwardNavigationBackToTmux(tmux_last_pane, at_tab_page_edge)
-    if g:tmux_navigator_save_on_switch == 1
-      try
-        update " save the active buffer. See :help update
-      catch /^Vim\%((\a\+)\)\=:E32/ " catches the no file name error
-      endtry
-    elseif g:tmux_navigator_save_on_switch == 2
-      try
-        wall " save all the buffers. See :help wall
-      catch /^Vim\%((\a\+)\)\=:E141/ " catches the no file name error
-      endtry
-    endif
-    let args = 'select-pane -t ' . shellescape($TMUX_PANE) . ' -' . tr(a:direction, 'phjkl', 'lLDUR')
-    silent call s:TmuxCommand(args)
-    if s:NeedsVitalityRedraw()
-      redraw!
-    endif
-    let s:tmux_is_last_pane = 1
-  else
-    let s:tmux_is_last_pane = 0
-  endif
-endfunction
+" Auto remove trailing whitespaces on save
+autocmd BufWritePre * :%s/\s\+$//e

@@ -5,6 +5,8 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
+# source /export/unicomplex_data/unicomplex/env.sh
+
 #############################
 # BASH/PROMPT CUSTOMIZATION #
 #############################
@@ -26,7 +28,8 @@ fi
 if [[ $(hostname) == "MEGAS" ]]; then
     export PS1="\[\033[38;5;27m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;27m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
 else
-    export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+    export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\[$(tput sgr0)\]\n"
+    #export PS1=" \w $ "
 fi
 
 #export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
@@ -215,6 +218,21 @@ drone () {
     /bin/ssh drone${drone_nr} -t 'cd /export/unicomplex_data/unicomplex ; bash --login -o vi'
 }
 
+droneash1 () { 
+    drone_nr=${1}
+    ssh drone@prd-unicomplex-ash1-0${drone_nr}.threatlab.ash1.cynet \
+        -i ~/.ssh/drone_rsa \
+        -t 'cd /export/unicomplex_data/unicomplex ; bash --login -o vi'
+}
+
+dronelf () { 
+    drone_nr=${1}
+    ssh drone@prd-unicomplex-ash1-0${drone_nr}.threatlab.ash1.cynet \
+        -i ~/.ssh/drone_rsa \
+        -t 'cd /export/unicomplex_data/unicomplex ; bash --login -o vi'
+}
+
+
 #######################
 ## KEYBOARD SETTINGS ##
 #######################
@@ -241,11 +259,12 @@ dvorak () {
     setxkbmap dvorak
 }
 
-go () {
+setlang () {
     echo "setxkbmap -layout us"
     setxkbmap -layout us
     xmodmap ~/.speedswapper
 }
+
 
 #############
 ## VPN/SSH ##
@@ -583,8 +602,420 @@ c3_connect_to_specific_host () {
 t () {
     # Create given number of panes in the current tmux window/session.
     number_of_panes=${1};
-    bash ~/gitlab/thorgeir/tools/tgrid.sh ${number_of_panes}
+    bash ~/git/lab/thorgeir/tools/tgrid.sh ${number_of_panes}
 }
+
+ta () {
+    TERM=xterm-256color 
+    tmux a -t ${@}
+}
+
+sbl () {
+    source ~/virtualenvs/black/bin/activate
+}
+
+SQL_TASK_PATH=~/git/lab/thorgeir/db_queries/ash1/unicomplex
+sqltaskr() {
+    pushd ${SQL_TASK_PATH}
+    vim ash1_unicomplex_read.sql
+    popd
+}
+
+sqltaskw() {
+    pushd ${SQL_TASK_PATH}/
+    vim ash1_unicomplex_write.sql
+    popd
+}
+
+tmux_panes_filelines() {
+    # Iterate through given file and send each line to tmux panes.
+    filepath=${1}; shift
+
+    for pane_nr in $(tmux list-panes -F '#P'); do
+        #tmux send-keys -t ${pane_nr} $(sed -n ${pane_nr}p ${filepath});
+        tmux send-keys -t ${pane_nr} $(1 + $pane_nr);
+    done
+}
+
+# 
+# Kubernetes
+#  ~~~~~~~~
+kc () {
+    # Choose kubernetes context and namespace.
+    kubectl-ctx
+    kubectl-ns
+    kubectl get pods
+}
+
+
+# ref.: superuser.com/questions/249293
+# settitle() {
+#     printf "\033k$1\033\\"
+# }
+# 
+# ssh() {
+#     settitle "$*"
+#     command ssh "$@"
+#     settitle "bash"
+# }
+
+helptmux () {
+    echo '"C-a + =" - List all copy history'
+}
+
+work_clean () {
+    echo "Remove unnecessary files and folders"
+    rm ./*.pyc
+    rm ./*.swp
+    rm -r ./__pycache__
+    rm -r ./.pytest_cache
+}
+
+gitpush () {
+    #
+    # Created to be able to be quicker to access CI/CD pipline
+    # of current repository when doing git push. Even better
+    # we can open the repon in repo.
+    #
+    # To be able to open URL on remote server, may be it is possible
+    # to use URXVT perl plugin:
+    #   * https://wiki.archlinux.org/title/rxvt-unicode#Yankable_URLs_(no_mouse)
+    #
+    git push
+    echo ""
+    echo "Pipeline:"
+    git_repo_url=$(git config --get remote.origin.url | sed 's/:/\//' | sed 's/git@/https:\/\//' | sed 's/\.git/\/-\/pipelines/')
+    echo ">> $git_repo_url"
+}
+
+lbreak () {
+    # line break
+    echo "===="; 
+}
+
+poetry_mode () {
+    prefIx="(POETRY MODE)"
+    while true; do
+        echo "$prefix u) poetry update"
+        echo "$prefix i) poetry install"
+        echo "$prefix l) poetry env list"
+        echo "$prefix e) exit"
+        read -p "" uile
+        case $uile in
+            [Uu]* ) lbreak; poetry update; lbreak; ;;
+            [Ii]* ) lbreak; poetry install; lbreak; ;;
+            [Ll]* ) lbreak; poetry env list; lbreak; ;;
+            [Ee]* ) echo exit && break;;
+            * ) echo exit && break;;
+        esac
+    done
+}
+
+poetry_formatting () {
+    prefix="(Format/Check)"
+    while true; do
+        echo "$prefix Checks -->"
+        echo "$prefix v) poetry run validate-pyproject pyproject.toml"
+        echo "$prefix c) poetry run black --check . --exclude=.tox"
+        echo "$prefix d) poetry run docformatter --close-quotes-on-newline --recursive ."
+        echo "$prefix f) poetry run flake8"
+        echo "$prefix m) poetry run mypy ."
+        echo "$prefix "
+        echo "$prefix Formatting -->"
+        echo "$prefix b) poetry run black . --exclude=.tox"
+        echo "$prefix s) poetry run docformatter --close-quotes-on-newline --recursive --in-place ."
+        echo "$prefix "
+        echo "$prefix e) exit"
+        read -p "" vcbdfme
+        case $vcbdfme in
+            [Vv]* ) lbreak; poetry run validate-pyproject pyproject.toml; lbreak; ;;
+            [Cc]* ) lbreak; poetry run black --check . --exclude=.tox; lbreak; ;;
+            [Bb]* ) lbreak; poetry run black . --exclude=.tox; lbreak; ;;
+            [Dd]* ) lbreak; poetry run docformatter --close-quotes-on-newline --recursive .; lbreak; ;;
+            [Ss]* ) lbreak; poetry run docformatter --close-quotes-on-newline --recursive --in-place .; lbreak; ;;
+            [Ff]* ) lbreak; poetry run flake8; lbreak; ;;
+            [Mm]* ) lbreak; poetry run mypy .; lbreak; ;;
+            [Ee]* ) echo exit && break;;
+            * ) echo exit && break;;
+        esac
+    done
+}
+
+poetry_test () {
+    prefIx="(TEST MODE)"
+    while true; do
+        echo "$prefix c) python -m http.server --directory htmlcov/"
+        echo "$prefix b) poetry run black . --exclude=.tox"
+        echo "$prefix t) poetry run pytest -s"
+        echo "$prefix i) poetry run pytest -s -o log_cli=true -o log_cli_level=INFO"
+        echo "$prefix l) poetry run pytest -s --looponfail"
+        echo "$prefix v) poetry run pytest -vvv -s --looponfail"
+        echo "$prefix d) poetry run pytest -vvv -s -o log_cli=true -o log_cli_level=INFO --looponfail"
+        echo "$prefix r) poetry run pytest -vvv -s -o log_cli=true -o log_cli_level=DEBUG --looponfail"
+        echo "$prefix f) poetry run flake8"
+        echo "$prefix m) poetry run mypy ."
+        echo "$prefix e) exit"
+        read -p "" cbtilvdrefm
+        case $cbtilvdrefm in
+            [Cc]* ) lbreak; python -m http.server --directory htmlcov/; lbreak; ;;
+            [Bb]* ) lbreak; poetry run black . --exclude=.tox; lbreak; ;;
+            [Tt]* ) lbreak; poetry run pytest -s; lbreak; ;;
+            [Ii]* ) lbreak; poetry run pytest -s -o log_cli=true -o log_cli_level=INFO; lbreak; ;;
+            [Ll]* ) lbreak; poetry run pytest -s --looponfail; lbreak; ;;
+            [Vv]* ) lbreak; poetry run pytest -vvv -s --looponfail; lbreak; ;;
+            [Dd]* ) lbreak; poetry run pytest -vvv -s -o log_cli=true -o log_cli_level=INFO --looponfail; lbreak; ;;
+            [Rr]* ) lbreak; poetry run pytest -vvv -s -o log_cli=true -o log_cli_level=DEBUG --looponfail; lbreak; ;;
+            [Ff]* ) lbreak; poetry run flake8; lbreak; ;;
+            [Mm]* ) lbreak; poetry run mypy .; lbreak; ;;
+            [Ee]* ) echo exit && break;;
+            * ) echo exit && break;;
+        esac
+    done
+}
+
+sphinx_mode () {
+    prefix="(Sphinx)"
+    while true; do
+        echo "$prefix t) poetry run sphinx-build -vvv -b spelling -d docs/build/doctrees docs docs/build/spelling"
+        echo "$prefix d) poetry run sphinx-apidoc --separate --force --templatedir=./docs/_templates/ -o docs <project name>/ "
+        echo "$prefix c) poetry run sphinx-apidoc --separate --force --templatedir=./docs/_templates/ -o docs src/"
+        echo "$prefix l) poetry run sphinx-autobuild -a --host 0.0.0.0 docs docs/_build/html --watch ./src --watch docs/index.rst --watch docs/conf.py --watch README.rst"
+        echo "$prefix e) exit"
+        read -p "" tdcle
+        case $tdcle in
+            [Tt]* ) lbreak; poetry run sphinx-build -vvv -b spelling -d docs/build/doctrees docs docs/build/spelling; lbreak; ;;
+            [Dd]* ) lbreak; poetry run sphinx-apidoc --separate --force --templatedir=./docs/_templates/ -o docs $(basename $(pwd)); lbreak; ;;
+            [Cc]* ) lbreak; poetry run sphinx-apidoc --separate --force --templatedir=./docs/_templates/ -o docs src/; lbreak; ;;
+            [Ll]* ) lbreak; poetry run sphinx-autobuild -a --host 0.0.0.0 docs docs/_build/html --watch ./src --watch docs/index.rst --watch docs/conf.py --watch README.rst; lbreak; ;;
+            [Ee]* ) echo exit && break;;
+            * ) echo exit && break;;
+        esac
+    done
+}
+
+helm_tests () {
+    (set -x; helm template . -f ../configs/staging.yaml)
+    (set -x; helm template . -f ../configs/production.yaml)
+    (set -x; helm lint .)
+}
+
+helm_mode () {
+    prefix="(Helm)"
+    while true; do
+        echo "$prefix NAVIGATE TO THE TEMPLATE FOLDER!"
+        echo "$prefix a) RUN ALL TESTS"
+        echo "$prefix s) helm template . -f ../configs/staging.yaml"
+        echo "$prefix p) helm template . -f ../configs/production.yaml"
+        echo "$prefix l) helm lint ."
+        echo "$prefix e) exit"
+        read -p "" asple
+        case $asple in
+            [Aa]* ) lbreak; helm_tests; lbreak; ;;
+            [Ss]* ) lbreak; pushd $(ls | grep -v configs); helm template . -f ../configs/staging.yaml | less; popd; lbreak; ;;
+            [Pp]* ) lbreak; pushd $(ls | grep -v configs); helm template . -f ../configs/production.yaml | less; popd; lbreak; ;;
+            [Ll]* ) lbreak; pushd $(ls | grep -v configs); helm lint .; popd; lbreak; ;;
+            [Ee]* ) echo exit && break;;
+            * ) echo exit && break;;
+        esac
+    done
+}
+
+
+ksl () {
+    # Kubernetes Staging Linkfunnel-pipelines
+    k9s --kubeconfig ~/.kube/config --context qlab-threatlab-ash1 --namespace linkfunnel-pipeline
+}
+
+kpu () {
+    # Kubernetes Production url-pipelines
+    k9s --kubeconfig ~/.kube/config --context prd_collective_ash1 --namespace url-pipelines
+}
+
+repoinit () {
+    # $ repo_init feed2phisherman/pipeline phisherman_db_to_resubmit TL-1662
+    #repo_path=${1}; shift
+    repo_name=${1}; shift
+    ticket=${1}; shift
+
+    PY_VERSION="3.10"
+
+    cp -r ~/git/lab/threatlookup/repository_example ./${repo_name}
+
+    cd ${repo_name}
+
+    # Update CHANGELOG file.
+    echo "" >> CHANGELOG.rst
+    echo "[0.1.0] - $(date --utc +%F)" >> CHANGELOG.rst
+    echo "====================" >> CHANGELOG.rst
+    echo "" >> CHANGELOG.rst
+    echo "Initilize" >> CHANGELOG.rst
+    echo "~~~~~~~~~" >> CHANGELOG.rst
+    echo "" >> CHANGELOG.rst
+    echo "* Ticket: ${ticket}" >> CHANGELOG.rst
+
+    # TODO Change docs/conf.py gitlab path using repo_path and repo_name
+
+    # Describe the project.
+    vim README.rst
+
+    poetry init --name "${repo_name}" --python "^${PY_VERSION}.0" \
+        --author "Þorgeir Sigurðsson <thorgeir.sigurdsson@cyren.com>" \
+        --dev-dependency pytest:^6.2.4 \
+        --dev-dependency mypy:^0.910 \
+        --dev-dependency pytest-cov:^2.12.1 \
+        --dev-dependency pytest-xdist:^2.5.0 \
+        --dev-dependency pylint:^2.13.5 \
+        --dev-dependency flake8:^4.0.1 \
+        --dev-dependency black:22.3.0 \
+        --dev-dependency Sphinx:^4.3.2 \
+        --dev-dependency sphinx-autobuild:^2021.3.14 \
+        --dev-dependency sphinx-rtd-theme:^1.0.0 \
+        --dev-dependency autodoc-pydantic:^1.6.1 \
+        --dev-dependency sphinxcontrib-spelling:^7.3.2 \
+        --dev-dependency sphinx_mdinclude:^0.5.1 \
+        --dev-dependency flake8-pylint:^0.1.3
+
+    poetry env use /home/thorgeir/.pyenv/shims/python${PY_VERSION}
+
+    poetry install
+
+
+    doc_dir=docs
+
+    poetry run sphinx-quickstart \
+        --ext-coverage --ext-viewcode --ext-autodoc --sep \
+        --extensions="sphinxcontrib.spelling,sphinx_rtd_theme,sphinx.ext.todo" \
+        --makefile --release 0.1.0 -v 0.1.0 \
+        --author "Thorgeir Sigurdsson <thorgeir.sigurdsson@cyren.com>" \
+        --language "en" \
+        --project "${repo_name}" \
+        ${doc_dir}
+
+     # Use sphinx_rtd_theme theme instead of default one
+     sed -i 's/html_theme = .*/html_theme = "sphinx_rtd_theme"/' ./${doc_dir}/"source"/conf.py
+}
+
+
+kslf () {
+    # View [K]ubernetes [S]taging [L]ink[f]unnel
+    k9s --kubeconfig ~/.kube/config --context qlab-threatlab-ash1 --namespace linkfunnel-pipeline
+}
+
+kplf () {
+    # View [K]ubernetes [S]taging [L]ink[f]unnel
+    k9s --kubeconfig ~/.kube/config --context prd_collective_ash1 --namespace linkfunnel-pipeline
+}
+
+
+
+#rfzf () {
+#    # Comman command when it comes to GitLab [r]epositoies using [fzf] command.
+#    while true; do
+#        cmd=$(echo "poetry version" | fzf) 
+#        (set +x; eval $cmd)
+#    done
+#}
+
+run_all_tests () {
+    (set -x; poetry run validate-pyproject pyproject.toml)
+    (set -x; poetry run black --check .)
+    (set -x; poetry run flake8)
+    (set -x; poetry run mypy)
+    
+    # https://github.com/RedCoolBeans/dockerlint
+    (set -x; dockerlint Dockerfile)
+
+    (set -x; poetry run pytest)
+}
+
+gb () {
+    # Interactivly choose branch from local branches
+    git checkout $(git branch | tr "*" " " | fzf)
+}
+
+gr () {
+    # Common commands when developing in git python repositories.
+    # This method lists commands for interacts with the user and the 
+    # The method interacts with the user and the 
+
+    git status
+    
+    while true; do
+        echo "a) RUN ALL TESTS"
+        echo "b) git branch"
+        echo "s) git status"
+        echo "d) git diff"
+        echo "c) git add . && git commit"
+        echo "p) git push"
+        echo "u) git push origin \$(git rev-parse --abbrev-ref HEAD)"
+        echo "o) [Enter poetry]"
+        echo "t) [Enter poetry tests]"
+        echo "x) [Enter Sphinx mode]"
+        echo "h) [Enter Helm mode]"
+        echo "f) [Enter Formatting/Check]"
+        echo "r) source /export/unicomplex_data/unicomplex/env.sh && source set_global_env.sh && poetry run process_start"
+        echo "e) exit"
+        read -p "" absdcpuotxhrfe
+        case $absdcpuotxhrfe in
+            [Aa]* ) lbreak; run_all_tests; lbreak; ;;
+            [Bb]* ) lbreak; gb; lbreak; ;;
+            [Ss]* ) lbreak; git status; lbreak; ;;
+            [Dd]* ) lbreak; git diff; lbreak; ;;
+            [Cc]* ) lbreak; git add . && git commit; lbreak;;
+            [Pp]* ) lbreak; gitpush; lbreak; ;;
+            [Uu]* ) lbreak; (set -x; git push origin $(git rev-parse --abbrev-ref HEAD)); lbreak; ;;
+            [Oo]* ) lbreak; poetry_mode; lbreak; ;;
+            #[Tt]* ) lbreak; poetry run pytest -s; lbreak; ;;
+            [Tt]* ) lbreak; poetry_test; lbreak; ;;
+            [Xx]* ) lbreak; sphinx_mode; lbreak; ;;
+            [Ff]* ) lbreak; poetry_formatting; lbreak; ;;
+            [Hh]* ) lbreak; helm_mode; lbreak; ;;
+            [Rr]* ) lbreak; source /export/unicomplex_data/unicomplex/env.sh && source set_global_env.sh && poetry run process_start; lbreak; ;;
+            #[Ll]* ) lbreak; cd "$(dirname "$(find . -type d -name templates | head -1)")" && helm lint && helm ; lbreak; ;;
+            [Ee]* ) echo exit && break;;
+            * ) echo exit && break;;
+        esac
+    done
+
+    #git add .
+    #git commit
+}
+
+dbuni () {
+    vim ~/git/lab/thorgeir/db_queries/ash1/unicomplex/ash1_unicomplex_write.sql
+}
+
+copy () {
+    # Copy file name and use paste command to copy from the newly copy file.
+    filename=$1
+    export FILEPATH_COPY=$(pwd)/$filename
+
+    echo "Copied $FILEPATH_COPY"
+    echo "Use paste command to copy that newly copied file to current directory."
+}
+
+paste () {
+    (set -x; cp $FILEPATH_COPY ./)
+}
+
+
+# FZF - Fuzzy finder tools
+
+# fkill - kill process
+fkill() {
+  local pid
+  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    echo $pid | xargs kill -${1:-9}
+  fi
+}
+
+
+# cat file | wc -l | to_dot
+# 1.000.000
+alias to_dot="perl -pe 's/(\d{1,3})(?=(?:\d{3}){1,5}\b)/\1./g'"
 
 ####################
 ## SYSTEM CONTROL ##
@@ -596,3 +1027,36 @@ t () {
 stty -ixon
 
 source ~/.aliases
+
+export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:/home/thorgeir/perl5";
+export PERL_MB_OPT="--install_base /home/thorgeir/perl5";
+export PERL_MM_OPT="INSTALL_BASE=/home/thorgeir/perl5";
+export PERL5LIB="/home/thorgeir/perl5/lib/perl5:$PERL5LIB";
+export PATH="/home/thorgeir/perl5/bin:$PATH";
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+eval "$(pyenv virtualenv-init -)"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+source /usr/share/bash-completion/bash_completion
+source <(kubectl completion bash)
+alias k=kubectl
+complete -F __start_kubectl k
+
+#source ~/git/hub/jonmosco/kube-ps1/kube-ps1.sh
+#PS1='[\u@\h \W $(kube_ps1)]\$ '
+#export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w $(kube_ps1) \[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+#export PS1="$(kube_ps1) \[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+
+
+#initialize Z (https://github.com/rupa/z) 
+. ~/z.sh 
+
+source ~/.git-prompt.sh
+PS1="$PS1\$(__git_ps1) $ "

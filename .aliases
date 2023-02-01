@@ -4,6 +4,8 @@ alias tmux='TERM=xterm-256color tmux'
 
 alias db="cd ~/gitlab/thorgeir/db_queries"
 
+alias pf="fzf --preview='less {}' --bind shift-up:preview-page-up,shift-down:preview-page-down"
+
 #alias t4='bash ~/gitlab/thorgeir/tools/tgrid.sh 4'
 
 # Open all file in the current directory in fullscreen mode.
@@ -12,6 +14,16 @@ alias db="cd ~/gitlab/thorgeir/db_queries"
 
 # 
 alias sprunge='curl -F "sprunge=<-" http://sprunge.us'
+
+alias gl='cd /home/thorgeir/git/lab/'
+alias gltf='cd /home/thorgeir/git/lab/threatlookup/feed2phisherman/'
+alias gltl='cd /home/thorgeir/git/lab/threatlookup/linkfunnel/'
+alias gltlp='cd /home/thorgeir/git/lab/threatlookup/linkfunnel/pipeline/'
+
+alias bat="/usr/local/bat/bat"
+alias cheat="/usr/local/cheat"
+
+alias tstart='cd /var/log/tmux/ && tmux -vvv'
 
 # View image
 # alias img='gpicview'
