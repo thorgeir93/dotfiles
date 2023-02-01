@@ -3,6 +3,16 @@ alias ipython_cb='LD_LIBRARY_PATH=/export/unicomplex_data/unicomplex/mounts/wr/s
 alias tmux='TERM=xterm-256color tmux'
 
 alias db="cd ~/gitlab/thorgeir/db_queries"
+alias gl="cd ~/git/lab"
+alias glt="cd ~/git/lab/thorgeir"
+alias gltw="cd ~/git/lab/thorgeir/worklogs"
+
+
+alias md2="cd ~/media/photos/2021"
+
+# Installed using flatbak:
+#   $ sudo flatpak install https://flathub.org/repo/appstream/org.gimp.GIMP.flatpakref 
+alias gimp="flatpak run org.gimp.GIMP"
 
 alias pf="fzf --preview='less {}' --bind shift-up:preview-page-up,shift-down:preview-page-down"
 
@@ -87,8 +97,6 @@ alias sbac='cd $sb_repository/aptlab/cuckoo'
 alias sbap='cd $sb_repository/aptlab/payload'
 alias sbcca='cd $sb_repository/cuckoo/cuckoo_api'
 alias sbdep='cd $sb_repository/sandbox_array_deployment'
-
-alias gw='cd ~/github/webCarouselQ/'
 
 # Let you know when the command has finished.
 # E.g. $ sleep 10 | alert

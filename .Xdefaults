@@ -1,17 +1,15 @@
-! xrdb %
+!xrdb %
 ! #(to reload)
 ! (from: help.ubuntu.com/community/TransparentTerminals)
 !URxvt.font:xft:Monaco:pixelsize=10
-#URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
+!URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
 !URxvt*font: xft:Dejavu Sans Mono:pixelsize=15
 
 URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
+!URxvt*font: xft:Dejavu Sans Mono:pixelsize=25
 
-!URxvt*font: xft:Dejavu Sans Mono:pixelsize=35
 !URxvt.font:xft:Monaco:pixelsize=11
 !URxvt.font:xft:DejaVu Sans Mono:style=Book:pixelsize=14
-URxvt.background:       black
-URxvt.foreground:       white
 URxvt.scrollBar:        false
 URxvt.tintColor:        white
 !URxvt.fading:           25 # make other terminals dark.
@@ -23,7 +21,12 @@ URxvt.pointerColor2:    white
 Xft.antialias:true
 ! fading: how much other terminals fade out.
 
-*cursorColor: red
+
+URxvt.perl-ext-common: default,tabbed,matcher,resize-font,-tabbed
+
+URxvt.colorIT:      #87af5f
+URxvt.colorBD:      #d7d7d7
+URxvt.colorUL:      #87afd7
 
 !! ( from the web )
 !!black
@@ -64,15 +67,59 @@ Xft.antialias:true
 !URxvt.colorUL:      #87afd7
 !
 ! black
-*.color0:       #11111
-*.color8:       #11111 
+!!*.color0:       #111111
+!!*.color8:       #111111
+!!
+!!! red
+!!*.color1:       #8f423c
+!!*.color9:       #eeaa88
+!!
+!!! green
+!!*.color2:       #bbbb88
+!!*.color10:      #ccc68d
+!!
+!!! yellow
+!!*color3:        #b58900
+!!*color11:       #797979
+!!
+!!! blue
+!!*.color4:       #e0ba69
+!!*.color12:      #c9b957
+!!
+!!! magenta
+!!*.color5:       #709289
+!!*.color13:      #ffcbab
+!!
+!!! cyan
+!!*.color6:       #d13516
+!!*.color14:      #c25431
+!!
+!!! white
+!!*.color7:       #efe2e0
+!!*.color15:      #f9f1ed
+
+URxvt.background:       black
+URxvt.foreground:       white
+*cursorColor: red
+
+! Alsamixer background color for example.
+! Background color in on remote dev machine when using k9s.
+! Background color in VIM word completetion box.
+*.color0:       #000000
+
+! e.g.
+!  * ssh user-thorgeir ... "kernel:"
+!  * null` in colorful jq output.
+*.color8:       #008000
 
 ! red
 *.color1:       #8f423c
 *.color9:       #eeaa88
 
 ! green
-*.color2:       #bbbb88
+! E.g. Higlight color in directories with permission 777
+! original: *.color2:       #bbbb88
+*.color2:       #ffffff
 *.color10:      #ccc68d
 
 ! yellow
@@ -80,11 +127,24 @@ Xft.antialias:true
 *color11:       #797979
 
 ! blue
-*.color4:       #e0ba69
+! E.g. Text Color in directories with permission 777
+! original -> *.color4:       #e0ba69
+!*.color4:       #000000
+! e.g. Poetry install (was always black)
+*.color4:       #0078d4
+!! e.g. background  in nmtui
+!*.color4:       #e0ba69
+!*.color4:       #222222
+
 *.color12:      #c9b957
+!*.color12:      #000080
 
 ! magenta
 *.color5:       #709289
+
+! e.g.
+!   * vim word completation background
+!   * vim json values
 *.color13:      #ffcbab
 
 ! cyan
@@ -92,5 +152,9 @@ Xft.antialias:true
 *.color14:      #c25431
 
 ! white
-*.color7:       #efe2e0
+! e.g.
+!   * nmtui box background
+!   * command line symbols thorgeir@MEGAS, >@<
+!*.color7:       #efe2e0
+*.color7:       #aaaaaa
 *.color15:      #f9f1ed

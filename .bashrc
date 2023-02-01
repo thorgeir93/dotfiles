@@ -1,11 +1,20 @@
 # .bashrc
 
+# prompt before overwrite
+#alias rm='rm -i'
+#alias cp='cp -i'
+#alias mv='mv -i'
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-# source /export/unicomplex_data/unicomplex/env.sh
+# Setting the HISTFILESIZE and HISTSIZE variables to
+# an empty string makes the bash history size unlimited.
+# (ref.: soberkoder.com/unlimited-bash-history)
+export HISTFILESIZE=
+export HISTSIZE=
 
 #############################
 # BASH/PROMPT CUSTOMIZATION #
@@ -27,6 +36,13 @@ fi
 
 if [[ $(hostname) == "MEGAS" ]]; then
     export PS1="\[\033[38;5;27m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;27m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+
+elif [[ $(hostname) == "SMYRILL" ]]; then
+    color=48
+    export PS1="\[\033[38;5;${color}m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;${color}m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
+
+    #
+
 else
     export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\[$(tput sgr0)\]\n"
     #export PS1=" \w $ "
@@ -89,7 +105,7 @@ reload_bash () {
 # http://unix.stackexchange.com/questions/9123/is-there-a-one-liner-that-allows-me-to-create-a-directory-and-move-into-it-at-th
 
 wifi_list() {
-    nmcli device wifi 
+    nmcli device wifi
 }
 
 wifi_connect_with_username_and_password () {
@@ -159,6 +175,22 @@ battery () {
     bash ~/.config/i3/microprograms/notify_battery.sh
 }
 
+todo () {
+    vim -n ~/git/lab/thorgeir/worklogs/worklogs/todo.log
+}
+
+todomd () {
+    pushd ~/git/lab/thorgeir/worklogs/
+    git pull
+    vim -n worklogs/todo.markdown
+    bash auto_commit.sh
+    popd
+}
+
+todomu () {
+    vim -n ~/git/lab/thorgeir/worklogs/worklogs/todo_malware_urls.log
+}
+
 ###############
 ## MOVEMENTS ##
 ###############
@@ -184,7 +216,7 @@ cd3 () { cd "../../..";  }
 ## ENTERTAINMENT ##
 ###################
 sup () {
-    echo "$1" | curl -F "sprunge=<-" http://sprunge.us | xclip -selection "clipboard" 
+    echo "$1" | curl -F "sprunge=<-" http://sprunge.us | xclip -selection "clipboard"
 }
 
 ######################
@@ -204,28 +236,28 @@ vmstart () {
 
 #ssh_recursive_count=0
 #origin
-#ssh () { 
+#ssh () {
 #    if [[ $ssh_recursive_count -gt 0 ]]; then
 #        ssh_recursive_count=0
 #    else
 #        ssh_recursive_count=$((ssh_recursive_count))
-#        /bin/ssh $@ -lt 'bash -o vi'; 
+#        /bin/ssh $@ -lt 'bash -o vi';
 #    fi
 #}
-        
-drone () { 
+
+drone () {
     drone_nr=${1}
     /bin/ssh drone${drone_nr} -t 'cd /export/unicomplex_data/unicomplex ; bash --login -o vi'
 }
 
-droneash1 () { 
+droneash1 () {
     drone_nr=${1}
     ssh drone@prd-unicomplex-ash1-0${drone_nr}.threatlab.ash1.cynet \
         -i ~/.ssh/drone_rsa \
         -t 'cd /export/unicomplex_data/unicomplex ; bash --login -o vi'
 }
 
-dronelf () { 
+dronelf () {
     drone_nr=${1}
     ssh drone@prd-unicomplex-ash1-0${drone_nr}.threatlab.ash1.cynet \
         -i ~/.ssh/drone_rsa \
@@ -326,10 +358,10 @@ vpnoffice () {
     # old method (RSA)
     # sudo openvpn --config ~/openvpn/office.ovpn
     # add username and password (thorgeir, 3jZhpd####)
-   
+
     # new method (DUO)
     sudo openvpn --auth-retry interact --config ~/openvpn3/client.ovpn
-    # thorgeirs, SG**.01, push, <iphone DUO>, 
+    # thorgeirs, SG**.01, push, <iphone DUO>,
 }
 
 vpnoffice_via_duo () {
@@ -337,10 +369,10 @@ vpnoffice_via_duo () {
     # old method (RSA)
     # sudo openvpn --config ~/openvpn/office.ovpn
     # add username and password (thorgeir, 3jZhpd####)
-   
+
     # new method (DUO)
     sudo openvpn --auth-retry interact --config ~/openvpn3/client.ovpn
-    # thorgeirs, SG**.., push, <iphone DUO>, 
+    # thorgeirs, SG**.., push, <iphone DUO>,
     # Update 4. mars 2018: thorgeirs/SG..6! and wait for 4 sec. and then type push.
     # Update 19. may 2018: thorgeirs/SG..1 and wait for 4 sec. and then type push.
     # Update Mon Sep 17 16:57:00 GMT 2018: thorgeirs/KBVe...01! (mail.cyren.com) and wait for 4 sec. and then type push.
@@ -368,14 +400,14 @@ vpnc4 () {
     # sudo openvpn is the version 2.3
     # openvpn is the version 2.4, we want to use that version.
     #sudo openvpn --config ~/openvpn/c4.ovpn
-    # add username and password 
+    # add username and password
     # (thsigurdsson, [pin to RSA app] then passw. is the RSA token number)
 
     # Last update: 2018-03-07
     sudo /root/Downloads/openvpn-2.4.5/src/openvpn/openvpn --config /home/thorgeir/openvpn/c4.ovpn
     #sudo su --command="/home/thorgeir/Downloads/openvpn-2.4.5/src/openvpn --config /home/thorgeir/openvpn/c4.ovpn"
     #        --shell=/bin/bash root
-    # add username and password 
+    # add username and password
     # (thsigurdsson,  </a...!>:push)
 }
 
@@ -392,6 +424,13 @@ vpnc4 () {
 forticlient () {
     #cp /etc/resolv.conf /tmp/resolv.conf.backup && (sleep 60; sudo cp -f /tmp/resolv.conf.backup /etc/resolv.conf) &
 
+    echo "SMS METHOD"
+    echo "=========="
+    echo "Go to: https://is.vpn.cyren.com"
+    echo "Type in Master Username and Password"
+    echo "In next window type 'sms' and hit enter."
+    echo "Password for VPN:<free ip password>,<one of sms codes>"
+
     # Search in lastpass for password, search "forti"
     /home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh ASH1 thsigurdsson
     #/home/thorgeir/forticlient/forticlientsslvpn/fortisslvpn.sh IL thsigurdsson
@@ -407,7 +446,7 @@ vpnc3 () {
     # add username and password (thsigurdsson, pin and rsa passcode)
 
     # DUO
-    sudo openvpn --auth-retry interact --config ~/openvpn/c9-duo-openvpn-tcp.conf 
+    sudo openvpn --auth-retry interact --config ~/openvpn/c9-duo-openvpn-tcp.conf
     # add username and password (thsigurdsson, /asolf...:push)
 }
 
@@ -418,7 +457,7 @@ vpnc3 () {
     # add username and password (thsigurdsson, pin and rsa passcode)
 
     # DUO
-    sudo openvpn --auth-retry interact --config ~/openvpn/c3-duo-openvpn.conf 
+    sudo openvpn --auth-retry interact --config ~/openvpn/c3-duo-openvpn.conf
     # add username and password (thsigurdsson, /asolf...#:push)
 }
 ##############
@@ -433,8 +472,13 @@ hdmi_orient () {
 }
 
 hdmi_orient_thinkpad () {
-    xrandr --output eDP-1 --auto --output HDMI-2 --auto --left-of eDP-1
+    xrandr --output eDP-1 --auto --output HDMI-2 --auto --right-of eDP-1
 }
+
+hdmi_orient_thinkpad_duplicate () {
+    xrandr --output HDMI-2 --auto --same-as eDP-1
+}
+
 hdmi_orient_docker () {
     # Using HDMI and DVI as adapters.
     #xrandr --output eDP-1 --auto --output DP-2-1 --left-of eDP-1 --output DP-2-2 --auto --left-of DP-2-1
@@ -454,7 +498,7 @@ hdmi_orient_3 () {
     #
 
     # Positions:
-    #  __  __  __ 
+    #  __  __  __
     # |__||__||  |
     #         |__|
     #
@@ -466,8 +510,8 @@ hdmi_orient_3 () {
     xrandr  --output $communication --auto --rotate left \
             --output $browser --auto --left-of $communication \
             --output $code --auto --left-of $browser
-   
-        
+
+
     # Positions:
     #  __  __  __
     # |__||  ||__|
@@ -484,10 +528,10 @@ hdmi_orient_3 () {
 hdmi_orient_office () {
 
     # Positions:
-    #  __  __ 
+    #  __  __
     # |__||__|
-    #     
-    left='HDMI-2'
+    #
+    left='HDMI-3'
     right="HDMI-1"
     xrandr  --output $left --auto \
             --output $right --auto --right-of $left
@@ -509,7 +553,7 @@ hdmi_monitor_data_lenovo () {
 
 hdmi_bright_down_lenovo () {
     hdmi_monitor_data_lenovo
-   
+
     SUB=`echo $brightness $bright_step | awk '{ print $1 - $2 }'`
     echo $display' brightness '$SUB
     xrandr --output $display --brightness $SUB
@@ -517,7 +561,7 @@ hdmi_bright_down_lenovo () {
 
 hdmi_bright_up_lenovo () {
     hdmi_monito_data_lenovo
-   
+
     ADD=`echo $brightness $bright_step | awk '{ print $1 + $2 }'`
     echo $display' brightness '$ADD
     xrandr --output $display --brightness $ADD
@@ -525,23 +569,23 @@ hdmi_bright_up_lenovo () {
 
 hdmi_bright_up_office () {
     hdmi_monitor_data_office
-   
+
     ADD=`echo $brightness $bright_step | awk '{ print $1 + $2 }'`
     echo $display2' brightness '$ADD
     xrandr --output $display2 --brightness $ADD
 
     echo $display1' brightness '$ADD
     xrandr --output $display1 --brightness $ADD
-    
+
 }
 
 hdmi_bright_down_office () {
     hdmi_monitor_data_office
-   
+
     SUB=`echo $brightness $bright_step | awk '{ print $1 - $2 }'`
     echo $display1' brightness '$SUB
     xrandr --output $display1 --brightness $SUB
-    
+
     echo $display2' brightness '$SUB
     xrandr --output $display2 --brightness $SUB
 }
@@ -558,7 +602,7 @@ txtcp () {
 }
 
 cptext () {
-    # Copy the output of cat and send 
+    # Copy the output of cat and send
     # it to the clipboard that works with
     # Ctrl-V
     cat $1 | xclip -selection c
@@ -567,11 +611,27 @@ cptext () {
     echo "---------"
     echo "Use Ctrl-v to export output"
 }
+
+xc () {
+    # Paste from clipbard to stdout.
+    echo $(xclip -selection clipboard -o)
+}
+
+##
+## Work
+##
+daily_browsing () {
+    google-chrome --app=https://10.105.15.40/d/EXsm2tnnk/precis-futterkorb?orgId=1&from=now-2d&to=now&refresh=1m
+    google-chrome --app=http://production-grafana-ash1-001.threatlab.ash1.cynet/d/000000001/virus-lab?orgId=2
+    google-chrome --app="http://production-es-stats-master-ash1-001.threatlab.ash1.cynet/app/kibana#/dashboard/370afc00-19d4-11eb-83ac-1dfb9b48f17e?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-7d,mode:quick,to:now))&_a=(description:'',filters:!(),fullScreenMode:!f,options:(darkTheme:!t,hidePanelTitles:!f,useMargins:!t),panels:!((embeddableConfig:(),gridData:(h:13,i:'1',w:48,x:0,y:56),id:a2fc2700-19d3-11eb-83ac-1dfb9b48f17e,panelIndex:'1',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:12,i:'3',w:48,x:0,y:0),id:'4d2848c0-5b02-11eb-83ac-1dfb9b48f17e',panelIndex:'3',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:12,i:'4',w:48,x:0,y:12),id:'786ecce0-5b0a-11eb-83ac-1dfb9b48f17e',panelIndex:'4',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:10,i:'5',w:48,x:0,y:46),id:'21923460-5cc3-11eb-83ac-1dfb9b48f17e',panelIndex:'5',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:10,i:'6',w:48,x:0,y:24),id:'29eaffc0-60a1-11eb-83ac-1dfb9b48f17e',panelIndex:'6',type:visualization,version:'6.8.2'),(embeddableConfig:(),gridData:(h:12,i:'7',w:48,x:0,y:34),id:'0cb1e420-60a4-11eb-83ac-1dfb9b48f17e',panelIndex:'7',type:visualization,version:'6.8.2')),query:(language:lucene,query:''),timeRestore:!f,title:'Linkfunnel%20-%20Malware%20URLs%20from%20Fooze',viewMode:view)"
+    exit 0
+}
+
 ##########################
 ## COMMAND-LINE SCRIPTS ##
 ##########################
 mykill() {
-    for pid in pgrep $1; do pkill $pid; done 
+    for pid in pgrep $1; do pkill $pid; done
 }
 
 #function cal_is () {
@@ -590,7 +650,12 @@ wifi_connect_phone () {
 
 photo_facebook () {
     # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
-    echo 'mkdir -p shrink; for img in $(ls *.JPG); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
+    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
+}
+
+facebook_photo () {
+    # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
+    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
 }
 
 c3_connect_to_specific_host () {
@@ -606,7 +671,7 @@ t () {
 }
 
 ta () {
-    TERM=xterm-256color 
+    TERM=xterm-256color
     tmux a -t ${@}
 }
 
@@ -637,7 +702,7 @@ tmux_panes_filelines() {
     done
 }
 
-# 
+#
 # Kubernetes
 #  ~~~~~~~~
 kc () {
@@ -652,7 +717,7 @@ kc () {
 # settitle() {
 #     printf "\033k$1\033\\"
 # }
-# 
+#
 # ssh() {
 #     settitle "$*"
 #     command ssh "$@"
@@ -690,7 +755,7 @@ gitpush () {
 
 lbreak () {
     # line break
-    echo "===="; 
+    echo "====";
 }
 
 poetry_mode () {
@@ -911,7 +976,7 @@ kplf () {
 #rfzf () {
 #    # Comman command when it comes to GitLab [r]epositoies using [fzf] command.
 #    while true; do
-#        cmd=$(echo "poetry version" | fzf) 
+#        cmd=$(echo "poetry version" | fzf)
 #        (set +x; eval $cmd)
 #    done
 #}
@@ -921,7 +986,7 @@ run_all_tests () {
     (set -x; poetry run black --check .)
     (set -x; poetry run flake8)
     (set -x; poetry run mypy)
-    
+
     # https://github.com/RedCoolBeans/dockerlint
     (set -x; dockerlint Dockerfile)
 
@@ -935,11 +1000,11 @@ gb () {
 
 gr () {
     # Common commands when developing in git python repositories.
-    # This method lists commands for interacts with the user and the 
-    # The method interacts with the user and the 
+    # This method lists commands for interacts with the user and the
+    # The method interacts with the user and the
 
     git status
-    
+
     while true; do
         echo "a) RUN ALL TESTS"
         echo "b) git branch"
@@ -1016,6 +1081,57 @@ fkill() {
 # cat file | wc -l | to_dot
 # 1.000.000
 alias to_dot="perl -pe 's/(\d{1,3})(?=(?:\d{3}){1,5}\b)/\1./g'"
+=======
+}
+
+help_disk_eject () {
+    echo sudo umount /run/media/thorgeir/Elements
+    echo udisksctl power-off -b /dev/sda1
+}
+
+
+help_network_wired_troubleshooting () {
+    echo nmcli device status
+    echo journal -f # To see networking logs.
+}
+
+help_laptop_tempature () {
+    echo $ sensors {get CPU temp}
+    echo $ sudo systemctl stop systemd-logind.service
+}
+
+help_scan_photos () {
+    # Search:
+    #   Linux driver epson perfection 1240U
+    # Download:
+    # * http://download.ebz.epson.net/dsc/search/01/search/searchModule
+    # * http://download.ebz.epson.net/dsc/search/01/search/searchModule
+    # * http://support.epson.net/linux/en/iscan_c.php?version=2.30.4
+    echo "Use iscan program."
+}
+
+notification () {
+    # information about notification system.
+    echo 'notify-send "test" "body"'
+    echo "ps aux | grep -i noti"
+    echo "cat /usr/share/dbus-1/services/org.freedesktop.Notifications.service"
+    echo "To fix the missing notification, I clicked on the icon in right down corner and hit clear all notifications."
+}
+
+touchdate () {
+    # $ touchdate mytext.log
+    # Creates file mytext_<current date>.log
+    name=$(echo ${1} | cut -d"." -f1)
+    ext=$(echo ${1} | cut -d"." -f2)
+    touch ${name}_$(date --utc '+%Y%m%dT%H%M%S').${ext}
+}
+
+#export IS_DISPLAY_SET=0
+#
+#if [[ ${IS_DISPLAY_SET} == 0 ]] && [[ $(xrandr | grep eDP | wc -l) == 1 ]] && [[ $(xrandr | grep " connected " | wc -l) == 3 ]];
+#    then hdmi_orient_docker
+#    export IS_DISPLAY_SET=1
+#fi
 
 ####################
 ## SYSTEM CONTROL ##
@@ -1055,8 +1171,206 @@ complete -F __start_kubectl k
 #export PS1="$(kube_ps1) \[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
 
 
-#initialize Z (https://github.com/rupa/z) 
-. ~/z.sh 
+#initialize Z (https://github.com/rupa/z)
+. ~/z.sh
 
 source ~/.git-prompt.sh
 PS1="$PS1\$(__git_ps1) $ "
+=======
+help_sync_images () {
+
+    echo "Run this command on different terminal to watch "
+    echo "what happen for external hard drives."
+    echo ""
+    echo "  $ udisksctl monitor"
+    echo ""
+    echo ""
+
+    echo "Mount my icybox external hard drive to my local directory."
+    echo "First you can choose partition using this command:"
+    echo ""
+    echo "  $ disk_path=\$(lsblk -pJO | jq '.blockdevices | .[] | select(.size == \"3.7T\" and .serial == \"152D00539000\") | .children | .[] | select(.size == \"1T\" and .label == \"Linux1T\") | .name'\)"
+    echo "  $ mkdir -p /mnt/icybox"
+    echo "  $ sudo mount \${disk_path} /mnt/icybox"
+    echo "  $ cd ~/media/photos"
+    echo ""
+
+    # Notice the end-backslash on the first `2020`.
+    # Remove -n flag if you want to run this command.
+    # -n is just dry run and shows what will happen.
+    echo ""
+    echo "Notice the end-backslash on the first '2020'."
+    echo "Remove -n flag if you want to run this command."
+    echo "-n is just dry run and shows what will happen."
+    echo ""
+    echo "  $ rsync -anv 2020/ /mnt/icybox/media/photos/2020"
+    echo ""
+    echo ""
+
+    echo "Count number files in directories under current path."
+    echo ""
+    echo '  $ for dir in $(ls); do echo -n "$dir: "; ls $dir | wc -l; done'
+    echo ""
+    echo ""
+
+    echo "Confirm no difference between folder and"
+    echo "then you can delete the original copy"
+    echo "Credit: https://askubuntu.com/questions/421712/comparing-the-contents-of-two-directories"
+    echo ""
+    echo "  $ diff <(find videos/ -type f -exec md5sum {} + | sort -k 2) <(find /run/media/thorgeir/Linux1T/media/videos/ -type f -exec md5sum {} + | sort -k 2)"
+}
+
+help_set_caps() {
+    echo "xdotool key Caps_Lock"
+}
+
+
+BARRACUDA () {
+    echo BARRACUDA LOVES GREG.
+}
+embla () {
+    echo Hi, Embla!
+}
+
+default_browser () {
+    vim ~/.config/mimeapps.list
+}
+
+work_clean () {
+    echo "Remove unnecessary files and folders"
+    rm ./*.pyc
+    rm ./*.swp
+    rm -r ./__pycache__
+    rm -r ./.pytest_cache
+}
+
+
+help_screensaver_off () {
+    # Turn off screensaver on laptop.
+    # Add these lines to ~/.bash_profile or ~/.profile
+    # After reboot run xset -q to see if
+    # it had take affect.
+    echo xset s off
+    echo xset s noblank
+    echo xset -dpms
+}
+
+help_set_default_browser () {
+    # Credit: https://unix.stackexchange.com/a/579994
+    # See current browser.
+    echo xdg-mime query default x-scheme-handler/https
+
+    # Set default Browser.
+    echo xdg-mime default google-chrome.desktop x-scheme-handler/https
+    echo xdg-mime default google-chrome.desktop x-scheme-handler/http
+
+    # Verify the changes.
+    echo xdg-mime query default x-scheme-handler/https
+}
+
+
+help_add_echo_cancel_to_pulseaudio () {
+    # Credit:
+    #   * https://www.youtube.com/watch?v=lTodCeVAfpI
+    #   * https://gist.githubusercontent.com/grigio/cb93c3e8710a6f045a3dd9456ec01799/raw/94f07c7d75bcf5dd9b08a9c3034844223ec6fbe1/fix-microphone-background-noise.sh
+    #   * https://askubuntu.com/questions/18958/realtime-noise-removal-with-pulseaudio
+    #
+    echo "echo load-module module-echo-cancel source_name=noechosource sink_name=noechosink >> /etc/pulse/default.pa"
+    echo "echo set-default-source noechosource >> /etc/pulse/default.pa"
+    echo "echo set-default-sink noechosink >> /etc/pulse/default.pa"
+
+    echo "pulseaudio -k"
+}
+
+help_install_pulseaudio () {
+    # Credit: https://linoxide.com/linux-how-to/install-equalizer-pulseeffects-linux/
+    # Podcast related: https://dlnxtend.com/8
+    echo sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    echo sudo flatpak install flathub com.github.wwmm.pulseeffects
+}
+
+help_pulseeffect () {
+    # Run this GUI app.
+    echo install using flatpak
+    echo run with flatpak
+    echo $ flatpak run com.github.wwmm.pulseeffects
+    echo Also run:
+    echo $ pavucontrol
+    echo Here you can control wich application use which audio input.
+    echo Worth to consider to to use this command
+    echo pulseeffects --gapplication-service
+    echo more info: https://news.ycombinator.com/item?id=24985090
+}
+
+help_network_share_ethernet () {
+  echo https://www.cesariogarcia.com/?p=611
+}
+
+help_virtualbox_fullscreen () {
+    # this helped me:
+    #  * https://askubuntu.com/questions/573596/unable-to-install-guest-additions-cd-image-on-virtual-box
+    echo "read the comments in the function!"
+}
+
+shrink_videos () {
+    echo 'mkdir -p shrink; for mov in $(ls *.MOV); do (set -o xtrace; ffmpeg -i $mov -c:v libx264 -c:a copy -crf 20 ./shrink/$mov); done'
+
+    echo "# Recursivly find *.mov files and reduce size"
+    echo "# Store the shrinked file with same absolute path in shrink folder."
+    echo "# Print out shrink commands to shrink_commands.sh file."
+    echo "# For .MOV, mp4"
+    echo 'echo "set -o errexit" > shrink_commands.sh; find * -iname "*.mp4" -print0 | while read -r -d $'\0' mov; do echo mkdir -p shrink/$(dirname "$mov"); echo ffmpeg -i \"$mov\" -c:v libx264 -c:a copy -crf 20 \"shrink/$mov\"; done >> shrink_commands.sh;'
+
+    echo "# See the difference between folders."
+    echo "diff <(pushd Dropbox; find . | sort; popd) <(pushd Dropbox_shrink/shrink; find . | sort; popd) | less"
+}
+
+shrink_photos () {
+    # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
+    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
+}
+
+
+help_mouse_wireless () {
+    echo "Install solaar:"
+    echo "git clone https://github.com/pwr-Solaar/Solaar.git"
+    echo "read docs/installation.md"
+    echo " ... copy udev rule on right place"
+    echo " ... pip3 install --user ."
+    echo " ... if password prompt, just skip ..."
+    echo "Run solaar program:"
+    echo "~/.local/bin/solaar"
+    echo "1. Click on 'Unifying Receiver'"
+    echo "2. then on light bulb"
+    echo "3. Turn on the mouse"
+}
+
+help_remove_duplicates () {
+    # Credit: https://superuser.com/a/691551
+    echo 'fdupes -rf . | grep -v '^$' > duplicate_files'
+    echo 'xargs -d '\n' -a duplicate_files rm -v'
+
+    # OTHER WAY, WHICH IS MUCH NICER!
+    # https://xyne.archlinux.ca/projects/rmdupes/
+    # Download tar, extracted and wolla!
+    # -n:   dry-run, just remove this flag to acually remove duplicates.
+    #       When this flag is not provide, it will ask you before you
+    #       want to remove the files.
+    # -r:   reference folder, use 2021 as the main source and
+    #       remove duplates in the books directory.
+    echo "cd ~/media"
+    echo "python3.6 ~/Downloads/rmdupes-2020.12/rmdupes ./books -r ./2021 -n"
+}
+
+help_move_files_into_subdir () {
+    echo "originally create to split 14GB image folder into several directories to be able to send each folder via WeTransfer"
+    echo 'for img in $(ls **); do num=$(echo $img | tr -dc '0-9'); dir=$(echo $(($num/80*80))); mkdir -p $dir; mv $img ./$dir/; done'
+}
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
