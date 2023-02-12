@@ -103,7 +103,7 @@ URxvt.foreground:       white
 *cursorColor: red
 
 ! Alsamixer background color for example.
-*.color0:       #ffffff
+*.color0:       #000000
 
 ! e.g.
 !  * ssh user-thorgeir ... "kernel:"

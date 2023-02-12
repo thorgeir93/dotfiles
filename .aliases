@@ -42,6 +42,7 @@ alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="htt
 # vim-movement in ipyton as a default option.
 alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
 
+alias nvim="/home/thorgeir/programs/nvim/nvim"
 #alias python=/usr/bin/python2.7
 
 # Some hax to get more acces ( i think :/ for usb things)

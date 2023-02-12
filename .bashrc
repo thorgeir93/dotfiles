@@ -734,8 +734,13 @@ help_sync_images () {
     echo "Notice the end-backslash on the first '2020'."
     echo "Remove -n flag if you want to run this command."
     echo "-n is just dry run and shows what will happen."
+    echo "-c Uses checksum to determine if file is equal, considered as more accurate."
+    echo "-u, --update: skip files that are newer on the receiver."
+    echo "--stats: See stats about the transfer."
+    echo "-h: human readable format"
+    echo "--progress: showing the progress of the transfer."
     echo ""
-    echo "  $ rsync -anv 2020/ /mnt/icybox/media/photos/2020"
+    echo "  $ rsync -anvc 2020/ /mnt/icybox/media/photos/2020"
     echo ""
     echo ""
 
@@ -750,6 +755,13 @@ help_sync_images () {
     echo "Credit: https://askubuntu.com/questions/421712/comparing-the-contents-of-two-directories"
     echo ""
     echo "  $ diff <(find videos/ -type f -exec md5sum {} + | sort -k 2) <(find /run/media/thorgeir/Linux1T/media/videos/ -type f -exec md5sum {} + | sort -k 2)"
+    echo ""
+    echo "Possible to use the meld GUI command"
+    echo "  $ meld DIR1 DIR2"
+    echo ""
+    echo ""
+    echo "Possible to use this command:"
+    echo "  $ diff -y <(pushd ~/media/photos/2021; for dir in \$(ls); do echo -n "\$dir: "; ls \$dir | wc -l; done; popd) <(pushd /mnt/icybox/media/photos/2021; for dir in \$(ls); do echo -n "\$dir: "; ls \$dir | wc -l; done; popd) | less"
 }
 
 help_set_caps() {
