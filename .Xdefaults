@@ -103,6 +103,9 @@ URxvt.foreground:       white
 *cursorColor: red
 
 ! Alsamixer background color for example.
+
+! Background color in on remote dev machine when using k9s.
+! Background color in VIM word completetion box.
 *.color0:       #000000
 
 ! e.g.
