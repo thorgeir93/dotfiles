@@ -21,6 +21,7 @@ URxvt.pointerColor2:    white
 Xft.antialias:true
 ! fading: how much other terminals fade out.
 
+URxvt.geometry: 400x400
 
 URxvt.perl-ext-common: default,tabbed,matcher,resize-font,-tabbed
 
