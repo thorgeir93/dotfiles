@@ -3,7 +3,7 @@
 " List of plugins I use:
 "   * https://github.com/jlanzarotta/bufexplorer
 
-execute pathogen#infect() 
+execute pathogen#infect()
 " call pathogen#helptags()
 
 let g:pymode_options_colorcolumn = 0
@@ -105,12 +105,12 @@ set fdo-=search
 set backspace=indent,eol,start
 
 " The kind of folding used. Possible values:
-"   expr, manual, indent, marker, syntax, diff  
+"   expr, manual, indent, marker, syntax, diff
 set foldmethod=indent
 
-" N spaces between the cursor and the end of the file 
+" N spaces between the cursor and the end of the file
 " and the beginning of the file
-set scrolloff=10    
+set scrolloff=10
 
 set background=dark
 set tabstop=4
@@ -152,44 +152,44 @@ set ignorecase smartcase
 "   :hi <Special key> term=standout ctermfg=21 ctermbg=168 \
 "   guifg=Cyan guibg=DarkGrey
 
-" Light blue
-hi Statement ctermfg=41
-"hi MatchParen term=underline ctermbg=15
-hi MatchParen ctermfg=64 ctermbg=None cterm=bold
-hi Identifier term=NONE cterm=None ctermfg=9
-hi Function ctermfg=52
-"hi Folded cterm=underline ctermfg=14 ctermbg=168
-hi Folded cterm=None ctermfg=14 ctermbg=168
-hi Comment ctermfg=37
-hi Todo cterm=underline ctermfg=80 ctermbg=168
-hi Search cterm=bold,underline ctermfg=None ctermbg=None
-hi VertSplit cterm=bold ctermbg=80 ctermfg=80
-"hi VertSplit term=reverse cterm=bold ctermbg=80 gui=reverse 
-
-" Use dark blue #192841, it is nice!
-" hi Pmenu ctermbg=gray guibg=gray
-hi Pmenu ctermfg=None ctermbg=80
-hi PmenuSel ctermbg=14 ctermfg=None
-hi PmenuThumb ctermbg=15
-hi PmenuSbar ctermbg=11
-
-hi StatusLine ctermfg=12 ctermbg=80 cterm=bold
-hi StatusLineNC ctermfg=11 ctermbg=80 cterm=none
-"hi StatusLine term=reverse ctermfg=64 ctermbg=80 gui=reverse "hi StatusLineNC term=reverse ctermfg=64 ctermbg=80 gui=reverse
-
-hi StatusLineTerm term=bold ctermfg=80 guifg=Cyan
-hi StatusLineTermNC term=bold ctermfg=80 guifg=Cyan 
-hi Terminal ctermfg=24 ctermbg=16
-
-hi WildMenu cterm=bold ctermfg=14 ctermbg=16
-
-hi Visual term=reverse cterm=reverse guibg=Grey
-
-hi TabLineFill cterm=none ctermfg=64 ctermbg=80
-hi TabLineSel cterm=none ctermfg=12 ctermbg=16
-hi TabLine cterm=none ctermfg=12 ctermbg=80
-
-hi Error term=reverse ctermfg=2 ctermbg=4
+"" Light blue
+"hi Statement ctermfg=41
+""hi MatchParen term=underline ctermbg=15
+"hi MatchParen ctermfg=64 ctermbg=None cterm=bold
+"hi Identifier term=NONE cterm=None ctermfg=9
+"hi Function ctermfg=52
+""hi Folded cterm=underline ctermfg=14 ctermbg=168
+"hi Folded cterm=None ctermfg=14 ctermbg=168
+"hi Comment ctermfg=37
+"hi Todo cterm=underline ctermfg=80 ctermbg=168
+"hi Search cterm=bold,underline ctermfg=None ctermbg=None
+"hi VertSplit cterm=bold ctermbg=80 ctermfg=80
+""hi VertSplit term=reverse cterm=bold ctermbg=80 gui=reverse
+"
+"" Use dark blue #192841, it is nice!
+"" hi Pmenu ctermbg=gray guibg=gray
+"hi Pmenu ctermfg=None ctermbg=80
+"hi PmenuSel ctermbg=14 ctermfg=None
+"hi PmenuThumb ctermbg=15
+"hi PmenuSbar ctermbg=11
+"
+"hi StatusLine ctermfg=12 ctermbg=80 cterm=bold
+"hi StatusLineNC ctermfg=11 ctermbg=80 cterm=none
+""hi StatusLine term=reverse ctermfg=64 ctermbg=80 gui=reverse "hi StatusLineNC term=reverse ctermfg=64 ctermbg=80 gui=reverse
+"
+"hi StatusLineTerm term=bold ctermfg=80 guifg=Cyan
+"hi StatusLineTermNC term=bold ctermfg=80 guifg=Cyan
+"hi Terminal ctermfg=24 ctermbg=16
+"
+"hi WildMenu cterm=bold ctermfg=14 ctermbg=16
+"
+"hi Visual term=reverse cterm=reverse guibg=Grey
+"
+"hi TabLineFill cterm=none ctermfg=64 ctermbg=80
+"hi TabLineSel cterm=none ctermfg=12 ctermbg=16
+"hi TabLine cterm=none ctermfg=12 ctermbg=80
+"
+"hi Error term=reverse ctermfg=2 ctermbg=4
 "hi Error term=None
 syntax on
 
@@ -216,7 +216,7 @@ endif
 "" CUSTOM MAPPING ""
 """"""""""""""""""""
 " Create TODO line for the ~/TODO.md.
-" Find the latest note in the file and creates a TODO line 
+" Find the latest note in the file and creates a TODO line
 " above that note.
 " example output: '[ ]-20170926T1736+0000-'
 
@@ -252,9 +252,9 @@ endfunction
 
 
 " Change:
-" '[ ]-20170926T1736+0000-' 
+" '[ ]-20170926T1736+0000-'
 " To:
-" '[x]-20170926T1736+0000-' 
+" '[x]-20170926T1736+0000-'
 " And the otherway arround.
 
 function! Todo_change(symbol)
@@ -298,8 +298,8 @@ nmap <F4> :call Todo_change(g:TODO_BLOCK)<CR>
 nmap <F5> :call Todo_change(g:TODO_DONE)<CR><ESC>
 "nmap <F6> <ESC>?.*\S.*\n<CR>jjO# <ESC>:r !date +\%Y-\%m-\%d<ESC>kJj:noh<CR><ESC><F2><ESC>:call Todo_init()<CR><ESC>o<ESC>kA
 nmap <F6> <ESC>?.*\S.*\n<CR>jjO# <ESC>:r !date +\%Y-\%m-\%d<ESC>kJj:noh<CR><ESC><ESC>:call Todo_init()<CR><ESC>o<ESC>kA
-nnoremap <F7> :set number!<CR>:set relativenumber!<CR>
-nmap <F8> :call ClearInsideParenthesis()<CR>
+nnoremap <F8> :set number!<CR>:set relativenumber!<CR>
+" nmap <F8> :call ClearInsideParenthesis()<CR>
 nnoremap <F9> :set list!<CR>
 
 
@@ -345,10 +345,10 @@ nnoremap za za:syntax sync fromstart<CR>
 " imap j<Tab> print(json.dumps(, indent=3, default=str))
 
 " Generates a fold skeleton.
-" nmap fold1<Tab> i#-- <CR>{{{1<CR>1}}}<ESC>kkA 
-" nmap fold2<Tab> i#-- <CR>{{{2<CR>2}}}<ESC>kkA 
-" nmap fold3<Tab> i#-- <CR>{{{3<CR>3}}}<ESC>kkA 
-" nmap fold4<Tab> i#-- <CR>{{{4<CR>4}}}<ESC>kkA 
+" nmap fold1<Tab> i#-- <CR>{{{1<CR>1}}}<ESC>kkA
+" nmap fold2<Tab> i#-- <CR>{{{2<CR>2}}}<ESC>kkA
+" nmap fold3<Tab> i#-- <CR>{{{3<CR>3}}}<ESC>kkA
+" nmap fold4<Tab> i#-- <CR>{{{4<CR>4}}}<ESC>kkA
 
 nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
@@ -358,12 +358,12 @@ nnoremap <silent> <Leader>9 :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 "
 " ctrl-s | Saving changes
 "
-" Copy from 
+" Copy from
 " vim.fandom.com/wiki/Map_Ctrl-S_to_save_current_or_new_files
 " ----
 " If the current buffer has never been saved, it will have no name,
 " call the file browser to save it, otherwise just save it.
-command! -nargs=0 -bar Update if &modified 
+command! -nargs=0 -bar Update if &modified
                            \|    if empty(bufname('%'))
                            \|        browse confirm write
                            \|    else
@@ -389,7 +389,7 @@ set statusline+=%f
 set statusline+=%m
 set statusline+=%=
 set statusline+=\ %l:%c
-set statusline+=\ %p%%\ \ \ \ 
+set statusline+=\ %p%%\ \ \ \
 
 """"""""""""
 "" EVENTS ""
@@ -402,7 +402,7 @@ augroup vimrc_autocmds
     "autocmd BufEnter * highlight ColorColumn term=reverse ctermfg=64 ctermbg=80
     autocmd BufEnter * highlight ColorColumn term=standout ctermfg=14 ctermbg=242
     autocmd BufEnter *.py match ColorColumn /\%80v.*/
-    "autocmd TerminalOpen * 
+    "autocmd TerminalOpen *
 augroup END
 
 """""""""""""""
@@ -473,8 +473,8 @@ endfunction
 ""let g:dbext_default_display_cmd_line = 1
 "
 "
-"" Change the default profile by write 
-"" in your vim (modeline) command, like so: 
+"" Change the default profile by write
+"" in your vim (modeline) command, like so:
 ""   /*dbext: profile=c3_dev_write_thorgeir*/
 "Let g:dbext_default_profile_c3_read_thorgeir ='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=db-read.c3.amadis.com:port=3306'
 "Let g:dbext_default_profile_c3_write_thorgeir='type=MYSQL:user=thorgeir:passwd=`cat /home/thorgeir/.config/mysql/thorgeirp.txt`:host=db-write.c3.amadis.com:port=3306'
@@ -672,4 +672,18 @@ endfunction
 
 
 " Auto remove trailing whitespaces on save
-autocmd BufWritePre * :%s/\s\+$//e
+" autocmd BufWritePre * :%s/\s\+$//e
+
+function! TogglePasteMode()
+    if &paste
+        set nopaste
+        echo "Paste mode disabled"
+    else
+        set paste
+        echo "Paste mode enabled"
+    endif
+endfunction
+
+
+" Map F10 to toggle paste mode
+nnoremap <F11> :call TogglePasteMode()<CR>

@@ -1039,18 +1039,18 @@ dbuni () {
     vim ~/git/lab/thorgeir/db_queries/ash1/unicomplex/ash1_unicomplex_write.sql
 }
 
-copy () {
-    # Copy file name and use paste command to copy from the newly copy file.
-    filename=$1
-    export FILEPATH_COPY=$(pwd)/$filename
+#copy () {
+#    # Copy file name and use paste command to copy from the newly copy file.
+#    filename=$1
+#    export FILEPATH_COPY=$(pwd)/$filename
+#
+#    echo "Copied $FILEPATH_COPY"
+#    echo "Use paste command to copy that newly copied file to current directory."
+#}
 
-    echo "Copied $FILEPATH_COPY"
-    echo "Use paste command to copy that newly copied file to current directory."
-}
-
-paste () {
-    (set -x; cp $FILEPATH_COPY ./)
-}
+#paste () {
+#    (set -x; cp $FILEPATH_COPY ./)
+#}
 
 
 # FZF - Fuzzy finder tools
@@ -1137,6 +1137,8 @@ export PERL_MM_OPT="INSTALL_BASE=/home/thorgeir/perl5";
 export PERL5LIB="/home/thorgeir/perl5/lib/perl5:$PERL5LIB";
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f /usr/share/fzf/key-bindings.bash ] && source /usr/share/fzf/key-bindings.bash
+[ -f /usr/share/fzf/completion.bash ] && source /usr/share/fzf/completion.bash
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
@@ -1359,9 +1361,14 @@ help_move_files_into_subdir () {
     echo 'for img in $(ls **); do num=$(echo $img | tr -dc '0-9'); dir=$(echo $(($num/80*80))); mkdir -p $dir; mv $img ./$dir/; done'
 }
 
+kringlan () {
+    bash ~/.screenlayout/kringlan-screen-layout.sh
+}
+
 export PYENV_ROOT="$HOME/.pyenv/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+source /usr/share/nvm/init-nvm.sh

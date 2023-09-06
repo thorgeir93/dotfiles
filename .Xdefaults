@@ -5,7 +5,11 @@
 !URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
 !URxvt*font: xft:Dejavu Sans Mono:pixelsize=15
 
-URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
+!URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
+!URxvt*font: xft:Dejavu Sans Mono:pixelsize=13
+!URxvt*font: xft:Droid Sans Mono for Powerline:size=10
+URxvt.font: xft:Monospace:size=11,xft:Symbola:size=11
+
 !URxvt*font: xft:Dejavu Sans Mono:pixelsize=25
 
 !URxvt.font:xft:Monaco:pixelsize=11
@@ -20,6 +24,8 @@ URxvt.pointerColor:     black
 URxvt.pointerColor2:    white
 Xft.antialias:true
 ! fading: how much other terminals fade out.
+
+URxvt.transparent:   true
 
 URxvt.geometry: 400x400
 
