@@ -169,7 +169,7 @@ todo () {
 }
 
 todomd () {
-    pushd ~/git/hub/thorgeir-parka/worklogs/
+    pushd ~/git/hub/thorgeir-travel/worklogs/
     git pull
     vim -n worklogs/todo.markdown
     bash auto_commit.sh
@@ -1159,6 +1159,11 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 source ~/.git-prompt.sh
 PS1="$PS1\$(__git_ps1) $ "
 
+start_psql () {
+    source ~/.venv/pgadmin4/bin/activate
+    pgadmin4 &
+}
+
 help_sync_images () {
 
     echo "Run this command on different terminal to watch "
@@ -1361,8 +1366,8 @@ help_move_files_into_subdir () {
     echo 'for img in $(ls **); do num=$(echo $img | tr -dc '0-9'); dir=$(echo $(($num/80*80))); mkdir -p $dir; mv $img ./$dir/; done'
 }
 
-kringlan () {
-    bash ~/.screenlayout/kringlan-screen-layout.sh
+travelshift () {
+    bash ~/.screenlayout/office-travel-02.sh
 }
 
 export PYENV_ROOT="$HOME/.pyenv/pyenv"
@@ -1371,4 +1376,9 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-source /usr/share/nvm/init-nvm.sh
+
+# source /usr/share/nvm/init-nvm.sh
+[[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
+
+export POETRY_BIN="$HOME/.local/bin"
+export PATH="$POETRY_BIN:$PATH"

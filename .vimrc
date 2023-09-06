@@ -3,7 +3,7 @@
 " List of plugins I use:
 "   * https://github.com/jlanzarotta/bufexplorer
 
-execute pathogen#infect()
+" execute pathogen#infect()
 " call pathogen#helptags()
 
 let g:pymode_options_colorcolumn = 0
