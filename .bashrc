@@ -34,19 +34,8 @@ export HISTSIZE=
 # tweak colors to get example like "9;2;93m"
 
 
-if [[ $(hostname) == "MEGAS" ]]; then
-    export PS1="\[\033[38;5;27m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;27m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
-
-elif [[ $(hostname) == "SMYRILL" ]]; then
-    color=48
-    export PS1="\[\033[38;5;${color}m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;${color}m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
-
-    #
-
-else
-    export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\[$(tput sgr0)\]\n"
+export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\[$(tput sgr0)\]\n"
     #export PS1=" \w $ "
-fi
 
 #export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
 
@@ -180,7 +169,7 @@ todo () {
 }
 
 todomd () {
-    pushd ~/git/lab/thorgeir/worklogs/
+    pushd ~/git/hub/thorgeir-travel/worklogs/
     git pull
     vim -n worklogs/todo.markdown
     bash auto_commit.sh
@@ -1050,18 +1039,18 @@ dbuni () {
     vim ~/git/lab/thorgeir/db_queries/ash1/unicomplex/ash1_unicomplex_write.sql
 }
 
-copy () {
-    # Copy file name and use paste command to copy from the newly copy file.
-    filename=$1
-    export FILEPATH_COPY=$(pwd)/$filename
+#copy () {
+#    # Copy file name and use paste command to copy from the newly copy file.
+#    filename=$1
+#    export FILEPATH_COPY=$(pwd)/$filename
+#
+#    echo "Copied $FILEPATH_COPY"
+#    echo "Use paste command to copy that newly copied file to current directory."
+#}
 
-    echo "Copied $FILEPATH_COPY"
-    echo "Use paste command to copy that newly copied file to current directory."
-}
-
-paste () {
-    (set -x; cp $FILEPATH_COPY ./)
-}
+#paste () {
+#    (set -x; cp $FILEPATH_COPY ./)
+#}
 
 
 # FZF - Fuzzy finder tools
@@ -1081,8 +1070,6 @@ fkill() {
 # cat file | wc -l | to_dot
 # 1.000.000
 alias to_dot="perl -pe 's/(\d{1,3})(?=(?:\d{3}){1,5}\b)/\1./g'"
-=======
-}
 
 help_disk_eject () {
     echo sudo umount /run/media/thorgeir/Elements
@@ -1148,22 +1135,17 @@ export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:/home/thorgeir/perl5";
 export PERL_MB_OPT="--install_base /home/thorgeir/perl5";
 export PERL_MM_OPT="INSTALL_BASE=/home/thorgeir/perl5";
 export PERL5LIB="/home/thorgeir/perl5/lib/perl5:$PERL5LIB";
-export PATH="/home/thorgeir/perl5/bin:$PATH";
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
-eval "$(pyenv virtualenv-init -)"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f /usr/share/fzf/key-bindings.bash ] && source /usr/share/fzf/key-bindings.bash
+[ -f /usr/share/fzf/completion.bash ] && source /usr/share/fzf/completion.bash
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-source /usr/share/bash-completion/bash_completion
-source <(kubectl completion bash)
-alias k=kubectl
-complete -F __start_kubectl k
+#source /usr/share/bash-completion/bash_completion
+#source <(kubectl completion bash)
+#alias k=kubectl
+#complete -F __start_kubectl k
 
 #source ~/git/hub/jonmosco/kube-ps1/kube-ps1.sh
 #PS1='[\u@\h \W $(kube_ps1)]\$ '
@@ -1172,11 +1154,16 @@ complete -F __start_kubectl k
 
 
 #initialize Z (https://github.com/rupa/z)
-. ~/z.sh
+. ~/bin/z.sh
 
 source ~/.git-prompt.sh
 PS1="$PS1\$(__git_ps1) $ "
-=======
+
+start_psql () {
+    source ~/.venv/pgadmin4/bin/activate
+    pgadmin4 &
+}
+
 help_sync_images () {
 
     echo "Run this command on different terminal to watch "
@@ -1379,10 +1366,19 @@ help_move_files_into_subdir () {
     echo 'for img in $(ls **); do num=$(echo $img | tr -dc '0-9'); dir=$(echo $(($num/80*80))); mkdir -p $dir; mv $img ./$dir/; done'
 }
 
-export PYENV_ROOT="$HOME/.pyenv"
+travelshift () {
+    bash ~/.screenlayout/office-travel-02.sh
+}
+
+export PYENV_ROOT="$HOME/.pyenv/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# source /usr/share/nvm/init-nvm.sh
+[[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
+
+export POETRY_BIN="$HOME/.local/bin"
+export PATH="$POETRY_BIN:$PATH"

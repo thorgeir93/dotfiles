@@ -7,6 +7,8 @@ alias gl="cd ~/git/lab"
 alias glt="cd ~/git/lab/thorgeir"
 alias gltw="cd ~/git/lab/thorgeir/worklogs"
 
+alias xcp="xclip -selection clipboard"
+
 
 alias md2="cd ~/media/photos/2021"
 
@@ -54,12 +56,12 @@ alias chrome='google-chrome --explicitly-allowed-ports=6668 --proxy-pac-url="htt
 # vim-movement in ipyton as a default option.
 alias ipython='ipython --TerminalInteractiveShell.editing_mode=vi'
 
-alias nvim="/home/thorgeir/programs/nvim/nvim"
+#alias nvim="/home/thorgeir/programs/nvim/nvim"
 #alias python=/usr/bin/python2.7
 
 # Some hax to get more acces ( i think :/ for usb things)
 alias unetbootin='sudo QT_X11_NO_MITSHM=1 unetbootin' 
-alias pdfviewer='evince'
+alias pdfviewer='okular'
 alias pdfviewer2='zathura'
 alias openshot='/home/thorgeir/Downloads/'
 alias senv='source /export/unicomplex_data/unicomplex/env.sh'
