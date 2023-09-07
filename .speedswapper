@@ -1,4 +1,5 @@
 ! Swap caps lock and escape
+! Usage: :xmodmap .speedswapper
 remove Lock = Caps_Lock
 keysym Escape = Caps_Lock
 keysym Caps_Lock = Escape
