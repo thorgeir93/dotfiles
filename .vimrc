@@ -385,7 +385,7 @@ noremap <leader>gf :vsplit <cfile><cr>
 set laststatus=2
 set statusline=
 set statusline+=\ \ \ \ %-10.3n                     " buffer number
-set statusline+=%f
+set statusline+=%F
 set statusline+=%m
 set statusline+=%=
 set statusline+=\ %l:%c
@@ -398,12 +398,12 @@ autocmd InsertEnter * :syntax sync fromstart
 
 autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
 " Higlight the lines that are equal or more than 80 columns with the same color scheme as the comment scheme!
-augroup vimrc_autocmds
-    "autocmd BufEnter * highlight ColorColumn term=reverse ctermfg=64 ctermbg=80
-    autocmd BufEnter * highlight ColorColumn term=standout ctermfg=14 ctermbg=242
-    autocmd BufEnter *.py match ColorColumn /\%80v.*/
-    "autocmd TerminalOpen *
-augroup END
+"augroup vimrc_autocmds
+"    "autocmd BufEnter * highlight ColorColumn term=reverse ctermfg=64 ctermbg=80
+"    autocmd BufEnter * highlight ColorColumn term=standout ctermfg=14 ctermbg=242
+"    autocmd BufEnter *.py match ColorColumn /\%80v.*/
+"    "autocmd TerminalOpen *
+"augroup END
 
 """""""""""""""
 "" FUNCTIONS ""

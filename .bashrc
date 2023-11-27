@@ -982,9 +982,39 @@ run_all_tests () {
     (set -x; poetry run pytest)
 }
 
+###                    #
+## GIT RELATED STUFF  ##
+#                    ###
+
+gs () {
+    git status
+}
+
+gp () {
+    git pull
+}
+
 gb () {
     # Interactivly choose branch from local branches
     git checkout $(git branch | tr "*" " " | fzf)
+}
+
+gd () {
+    # Interactivly choose branch from local branches
+    git diff
+}
+
+ga () {
+    (set -x; git add .)
+}
+
+gmd () {
+    (set -x; git merge development)
+}
+
+gac () {
+    git add .
+    git commit
 }
 
 gr () {
@@ -1366,9 +1396,93 @@ help_move_files_into_subdir () {
     echo 'for img in $(ls **); do num=$(echo $img | tr -dc '0-9'); dir=$(echo $(($num/80*80))); mkdir -p $dir; mv $img ./$dir/; done'
 }
 
-travelshift () {
-    bash ~/.screenlayout/office-travel-02.sh
+travelshift_dp1 () {
+    bash ~/.screenlayout/travelshift-dp1.sh
 }
+
+travelshift_hdmi1 () {
+    bash ~/.screenlayout/travelshift-hdmi1.sh
+}
+
+pacman_update () {
+    # Update the keyrings before
+    sudo pacman -S archlinux-keyring
+    # Update packages
+    sudo pacman -Syu
+}
+
+pu () {
+    # Shortcut for pacman update
+    pacman_update
+}
+
+pi () {
+    pacman_update
+    sudo pacman -S $1
+}
+
+import_photos () {
+    pushd /home/thorgeir/git/hub/thorgeir/image_tool/
+    bash ./import_image.sh
+    popd
+}
+
+arch_clean () {
+    # Method to run general clean up.
+
+    # Remove unused packages (orphans)
+    sudo pacman -Rns $(pacman -Qtdq)
+
+    # Clean Systemd journal
+    # This should be cronjob or systemd service.
+    sudo journalctl --vacuum-time=4weeks
+
+    # Can use rmlint to remove duplicates
+    # $ rmlint --help
+
+    # Cleaning the cache
+    # k1: Retain only one past version (k0 to remove all cached versions)
+    # Remove monthly: https://averagelinuxuser.com/clean-arch-linux/
+    # More: https://wiki.archlinux.org/title/Pacman#Cleaning_the_package_cache
+    paccache -rk1v
+}
+
+
+md2pdf() {
+	# Credit ChatGPT:
+	#	* https://chat.openai.com/share/ca6f2d8b-a4df-4a0a-9ec2-d0388458476c
+    if [ -z "$1" ]; then
+        echo "Usage: md2pdf <markdown_file>"
+        return 1
+    fi
+
+    if ! command -v lowdown > /dev/null 2>&1; then
+        echo "Error: lowdown is not installed. Please install lowdown to use this function."
+        return 1
+    fi
+
+    if ! command -v wkhtmltopdf > /dev/null 2>&1; then
+        echo "Error: wkhtmltopdf is not installed. Please install wkhtmltopdf to use this function."
+        return 1
+    fi
+
+    local input_file=$1
+    local html_file=${input_file%.md}.html
+    local output_file=${input_file%.md}.pdf
+
+    lowdown "$input_file" > "$html_file"
+    wkhtmltopdf "$html_file" "$output_file"
+
+    echo "Converted $input_file to $output_file"
+}
+
+function vpn() {
+    # Options:
+    #    $ vpn up
+    #    $ vpn down
+    nmcli connection $1 megas
+}
+
 
 export PYENV_ROOT="$HOME/.pyenv/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -1382,3 +1496,4 @@ eval "$(pyenv virtualenv-init -)"
 
 export POETRY_BIN="$HOME/.local/bin"
 export PATH="$POETRY_BIN:$PATH"
+source /usr/share/nvm/init-nvm.sh

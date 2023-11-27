@@ -33,7 +33,7 @@ alias gltl='cd /home/thorgeir/git/lab/threatlookup/linkfunnel/'
 alias gltlp='cd /home/thorgeir/git/lab/threatlookup/linkfunnel/pipeline/'
 
 alias bat="/usr/local/bat/bat"
-alias cheat="/usr/local/cheat"
+#alias cheat="/usr/local/cheat"
 
 alias tstart='cd /var/log/tmux/ && tmux -vvv'
 
