@@ -1484,6 +1484,14 @@ function vpn() {
 }
 
 
+me () {
+    cd ~/media/photos/export/
+}
+
+m3 () {
+    cd ~/media/photos/2023/
+}
+
 export PYENV_ROOT="$HOME/.pyenv/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
