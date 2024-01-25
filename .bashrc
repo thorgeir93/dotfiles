@@ -169,10 +169,9 @@ todo () {
 }
 
 todomd () {
-    pushd ~/git/hub/thorgeir-travel/worklogs/
-    git pull
-    vim -n worklogs/todo.markdown
-    bash auto_commit.sh
+    #pushd ~/git/hub/thorgeir-travel/worklogs/
+    pushd ~/work/notes
+    vim -n todo.markdown
     popd
 }
 
@@ -1247,6 +1246,24 @@ help_sync_images () {
     echo ""
     echo "Possible to use this command:"
     echo "  $ diff -y <(pushd ~/media/photos/2021; for dir in \$(ls); do echo -n "\$dir: "; ls \$dir | wc -l; done; popd) <(pushd /mnt/icybox/media/photos/2021; for dir in \$(ls); do echo -n "\$dir: "; ls \$dir | wc -l; done; popd) | less"
+
+    echo ""
+    echo "NEWEST SYNC METHOD!"
+    echo "-------------------"
+    echo ""
+    echo "$ rsync -anhvc --progress ~/media/ /mnt/icybox2/media/"
+    echo ""
+    echo "Remove -n to run actual command."
+    echo ""
+    echo "Then verify that the all source media have been copied over"
+    echo "MIGHT NEED TO VERIFY FILE PATH IN THE SCRIPT:"
+    echo ""
+    echo "$ bash ~/bin/media_sync/verify_sync.sh"
+    echo ""
+    echo "or be fast:"
+    echo "$ bash ~/bin/media/sync/verify_sync_fast.sh ~/media /mnt/icybox2/media"
+    echo ""
+
 }
 
 help_set_caps() {
@@ -1505,3 +1522,6 @@ eval "$(pyenv virtualenv-init -)"
 export POETRY_BIN="$HOME/.local/bin"
 export PATH="$POETRY_BIN:$PATH"
 source /usr/share/nvm/init-nvm.sh
+
+# add Pulumi to the PATH
+export PATH=$PATH:/home/thorgeir/.pulumi/bin
