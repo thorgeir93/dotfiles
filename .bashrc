@@ -1008,6 +1008,11 @@ ga () {
     (set -x; git add .)
 }
 
+gu () {
+    # Update current branch with newest changes from development branch.
+    git fetch && git merge origin/development 
+}
+
 gmd () {
     (set -x; git merge development)
 }
@@ -1064,6 +1069,35 @@ gr () {
     #git add .
     #git commit
 }
+
+git_push () {
+    # Push the commits and leaves last commit URL to be copied.
+
+    # Get the URL of the 'origin' remote repository
+    REMOTE_URL=$(git config --get remote.origin.url)
+
+    # Extract the username and repository name from the URL
+    # This works for URLs of the form: https://github.com/username/repo.git
+    # or the SSH equivalent: git@github.com:username/repo.git
+    GITHUB_USERNAME=$(echo $REMOTE_URL | sed -n 's/.*github.com[:\/]\(.*\)\/.*/\1/p')
+    REPOSITORY_NAME=$(basename -s .git $REMOTE_URL)
+
+    # Push the changes
+    git push
+
+    # Get the latest commit hash
+    COMMIT_HASH=$(git rev-parse HEAD)
+
+    # Construct the commit URL
+    COMMIT_URL="https://github.com/${GITHUB_USERNAME}/${REPOSITORY_NAME}/commit/${COMMIT_HASH}"
+
+    # Output the URL
+    echo "Commit URL: $COMMIT_URL"
+
+    (set -x; echo $COMMIT_URL | xclip -sel clip)
+    echo "Use Ctrl+v to paste the URL."
+}
+
 
 dbuni () {
     vim ~/git/lab/thorgeir/db_queries/ash1/unicomplex/ash1_unicomplex_write.sql
@@ -1444,7 +1478,7 @@ arch_clean () {
     # k1: Retain only one past version (k0 to remove all cached versions)
     # Remove monthly: https://averagelinuxuser.com/clean-arch-linux/
     # More: https://wiki.archlinux.org/title/Pacman#Cleaning_the_package_cache
-    paccache -rk1v
+    paccache -rv -k 2
 }
 
 
@@ -1483,6 +1517,14 @@ function vpn() {
     nmcli connection $1 megas
 }
 
+disable_suspend () {
+    (set -x; xset s off -dpms)
+}
+
+enable_suspend () {
+    (set -x; xset s on -dpms)
+}
+
 
 me () {
     cd ~/media/photos/export/
@@ -1490,6 +1532,30 @@ me () {
 
 m3 () {
     cd ~/media/photos/2023/
+}
+
+xs () {
+    # Switch caps lock and esc buttons.
+    (set -x; xmodmap ~/.speedswapper)
+}
+
+home () {
+    (set -x; xmodmap ~/.speedswapper)
+    #(set -x; setxkbmap -option altwin:swap_alt_win)
+    # add monitor settings
+    (set -x; bash ~/.screenlayout/home-laptop-01.sh)
+}
+
+work () {
+    # Activate big monitor as well increase size in the laptop.
+    bash ~/.screenlayout/travelshift-hdmi1.sh
+
+    # Turn of VPN connection.
+    nmcli connection down megas 
+
+    sleep 1
+
+    # TOOD: reset i3
 }
 
 export PYENV_ROOT="$HOME/.pyenv/pyenv"
