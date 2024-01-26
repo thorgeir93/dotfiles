@@ -1,0 +1,6 @@
+[user]
+	email = thorgeir@travelshift.com
+	name = Þorgeir Eyfjörð Sigurðsson
+
+[includeIf "gitdir:~/git/hub/thorgeir/"]
+    path = ~/.gitconfig-personal
