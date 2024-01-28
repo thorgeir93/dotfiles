@@ -1575,6 +1575,13 @@ work () {
     # TOOD: reset i3
 }
 
+calis () {
+    pushd ~/git/hub/thorgeir/calendar_icelandic/calendar_icelandic/ >/dev/null
+    poetry run python cal_is.py $@
+    popd >/dev/null
+
+}
+
 export PYENV_ROOT="$HOME/.pyenv/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
