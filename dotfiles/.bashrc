@@ -170,6 +170,7 @@ todo () {
 
 todomd () {
     #pushd ~/git/hub/thorgeir-travel/worklogs/
+    mkdir -p ~/work/notes
     pushd ~/work/notes
     vim -n todo.markdown
     popd
@@ -995,8 +996,17 @@ gp () {
 
 gb () {
     # Interactivly choose branch from local branches
-    git checkout $(git branch | tr "*" " " | fzf)
+    # Newest commits listed at the bottom.
+    git checkout $(git branch --sort=-committerdate | tr "*" " " | fzf)
+    
 }
+
+gbd () {
+    # Delete choosen branch from local branch list.
+    # It will not delete it remote.
+    git branch -d $(git branch | tr "*" " " | fzf)
+}
+
 
 gd () {
     # Interactivly choose branch from local branches
@@ -1575,11 +1585,36 @@ work () {
     # TOOD: reset i3
 }
 
+meeting () {
+    # Pause notifications. Once paused dunst will
+    # hold back all notifications. After enabling
+    # dunst again all held back notifications will
+    # be displayed.
+    dunstctl set-paused toggle
+}
+
 calis () {
     pushd ~/git/hub/thorgeir/calendar_icelandic/calendar_icelandic/ >/dev/null
     poetry run python cal_is.py $@
     popd >/dev/null
 
+}
+
+wgrep () {
+    # $ wgrep <search_string> <optional file>
+    # 
+    # Grep without noise
+    # ------------------
+    # Searches for string in repository and excludes all unecessary files.
+    #   
+    search_string=$1; shift
+    optional_file=$1; shift
+    grep -ilrn --exclude-dir=.git --exclude-dir=.venv "$search_string" | grep -v .json | grep -v .pyc | grep -v .lock | grep -v .ipyn | grep $optional_file
+}
+
+search_in_tests () {
+    grep_word=$1; shift
+    for tf in $(find . -type f -name "test_*" | grep -v .pyc); do cat $tf | grep "$grep_word"; done
 }
 
 export PYENV_ROOT="$HOME/.pyenv/pyenv"

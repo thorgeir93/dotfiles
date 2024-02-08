@@ -1,0 +1,34 @@
+""" Map leader to space ---------------------
+let mapleader=" "
+
+
+""" Open dialogs ---------------------
+map <leader>o <Action>(FileStructurePopup)
+
+""" CLASS navigation ---------------------
+nnoremap gU ?class <CR>
+nnoremap [[ ?class <CR>
+nnoremap ]] /class <CR>
+
+
+
+"nnoremap gx TODO open the file under cursor or link
+
+""" Mappings --------------------------------
+"map <leader>d <Action>(Debug)
+map <leader>r <Action>(RenameElement)
+"map <leader>c <Action>(Stop)
+"map <leader>z <Action>(ToggleDistractionFreeMode)
+
+nmap gi :action GotoImplementation<CR>
+
+map <leader>s <Action>(SelectInProjectView)
+map <leader>a <Action>(Annotate)
+map <leader>h <Action>(Vcs.ShowTabbedFileHistory)
+map <S-Space> <Action>(GotoNextError)
+
+map <leader>b <Action>(ToggleLineBreakpoint)
+map <leader>o <Action>(FileStructurePopup)
+
+""" Do not exit notebook cell on second escape hit
+nnoremap <Esc> :action <CR>
