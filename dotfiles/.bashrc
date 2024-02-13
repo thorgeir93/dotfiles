@@ -1001,6 +1001,12 @@ gb () {
     
 }
 
+gcb () {
+    # Create new branch locally and switch to that branch.
+    git checkout -b $@
+    
+}
+
 gbd () {
     # Delete choosen branch from local branch list.
     # It will not delete it remote.
@@ -1612,9 +1618,112 @@ wgrep () {
     grep -ilrn --exclude-dir=.git --exclude-dir=.venv "$search_string" | grep -v .json | grep -v .pyc | grep -v .lock | grep -v .ipyn | grep $optional_file
 }
 
+mvs() {
+    # My Move - mv and creates the destination directory
+    # Validate the number of arguments
+    if [ $# -ne 2 ]; then
+        echo "Error: Exactly two arguments are required: source file and target directory/filepath."
+        return 1
+    fi
+
+    local source_file="$1"
+    local target="$2"
+
+    # Check if the source file exists
+    if [ ! -f "$source_file" ]; then
+        echo "Error: Source file '$source_file' does not exist."
+        return 1
+    fi
+
+    # Determine if the target is a directory (ends with a slash) or a filepath
+    if [[ "$target" == */ ]]; then
+        # It's a directory; ensure it exists
+        mkdir -p "$target"
+    else
+        # It's a filepath; ensure its directory exists
+        local target_dir
+        target_dir=$(dirname "$target")
+        mkdir -p "$target_dir"
+    fi
+
+    # Move the source file to the target
+    mv "$source_file" "$target" && echo "+ mv $source_file $target"
+}
+
+mva_old() {
+	# Move all given files to folder.
+	# Folder is created if not exists.
+
+    # Validate the number of arguments
+    if [ $# -ne 2 ]; then
+        echo "Error: Exactly two arguments are required: source pattern and target directory."
+        return 1
+    fi
+
+    local source_pattern="$1"
+    local target_directory="$2"
+
+    # Ensure the target is a directory (not a filepath)
+    if [[ "$target_directory" != */ ]]; then
+        target_directory="$target_directory/"
+    fi
+
+    # Ensure the target directory exists
+    mkdir -p "$target_directory"
+
+    # Move each matching file to the target directory
+    local file
+    for file in $source_pattern; do
+        if [ -f "$file" ]; then
+            mv "$file" "$target_directory" && echo "+ mv $file $target_directory"
+        else
+            echo "No files match the pattern '$source_pattern'."
+            return 1
+        fi
+    done
+}
+
+mva() {
+    # There should be at least two arguments
+    if [ $# -lt 2 ]; then
+        echo "Error: Need at least two arguments: source files and target directory."
+        return 1
+    fi
+
+    # The last argument is the target directory
+    local target_directory="${@: -1}"
+
+    # Ensure the target is a directory (not a filepath)
+    if [[ "$target_directory" != */ ]]; then
+        target_directory="$target_directory/"
+    fi
+
+    # Ensure the target directory exists
+    mkdir -p "$target_directory"
+
+    # Move each specified file to the target directory
+    local source_file
+    for source_file in "${@:1:$#-1}"; do
+        if [ -f "$source_file" ]; then
+            mv "$source_file" "$target_directory" && echo "+ mv $source_file $target_directory"
+        else
+            echo "Warning: '$source_file' does not exist or is not a regular file."
+        fi
+    done
+}
+
+
+save () {
+    (set -x; mv $1 ~/work/tmp/)
+}
+
 search_in_tests () {
     grep_word=$1; shift
     for tf in $(find . -type f -name "test_*" | grep -v .pyc); do cat $tf | grep "$grep_word"; done
+}
+
+git_status () {
+    bash ~/bin/git_status_check.sh
 }
 
 export PYENV_ROOT="$HOME/.pyenv/pyenv"
