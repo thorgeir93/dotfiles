@@ -9,6 +9,9 @@ alias gltw="cd ~/git/lab/thorgeir/worklogs"
 
 alias xcp="xclip -selection clipboard"
 
+alias cd24="cd ~/media/photos/2024"
+alias open24="cd ~/media/photos/2024 && darktable ./**/*"
+
 
 alias md2="cd ~/media/photos/2021"
 

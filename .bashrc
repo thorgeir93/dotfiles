@@ -578,6 +578,18 @@ hdmi_bright_down_office () {
     xrandr --output $display2 --brightness $SUB
 }
 
+home-office () {
+    # Personal laptop + external monitor
+    bash ~/.screenlayout/home-hdmi2.sh
+}
+
+home-normal () {
+    # Only use laptop screen
+    bash ~/.screenlayout/home-normal.sh
+}
+
+
+
 #hdmi_orient_3
 
 ##########
@@ -638,12 +650,12 @@ wifi_connect_phone () {
 
 photo_facebook () {
     # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
-    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
+    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; magick $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
 }
 
 facebook_photo () {
     # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
-    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
+    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; magick $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
 }
 
 c3_connect_to_specific_host () {
@@ -711,6 +723,11 @@ kc () {
 #     command ssh "$@"
 #     settitle "bash"
 # }
+
+xs () {
+    # swap caps and esc keys.
+    (set -x; xmodmap ~/.speedswapper)
+}
 
 helptmux () {
     echo '"C-a + =" - List all copy history'
@@ -1105,6 +1122,15 @@ help_disk_eject () {
     echo udisksctl power-off -b /dev/sda1
 }
 
+unmute_all () {
+    amixer -c 0 set Master unmute
+    amixer -c 0 set Headphone unmute
+    amixer -c 0 set Speaker unmute
+}
+
+help_audio () {
+    unmute_all
+}
 
 help_network_wired_troubleshooting () {
     echo nmcli device status
@@ -1251,7 +1277,7 @@ help_sync_images () {
     echo "NEWEST SYNC METHOD!"
     echo "-------------------"
     echo ""
-    echo "$ rsync -anhvc --progress ~/media/ /mnt/icybox2/media/"
+    echo "$ rsync -anhvc --backup --suffix=.backup --progress ~/media/ /mnt/icybox2/media/"
     echo ""
     echo "Remove -n to run actual command."
     echo ""
@@ -1262,6 +1288,25 @@ help_sync_images () {
     echo ""
     echo "or be fast:"
     echo "$ bash ~/bin/media/sync/verify_sync_fast.sh ~/media /mnt/icybox2/media"
+    echo ""
+    echo ""
+    echo "LAST SYNC (2024-01-01)!"
+    echo "-------------------"
+    echo ""
+    echo "$ rsync -avc ~/media/photos/2024/ /mnt/icybox2/media/photos/2024/ && bash ~/bin/media/sync/verify_sync_fast.sh ~/media/photos/2024 /mnt/icybox2/media/photos/2024"
+    echo ""
+    echo "LAST SYNC (2024-06-14)!"
+    echo "-------------------"
+    echo ""
+    echo "$ rsync -ahvc --backup --suffix=.backup ~/media/ /mnt/icybox3/media/ && bash ~/bin/media/sync/verify_sync_fast.sh ~/media /mnt/icybox3/media"
+    echo ""
+    echo "--backup/--suffix - Keep a backup of the existing file"
+    echo "in the destination folder before it is overwritten,"
+    echo "you can use the --backup option along with --suffix"
+    echo "to specify a suffix for the backup file."
+    echo ""
+    echo "Notice, if a file have same checksum, we do not create backup."
+    echo "Backup is only created when filename is equal and the content is different"
     echo ""
 
 }
@@ -1373,7 +1418,7 @@ shrink_videos () {
 
 shrink_photos () {
     # Image for facebook, max 2048 pixels. The resize flags says, with max 2048 and height max 2048.
-    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; convert $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
+    echo 'mkdir -p shrink; for img in $(ls *.jpg); do (set -o xtrace; magick $img -resize '2048x2048' -quality 85 ./shrink/$img); done'
 }
 
 
@@ -1464,6 +1509,43 @@ arch_clean () {
     paccache -rk1v
 }
 
+png2jpg() {
+  # Credit: 
+  #   https://chatgpt.com/share/6703ff9f-21b8-800c-acd4-dd0f26bf658b
+  # Function to convert PNG to JPG and copy file path to clipboard (Linux)
+  # Check if the input file exists
+  if [ ! -f "$1" ]; then
+    echo "Input file not found!"
+    return 1
+  fi
+
+  # Extract directory and filename without extension
+  dir=$(dirname "$1")
+  filename=$(basename "$1" .png)
+  
+  # Define output JPG file path
+  output_file="$dir/$filename.jpg"
+
+  # Convert the PNG to JPG
+  magick "$1" "$output_file"
+
+  # Check if the conversion was successful
+  if [ $? -eq 0 ]; then
+    echo "Conversion successful: $output_file created."
+    
+    # Copy the new file path to the clipboard using xclip
+    if command -v xclip &> /dev/null; then
+      echo -n "$output_file" | xclip -selection clipboard
+      echo "File path copied to clipboard."
+    else
+      echo "xclip not found! Install it using 'sudo apt install xclip' to enable clipboard functionality."
+    fi
+  else
+    echo "Conversion failed!"
+    return 1
+  fi
+}
+
 
 md2pdf() {
 	# Credit ChatGPT:
@@ -1521,7 +1603,11 @@ eval "$(pyenv virtualenv-init -)"
 
 export POETRY_BIN="$HOME/.local/bin"
 export PATH="$POETRY_BIN:$PATH"
-source /usr/share/nvm/init-nvm.sh
+# source /usr/share/nvm/init-nvm.sh
 
 # add Pulumi to the PATH
 export PATH=$PATH:/home/thorgeir/.pulumi/bin
+
+# add doom to path
+export PATH=$PATH:/home/thorgeir/.config/emacs/bin/
+export CHEAT_USE_FZF=true
