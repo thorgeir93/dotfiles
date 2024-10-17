@@ -34,7 +34,10 @@ export HISTSIZE=
 # tweak colors to get example like "9;2;93m"
 
 
-export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\[$(tput sgr0)\]\n"
+# export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\[$(tput sgr0)\]\n"
+# export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\[$(tput sgr0)\]\n"
+export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\[$(tput sgr0)\]\n"
+
     #export PS1=" \w $ "
 
 #export PS1="\[\033[38;5;3m\]\u\[$(tput sgr0)\]\[\033[38;5;7m\]@\[$(tput sgr0)\]\[\033[38;5;3m\]\h\[$(tput sgr0)\]\[\033[38;5;7m\]:[\[$(tput sgr0)\]\[\033[9;2;93m\]\w\[$(tput sgr0)\]\[\033[38;5;7m\]]\\$\[$(tput sgr0)\] "
@@ -170,6 +173,7 @@ todo () {
 
 todomd () {
     #pushd ~/git/hub/thorgeir-travel/worklogs/
+    mkdir -p ~/work/notes
     pushd ~/work/notes
     vim -n todo.markdown
     popd
@@ -613,6 +617,11 @@ cptext () {
 }
 
 xc () {
+    # copy to clipbard
+    cat $1 | xclip -selection c
+}
+
+xp () {
     # Paste from clipbard to stdout.
     echo $(xclip -selection clipboard -o)
 }
@@ -1012,8 +1021,33 @@ gp () {
 
 gb () {
     # Interactivly choose branch from local branches
-    git checkout $(git branch | tr "*" " " | fzf)
+    # Newest commits listed at the bottom.
+    git checkout $(git branch --sort=-committerdate | tr "*" " " | fzf)
+    
 }
+
+gcb () {
+    # Create new branch locally and switch to that branch.
+    git checkout -b $@
+    
+}
+
+gbla () {
+    # Git blame - author
+    # Find authors of python scripts in current directory
+    for m in $(ls *.py | grep -v __init__); do
+        echo -n "- [ ] $(git blame --line-porcelain $m | grep  "^author " | sort | uniq -c | sort -rn | head -n 1 | awk '{print $2, $3}')"
+        echo "  $m"
+    done
+
+}
+
+gbd () {
+    # Delete choosen branch from local branch list.
+    # It will not delete it remote.
+    git branch -d $(git branch | tr "*" " " | fzf)
+}
+
 
 gd () {
     # Interactivly choose branch from local branches
@@ -1022,6 +1056,11 @@ gd () {
 
 ga () {
     (set -x; git add .)
+}
+
+gu () {
+    # Update current branch with newest changes from development branch.
+    git fetch && git merge origin/development 
 }
 
 gmd () {
@@ -1081,6 +1120,35 @@ gr () {
     #git commit
 }
 
+git_push () {
+    # Push the commits and leaves last commit URL to be copied.
+
+    # Get the URL of the 'origin' remote repository
+    REMOTE_URL=$(git config --get remote.origin.url)
+
+    # Extract the username and repository name from the URL
+    # This works for URLs of the form: https://github.com/username/repo.git
+    # or the SSH equivalent: git@github.com:username/repo.git
+    GITHUB_USERNAME=$(echo $REMOTE_URL | sed -n 's/.*github.com[:\/]\(.*\)\/.*/\1/p')
+    REPOSITORY_NAME=$(basename -s .git $REMOTE_URL)
+
+    # Push the changes
+    git push
+
+    # Get the latest commit hash
+    COMMIT_HASH=$(git rev-parse HEAD)
+
+    # Construct the commit URL
+    COMMIT_URL="https://github.com/${GITHUB_USERNAME}/${REPOSITORY_NAME}/commit/${COMMIT_HASH}"
+
+    # Output the URL
+    echo "Commit URL: $COMMIT_URL"
+
+    (set -x; echo $COMMIT_URL | xclip -sel clip)
+    echo "Use Ctrl+v to paste the URL."
+}
+
+
 dbuni () {
     vim ~/git/lab/thorgeir/db_queries/ash1/unicomplex/ash1_unicomplex_write.sql
 }
@@ -1122,6 +1190,7 @@ help_disk_eject () {
     echo udisksctl power-off -b /dev/sda1
 }
 
+<<<<<<< HEAD:.bashrc
 unmute_all () {
     amixer -c 0 set Master unmute
     amixer -c 0 set Headphone unmute
@@ -1131,6 +1200,79 @@ unmute_all () {
 help_audio () {
     unmute_all
 }
+=======
+help_print () {
+    echo "This chatGPT thread might help: https://chat.openai.com/c/58438be1-2dee-4275-aef3-cf691a10f3a7"
+    echo ""
+    echo "Install canon drivers"
+    echo "$ yay -S capt-src"
+    echo ""
+    echo "Need to enable mutlib mirrorlist follow to install the above package:"
+    echo "https://wiki.archlinux.org/title/Official_repositories#Enabling_multilib"
+    echo ""
+    echo "Install CUPS, the printing managing tool:"
+    echo "$ sudo pacman -S cups"
+    echo ""
+    echo "Start CUPS service to be able to use lpinfo"
+    echo "$ systemctl status cups.service"
+    echo ""
+    echo "Navigate to:"
+    echo "http://localhost:631"
+    echo ""
+    echo "Then Go to administrator tab, add credential, then add printer."
+    echo "Follow the instructions there."
+    echo ""
+    echo "List available printers:"
+    echo "$ lpstat -p -d"
+    echo ""
+    echo ""
+    echo "1) Before doing anything, be sure to add your user to the lp group:"
+    echo "eg."
+    echo "gpasswd -a your_user lp"
+    echo "and then reboot, or relogin"
+    echo ""
+    echo "2) Connect the printer to your computer, turn it on and start CUPS, or restart it if it was already running"
+    echo "eg."
+    echo "systemctl restart cups.service"
+    echo ""
+    echo "3) /usr/bin/lpadmin -p <name> -m <corresponding ppd> -v ccp://localhost:59687 -E"
+    echo "eg."
+    echo "/usr/bin/lpadmin -p LBP2900 -m CNCUPSLBP2900CAPTK.ppd -v ccp://localhost:59687 -E"
+    echo "(you can find ppds in the /usr/share/cups/model/ directory)"
+    echo ""
+    echo "4)"
+    echo "a) For a locally connected printer (USB / Parallel port), check the name of"
+    echo "   the device, udev created for you."
+    echo "eg. /dev/usb/lp0"
+    echo "and run: /usr/bin/ccpdadmin -p <name> -o udev_device"
+    echo "eg."
+    echo "/usr/bin/ccpdadmin -p LBP2900 -o /dev/usb/lp0"
+    echo "(it should show a table with the new printer)"
+    echo ""
+    echo "b) For a network printer:"
+    echo "/usr/bin/ccpdadmin -p <Printer name> -o net:<IP address>"
+    echo "eg. /usr/bin/ccpdadmin -p LBP2900 -o net:192.168.0.10"
+    echo ""
+    echo "5) systemctl start ccpd.service (using systemd)"
+    echo ""
+    echo "6) Check you have two instances of ccpd in memory, then run captstatusui, check it's"
+    echo "   telling you it's ready to print and the printer should work."
+    echo "eg. ps awx | grep ccpd"
+    echo "or using systemd: systemctl status ccpd.service"
+    echo "For captstatusui: /usr/bin/captstatusui -P LBP2900"
+    echo ""
+    echo "7) Make sure cupsd and ccpd are running at boot"
+    echo "eg."
+    echo "systemctl enable ccpd.service"
+
+
+    echo "Choose one of the printers above and print the file:"
+    echo "$ lp -d myprinter file.pdf"
+
+
+
+}
+
 
 help_network_wired_troubleshooting () {
     echo nmcli device status
@@ -1506,7 +1648,7 @@ arch_clean () {
     # k1: Retain only one past version (k0 to remove all cached versions)
     # Remove monthly: https://averagelinuxuser.com/clean-arch-linux/
     # More: https://wiki.archlinux.org/title/Pacman#Cleaning_the_package_cache
-    paccache -rk1v
+    paccache -rv -k 2
 }
 
 png2jpg() {
@@ -1582,6 +1724,14 @@ function vpn() {
     nmcli connection $1 megas
 }
 
+disable_suspend () {
+    (set -x; xset s off -dpms)
+}
+
+enable_suspend () {
+    (set -x; xset s on -dpms)
+}
+
 
 me () {
     cd ~/media/photos/export/
@@ -1590,6 +1740,263 @@ me () {
 m3 () {
     cd ~/media/photos/2023/
 }
+
+xs () {
+    # Switch caps lock and esc buttons.
+    (set -x; xmodmap ~/.speedswapper)
+}
+
+
+vpnon () {
+    # Turn of VPN connection.
+    nmcli connection down megas 
+}
+
+vpnoff () {
+    # Turn of VPN connection.
+    nmcli connection down megas 
+}
+
+home () {
+    (set -x; xmodmap ~/.speedswapper)
+    #(set -x; setxkbmap -option altwin:swap_alt_win)
+    # add monitor settings
+    (set -x; bash ~/.screenlayout/home-laptop-02.sh)
+}
+
+home_office () {
+    # Enable external home monitor.
+    (set -x; bash ~/.screenlayout/home-office-hdmi2.sh)
+}
+
+work () {
+    # Activate big monitor as well increase size in the laptop.
+    bash ~/.screenlayout/travelshift-hdmi1.sh
+
+    # Turn of VPN connection.
+    nmcli connection down megas 
+
+    sleep 1
+
+    # TOOD: reset i3
+}
+
+meetingstart () {
+    # Pause notifications. Once paused dunst will
+    # hold back all notifications. After enabling
+    # dunst again all held back notifications will
+    # be displayed.
+    dunstctl set-paused toggle
+
+    # Activate big monitor as well increase size in the laptop.
+    bash ~/.screenlayout/office-meeting-aratunga.sh
+
+    # Turn of VPN connection.
+    nmcli connection down megas 
+
+    # Activate pro-audio in pavucontrol
+    # To be able to use the mic.
+    speakers
+}
+
+meetingstop () {
+
+    # Disable attached HDMI-1 if any.
+    xrandr --output HDMI-1 --off
+
+    # Back to headphones sound configuration.
+    headphones
+}
+
+speakers () {
+    # Set pro-audio sound configuration
+    # This will enable mic usage in google meetings.
+    pactl set-card-profile 45 pro-audio
+}
+
+headphones () {
+    # Set headphones configuration
+    pactl set-card-profile 45 output:analog-stereo
+}
+
+
+
+calis () {
+    pushd ~/git/hub/thorgeir/calendar_icelandic/calendar_icelandic/ >/dev/null
+    poetry run python cal_is.py $@
+    popd >/dev/null
+
+}
+
+wgrep () {
+    # $ wgrep <search_string> <optional file>
+    # 
+    # Grep without noise
+    # ------------------
+    # Searches for string in repository and excludes all unecessary files.
+    #   
+    search_string=$1; shift
+    optional_file=$1; shift
+    grep -ilrn --exclude-dir=.git --exclude-dir=.venv "$search_string" | grep -v .json | grep -v .pyc | grep -v .lock | grep -v .ipyn | grep $optional_file
+}
+
+mvs() {
+    # My Move - mv and creates the destination directory
+    # Validate the number of arguments
+    if [ $# -ne 2 ]; then
+        echo "Error: Exactly two arguments are required: source file and target directory/filepath."
+        return 1
+    fi
+
+    local source_file="$1"
+    local target="$2"
+
+    # Check if the source file exists
+    if [ ! -f "$source_file" ]; then
+        echo "Error: Source file '$source_file' does not exist."
+        return 1
+    fi
+
+    # Determine if the target is a directory (ends with a slash) or a filepath
+    if [[ "$target" == */ ]]; then
+        # It's a directory; ensure it exists
+        mkdir -p "$target"
+    else
+        # It's a filepath; ensure its directory exists
+        local target_dir
+        target_dir=$(dirname "$target")
+        mkdir -p "$target_dir"
+    fi
+
+    # Move the source file to the target
+    mv "$source_file" "$target" && echo "+ mv $source_file $target"
+}
+
+mva_old() {
+	# Move all given files to folder.
+	# Folder is created if not exists.
+
+    # Validate the number of arguments
+    if [ $# -ne 2 ]; then
+        echo "Error: Exactly two arguments are required: source pattern and target directory."
+        return 1
+    fi
+
+    local source_pattern="$1"
+    local target_directory="$2"
+
+    # Ensure the target is a directory (not a filepath)
+    if [[ "$target_directory" != */ ]]; then
+        target_directory="$target_directory/"
+    fi
+
+    # Ensure the target directory exists
+    mkdir -p "$target_directory"
+
+    # Move each matching file to the target directory
+    local file
+    for file in $source_pattern; do
+        if [ -f "$file" ]; then
+            mv "$file" "$target_directory" && echo "+ mv $file $target_directory"
+        else
+            echo "No files match the pattern '$source_pattern'."
+            return 1
+        fi
+    done
+}
+
+mva() {
+    # There should be at least two arguments
+    if [ $# -lt 2 ]; then
+        echo "Error: Need at least two arguments: source files and target directory."
+        return 1
+    fi
+
+    # The last argument is the target directory
+    local target_directory="${@: -1}"
+
+    # Ensure the target is a directory (not a filepath)
+    if [[ "$target_directory" != */ ]]; then
+        target_directory="$target_directory/"
+    fi
+
+    # Ensure the target directory exists
+    mkdir -p "$target_directory"
+
+    # Move each specified file to the target directory
+    local source_file
+    for source_file in "${@:1:$#-1}"; do
+        if [ -f "$source_file" ]; then
+            mv "$source_file" "$target_directory" && echo "+ mv $source_file $target_directory"
+        else
+            echo "Warning: '$source_file' does not exist or is not a regular file."
+        fi
+    done
+}
+
+
+audio () {
+    echo "pavucontrol - High level GUI configuration."
+    echo "alsamixer - Command line audio configuration [M (mute)]"
+}
+
+save () {
+    # Move all given files to tmp folder.
+    dir_name=~/work/tmp/"$(date +%F)"
+    mkdir -p $dir_name
+    (set -x; mv $@ $dir_name/)
+}
+
+gsave () {
+    (set -x; cp $1 ~/work/tmp/ && git restore $1)
+}
+
+search_in_tests () {
+    grep_word=$1; shift
+    for tf in $(find . -type f -name "test_*" | grep -v .pyc); do cat $tf | grep "$grep_word"; done
+}
+
+git_status () {
+    bash ~/bin/git_status_check.sh
+}
+
+gt () {
+    # Navigate to guidetoiceland/travelplan repo and set things up.
+    cd /home/thorgeir/git/hub/guidetoiceland/travelplan/
+    poetry shell
+}
+
+function reset_notification () {
+     # Reset notification system
+     killall dunst; notify-send foo
+}
+
+function refresh () {
+    # Refresh arch desktop
+    reset_notification
+}
+
+set_python3 () {
+    pyenv local 3.11.6
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/thorgeir/.pyenv/pyenv/versions/3.11.6/lib
+    poetry env use 3.11.6
+}
+
+sp3 () {
+    set_python3
+}
+
+# poetry () {
+#     # This is a hax! Make sure not use that in new syst
+#     # Override broken python-poetry (package from Arch)
+# 
+#     echo "[ INFO ] using hax solution to use poetry installed by pipx."
+#     echo "[ INFO ] More info in \`poetry\` method in ~/.bashrc."
+# 
+#     # This package was installed with pipx: `pipx install poetry`.
+#     /home/thorgeir/.local/share/pipx/venvs/poetry/bin/poetry $@
+# }
+
 
 export PYENV_ROOT="$HOME/.pyenv/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -1608,6 +2015,9 @@ export PATH="$POETRY_BIN:$PATH"
 # add Pulumi to the PATH
 export PATH=$PATH:/home/thorgeir/.pulumi/bin
 
-# add doom to path
-export PATH=$PATH:/home/thorgeir/.config/emacs/bin/
 export CHEAT_USE_FZF=true
+# add Emacs doom to path
+export PATH=$PATH:/home/thorgeir/.config/emacs/bin
+
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(python3.12 -c "import sysconfig; print(sysconfig.get_config_var('LIBDIR'))")
+# >>> TRANSLATES TO >>>$LD_LIBRARY_PATH:/home/thorgeir/.pyenv/pyenv/versions/3.11.6/lib
