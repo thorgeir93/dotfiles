@@ -1190,7 +1190,6 @@ help_disk_eject () {
     echo udisksctl power-off -b /dev/sda1
 }
 
-<<<<<<< HEAD:.bashrc
 unmute_all () {
     amixer -c 0 set Master unmute
     amixer -c 0 set Headphone unmute
@@ -1200,7 +1199,7 @@ unmute_all () {
 help_audio () {
     unmute_all
 }
-=======
+
 help_print () {
     echo "This chatGPT thread might help: https://chat.openai.com/c/58438be1-2dee-4275-aef3-cf691a10f3a7"
     echo ""

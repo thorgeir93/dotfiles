@@ -4,3 +4,5 @@
 
 [includeIf "gitdir:~/git/hub/thorgeir/"]
     path = ~/.gitconfig-personal
+[init]
+	defaultBranch = main
